@@ -1,0 +1,40 @@
+{
+  "ambito": "casco urbano construido (GHSL built-up 2020 (>10%))",
+  "superficie_urbana_ha": 4308.0,
+  "por_anio": [
+    {
+      "anio": 2005,
+      "sensor": "LT05",
+      "escenas": 8,
+      "dosel_ha": 252.5
+    },
+    {
+      "anio": 2010,
+      "sensor": "LT05",
+      "escenas": 3,
+      "dosel_ha": 447.9
+    },
+    {
+      "anio": 2015,
+      "sensor": "LC08",
+      "escenas": 10,
+      "dosel_ha": 235.0
+    },
+    {
+      "anio": 2020,
+      "sensor": "LC08",
+      "escenas": 12,
+      "dosel_ha": 239.0
+    },
+    {
+      "anio": 2025,
+      "sensor": "LC09",
+      "escenas": 8,
+      "dosel_ha": 232.6
+    }
+  ],
+  "perdida_bruta_ha": 138.9,
+  "ganancia_bruta_ha": 119.0,
+  "estable_ha": 113.6,
+  "neto_ha": 19.9
+}

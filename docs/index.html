@@ -307,6 +307,22 @@
   .stat .v { font-family:var(--mono); font-size:1.6rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
   .stat .v.loss { color:var(--ember); }
   .stat .k { font-size:.82rem; color:var(--ink-2); margin-top:3px; }
+  /* visor grande por año */
+  .yv-stage { position:relative; background:var(--bg-2); border:1px solid var(--line);
+    border-radius:14px; overflow:hidden; min-height:120px; }
+  .yv-stage img { display:block; width:100%; }
+  .yv-badge { position:absolute; top:12px; left:12px; font-family:var(--mono); font-size:.72rem;
+    letter-spacing:.1em; color:#fff; background:rgba(8,20,14,.6); padding:5px 11px; border-radius:20px; }
+  .yv-tabs { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .yv-btn { font-family:var(--mono); font-size:.92rem; padding:9px 18px; border-radius:9px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink-2); cursor:pointer;
+    font-variant-numeric:tabular-nums; transition:background .15s,color .15s,border-color .15s; }
+  .yv-btn:hover { border-color:var(--accent); color:var(--ink); }
+  .yv-btn.active { background:var(--canopy); color:#eaf3e2; border-color:var(--canopy); }
+  .yv-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .yv-legend { font-size:.85rem; color:var(--ink-2); margin-top:11px; }
+  .mapduo { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px; }
+  @media (max-width:720px){ .mapduo{ grid-template-columns:1fr; } }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -614,32 +630,43 @@
 <section class="tech" id="mapas">
   <div class="wrap">
     <span class="eyebrow">Evidencia satelital</span>
-    <h2 class="sec-h">20 años de Temuco vistos desde el satélite.</h2>
-    <p class="sec-lead">Análisis de los 5 cortes (2005–2025) sobre todo el <strong>límite urbano oficial</strong> (133 km²), con Landsat homogeneizado entre sensores (Roy et&nbsp;al. 2016) y altura de dosel para separar árboles de pasto.</p>
+    <h2 class="sec-h">El dosel del casco urbano, año a año.</h2>
+    <p class="sec-lead">Recortamos el análisis al <strong>suelo urbano construido</strong> de Temuco (≈4.308 ha, según zonas edificadas GHSL), donde el reverdecer rural ya no diluye la señal. Los 5 cortes 2005–2025, con Landsat homogeneizado (Roy et&nbsp;al. 2016) y altura de dosel.</p>
 
-    <div class="statrow">
-      <div class="stat"><div class="v loss">≈ 874 ha</div><div class="k">Dosel perdido (bruto, 2005→2025)</div></div>
-      <div class="stat"><div class="v">≈ 2.823 ha</div><div class="k">Dosel que se mantuvo</div></div>
-      <div class="stat"><div class="v">≈ 1.686 ha</div><div class="k">Dosel ganado (sobre todo periferia)</div></div>
+    <div class="yearviewer">
+      <div class="yv-stage">
+        <img id="yvImg" src="mapas/urbano_ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
+        <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
+      </div>
+      <div class="yv-tabs" role="tablist" aria-label="Elegir año">
+        <button class="yv-btn active" data-y="2005">2005</button>
+        <button class="yv-btn" data-y="2010">2010</button>
+        <button class="yv-btn" data-y="2015">2015</button>
+        <button class="yv-btn" data-y="2020">2020</button>
+        <button class="yv-btn" data-y="2025">2025</button>
+      </div>
+      <p class="yv-legend">Verde intenso = más dosel arbóreo · tonos claros = suelo construido. Cambia de año para ver la evolución.</p>
     </div>
 
-    <div class="eco-grid" style="margin-top:20px">
+    <div class="statrow" style="margin-top:22px">
+      <div class="stat"><div class="v">252 → 233 ha</div><div class="k">Dosel urbano 2005 → 2025 (−8%)</div></div>
+      <div class="stat"><div class="v loss">139 ha</div><div class="k">Perdido (bruto) — supera a lo ganado</div></div>
+      <div class="stat"><div class="v">119 ha</div><div class="k">Ganado (bruto) → neto −20 ha</div></div>
+    </div>
+
+    <div class="mapduo">
       <figure class="mapcard">
-        <img src="mapas/ciudad_perdida_dosel.png" alt="Mapa de focos de pérdida de dosel en Temuco 2005-2025" loading="lazy">
-        <figcaption><strong>Focos de pérdida</strong><span>Rojo = dosel perdido · Verde = dosel estable (ej. Cerro Ñielol).</span></figcaption>
+        <img src="mapas/urbano_perdida.png" alt="Focos de pérdida de dosel en el casco urbano de Temuco" loading="lazy">
+        <figcaption><strong>Focos de pérdida (casco urbano)</strong><span>Rojo = dosel perdido 2005→2025 · Verde = estable.</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <img src="mapas/ciudad_dndvi_2005_2025.png" alt="Mapa de cambio de vegetación (NDVI) en Temuco 2005-2025" loading="lazy">
-        <figcaption><strong>Cambio de verdor (ΔNDVI)</strong><span>Rojo = menos verde · Verde = más verde.</span></figcaption>
-      </figure>
-      <figure class="mapcard">
-        <img src="mapas/ciudad_tendencia.png" alt="Gráfico de cobertura de dosel por año 2005-2025" loading="lazy">
-        <figcaption><strong>Cobertura por año</strong><span>Serie no monótona: la señal es ruidosa a 30&nbsp;m.</span></figcaption>
+        <img src="mapas/urbano_tendencia.png" alt="Dosel urbano por año 2005-2025" loading="lazy">
+        <figcaption><strong>Dosel urbano por año</strong><span>El pico de 2010 es ruido (solo 3 imágenes ese verano).</span></figcaption>
       </figure>
     </div>
 
     <div class="mapnote">
-      <p><strong>Cómo leer estos resultados — con rigor.</strong> El satélite muestra con claridad <strong>dónde</strong> se concentra la pérdida: en el <strong>casco urbano y la expansión poniente</strong> (focos rojos), mientras el Cerro Ñielol se mantiene. Pero el <strong>balance neto de toda la comuna no baja</strong>: se perdieron ≈874 ha de dosel y se ganaron ≈1.686 ha, casi todas en zonas <strong>rurales/periurbanas</strong> que reverdecen (agricultura, plantaciones) y que “tapan” la pérdida urbana en el promedio. Además, a 30&nbsp;m Landsat <strong>no ve el árbol de calle</strong> y el índice capta también pasto: por eso estas cifras son <strong>indicativas, no exactas</strong>. Conclusión honesta: el satélite <strong>localiza</strong> el problema; medir el árbol individual y el patrimonio exige la <strong>escala ciudadana</strong> y datos de mayor resolución. Justo por eso el Observatorio combina ambas.</p>
+      <p><strong>Cómo leer esto — con rigor.</strong> Mirando solo el <strong>casco urbano construido</strong>, el dosel arbóreo <strong>sí retrocede</strong>: de ≈252 ha (2005) a ≈233 ha (2025), y la pérdida bruta (139 ha) <strong>supera</strong> a la ganancia (119 ha) → una caída neta de ~20 ha. A escala de toda la comuna, en cambio, el número no baja porque la periferia rural reverdece y tapa el promedio. Cautelas honestas: a 30&nbsp;m Landsat <strong>no cuenta el árbol de calle</strong>, el pico de 2010 es ruido, y estas cifras son <strong>indicativas</strong>. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza; la comunidad cuenta.</p>
     </div>
   </div>
 </section>
@@ -704,6 +731,22 @@
   window.addEventListener('pointermove', e => { if(dragging) setPos(posFromEvent(e)); });
   window.addEventListener('pointerup', ()=> dragging = false);
   setPos(50);
+})();
+
+// Visor grande por año (casco urbano)
+(function(){
+  const img = document.getElementById('yvImg');
+  const badge = document.getElementById('yvBadge');
+  const btns = document.querySelectorAll('.yv-btn');
+  if(!img || !btns.length) return;
+  ['2005','2010','2015','2020','2025'].forEach(y => { const p = new Image(); p.src = 'mapas/urbano_ndvi_' + y + '.png'; });
+  btns.forEach(b => b.addEventListener('click', () => {
+    const y = b.dataset.y;
+    img.src = 'mapas/urbano_ndvi_' + y + '.png';
+    img.alt = 'Dosel urbano de Temuco en ' + y + ' (NDVI)';
+    badge.textContent = y + ' · NDVI';
+    btns.forEach(x => x.classList.toggle('active', x === b));
+  }));
 })();
 </script>
 </body>
