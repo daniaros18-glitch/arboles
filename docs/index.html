@@ -9,6 +9,7 @@
 <meta property="og:description" content="Teledetección histórica (2005–2025) + ciencia ciudadana para proteger el arbolado de Temuco.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <title>Observatorio del Arbolado — Temuco</title>
 <style>
   :root {
@@ -129,6 +130,14 @@
   .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center;
     padding: 74px 0 84px; }
   @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; gap: 34px; padding: 54px 0 60px; } }
+  .hero-stack { display:flex; flex-direction:column; gap:30px; padding:60px 0 72px; }
+  .hero-intro { max-width:62ch; }
+  @media (max-width:640px){ .hero-stack{ padding:44px 0 54px; } }
+  .heroscan .yv-stage { background: rgba(5,16,11,.42); border-color: rgba(143,181,106,.24); }
+  .heroscan .yv-btn { background: rgba(143,181,106,.12); color:#dbe8ce; border-color: rgba(143,181,106,.32); }
+  .heroscan .yv-btn:hover { background: rgba(143,181,106,.24); color:#fff; border-color: rgba(143,181,106,.5); }
+  .heroscan .yv-btn.active { background: var(--green); color:#0c241d; border-color: var(--green); }
+  .heroscan .scan-note a { text-decoration:underline; }
 
   /* ---------- HEATMAP WIDGET ---------- */
   .scan {
@@ -323,6 +332,14 @@
   .yv-legend { font-size:.85rem; color:var(--ink-2); margin-top:11px; }
   .mapduo { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px; }
   @media (max-width:720px){ .mapduo{ grid-template-columns:1fr; } }
+  /* mapa interactivo leaflet */
+  #lmap { height:520px; border-radius:14px; border:1px solid var(--line); margin-top:6px; z-index:0; background:var(--bg-2); }
+  @media (max-width:640px){ #lmap{ height:400px; } }
+  .lmapctrl { display:flex; gap:22px; flex-wrap:wrap; align-items:center; margin:6px 0 14px; font-size:.9rem; }
+  .lmapctrl label { display:flex; align-items:center; gap:9px; color:var(--ink-2); }
+  .lmapctrl select { padding:7px 10px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:.9rem; }
+  .lmapctrl input[type=range] { accent-color:var(--accent); }
+  .leaflet-container { font: inherit; }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -350,6 +367,7 @@
       <a href="#tecnica">Técnica</a>
       <a href="#marco">Marco legal</a>
       <a href="#mapas">Mapas</a>
+      <a href="#explora">Explora</a>
       <a href="#descargas">Descargas</a>
       <a href="#participa">Participa</a>
     </nav>
@@ -358,37 +376,30 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="wrap hero-grid">
-    <div>
+  <div class="wrap hero-stack">
+    <div class="hero-intro">
       <span class="eyebrow">Investigación &amp; ciencia ciudadana</span>
       <h1>El arbolado de Temuco, medido <em>desde el cielo</em> y desde la vereda.</h1>
       <p class="sub">Documentar, cuantificar y visibilizar la pérdida de árboles urbanos —talas, podas severas y áreas verdes que desaparecen— cruzando imágenes satelitales históricas con la observación de los vecinos.</p>
     </div>
 
-    <div class="scan" aria-label="Comparador satelital del dosel de Temuco 2005 vs 2025">
+    <div class="scan heroscan" aria-label="Visor del dosel urbano de Temuco por año">
       <div class="scan-head">
-        <span class="tag">◉ Dosel de Temuco · Landsat NDVI</span>
+        <span class="tag">◉ Dosel del casco urbano de Temuco · Landsat NDVI</span>
         <span class="coord">38.74°S 72.60°O</span>
       </div>
-      <div class="ba" id="ba">
-        <img class="ba-base" src="mapas/ciudad_ndvi_2025.png" alt="Vegetación de Temuco en 2025 (NDVI)">
-        <div class="ba-top" id="baTop">
-          <img src="mapas/ciudad_ndvi_2005.png" alt="Vegetación de Temuco en 2005 (NDVI)">
-        </div>
-        <span class="ba-tag left">2005</span>
-        <span class="ba-tag right">2025</span>
-        <div class="ba-divider" id="baDiv"><span>⇔</span></div>
+      <div class="yv-stage big">
+        <img id="yvImg" src="mapas/urbano_ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
+        <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
       </div>
-      <label class="ba-ctrl">
-        <span>Desliza para comparar 2005 ↔ 2025</span>
-        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Comparar 2005 y 2025">
-      </label>
-      <div class="scan-readout">
-        <div class="ro"><div class="k">Perdido (bruto)</div><div class="v loss">≈874 ha</div></div>
-        <div class="ro"><div class="k">Estable</div><div class="v">≈2.823 ha</div></div>
-        <div class="ro"><div class="k">Ganado</div><div class="v">≈1.686 ha</div></div>
+      <div class="yv-tabs" role="tablist" aria-label="Elegir año">
+        <button class="yv-btn active" data-y="2005">2005</button>
+        <button class="yv-btn" data-y="2010">2010</button>
+        <button class="yv-btn" data-y="2015">2015</button>
+        <button class="yv-btn" data-y="2020">2020</button>
+        <button class="yv-btn" data-y="2025">2025</button>
       </div>
-      <p class="scan-note">Imágenes NDVI reales (Google Earth Engine, verano austral). Verde intenso = más vegetación. El satélite localiza dónde cambia el dosel; ver la sección <a href="#mapas" style="color:var(--green-soft)">Mapas</a> para la lectura completa.</p>
+      <p class="scan-note">Imágenes NDVI reales (Google Earth Engine, verano austral). Verde intenso = más dosel arbóreo; tonos claros = suelo construido. Cambia de año para ver la evolución 2005–2025. Para navegar sobre las calles, mira el <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
     </div>
   </div>
 </div>
@@ -633,22 +644,7 @@
     <h2 class="sec-h">El dosel del casco urbano, año a año.</h2>
     <p class="sec-lead">Recortamos el análisis al <strong>suelo urbano construido</strong> de Temuco (≈4.308 ha, según zonas edificadas GHSL), donde el reverdecer rural ya no diluye la señal. Los 5 cortes 2005–2025, con Landsat homogeneizado (Roy et&nbsp;al. 2016) y altura de dosel.</p>
 
-    <div class="yearviewer">
-      <div class="yv-stage">
-        <img id="yvImg" src="mapas/urbano_ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
-        <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
-      </div>
-      <div class="yv-tabs" role="tablist" aria-label="Elegir año">
-        <button class="yv-btn active" data-y="2005">2005</button>
-        <button class="yv-btn" data-y="2010">2010</button>
-        <button class="yv-btn" data-y="2015">2015</button>
-        <button class="yv-btn" data-y="2020">2020</button>
-        <button class="yv-btn" data-y="2025">2025</button>
-      </div>
-      <p class="yv-legend">Verde intenso = más dosel arbóreo · tonos claros = suelo construido. Cambia de año para ver la evolución.</p>
-    </div>
-
-    <div class="statrow" style="margin-top:22px">
+    <div class="statrow">
       <div class="stat"><div class="v">252 → 233 ha</div><div class="k">Dosel urbano 2005 → 2025 (−8%)</div></div>
       <div class="stat"><div class="v loss">139 ha</div><div class="k">Perdido (bruto) — supera a lo ganado</div></div>
       <div class="stat"><div class="v">119 ha</div><div class="k">Ganado (bruto) → neto −20 ha</div></div>
@@ -668,6 +664,32 @@
     <div class="mapnote">
       <p><strong>Cómo leer esto — con rigor.</strong> Mirando solo el <strong>casco urbano construido</strong>, el dosel arbóreo <strong>sí retrocede</strong>: de ≈252 ha (2005) a ≈233 ha (2025), y la pérdida bruta (139 ha) <strong>supera</strong> a la ganancia (119 ha) → una caída neta de ~20 ha. A escala de toda la comuna, en cambio, el número no baja porque la periferia rural reverdece y tapa el promedio. Cautelas honestas: a 30&nbsp;m Landsat <strong>no cuenta el árbol de calle</strong>, el pico de 2010 es ruido, y estas cifras son <strong>indicativas</strong>. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza; la comunidad cuenta.</p>
     </div>
+  </div>
+</section>
+
+<!-- EXPLORA (mapa interactivo con calles) -->
+<section class="tech" id="explora">
+  <div class="wrap">
+    <span class="eyebrow">Mapa interactivo</span>
+    <h2 class="sec-h">Recorre las calles de Temuco.</h2>
+    <p class="sec-lead">Navega el mapa —con las calles reales— y superpón los cambios de vegetación que medimos. Elige la capa, ajusta la transparencia y acércate a tu barrio.</p>
+    <div class="lmapctrl">
+      <label>Capa
+        <select id="layerSel">
+          <option value="perdida">Pérdida de dosel 2005 → 2025</option>
+          <option value="urbano_ndvi_2005">Dosel 2005</option>
+          <option value="urbano_ndvi_2010">Dosel 2010</option>
+          <option value="urbano_ndvi_2015">Dosel 2015</option>
+          <option value="urbano_ndvi_2020">Dosel 2020</option>
+          <option value="urbano_ndvi_2025">Dosel 2025</option>
+        </select>
+      </label>
+      <label>Transparencia
+        <input type="range" id="opac" min="20" max="100" value="80" aria-label="Transparencia de la capa">
+      </label>
+    </div>
+    <div id="lmap"></div>
+    <p class="yv-legend"><strong>Pérdida:</strong> rojo = dosel perdido · verde = dosel estable. <strong>Capas por año:</strong> verde = dosel arbóreo (NDVI). Base cartográfica © OpenStreetMap. La superposición satelital es aproximada (resolución 30&nbsp;m); haz clic en el mapa para activar el zoom con la rueda.</p>
   </div>
 </section>
 
@@ -709,30 +731,8 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-(function(){
-  const ba = document.getElementById('ba');
-  const range = document.getElementById('baRange');
-  if(!ba || !range) return;
-  function setPos(p){
-    p = Math.max(0, Math.min(100, p));
-    ba.style.setProperty('--pos', p + '%');
-    if(+range.value !== Math.round(p)) range.value = Math.round(p);
-  }
-  range.addEventListener('input', ()=> setPos(+range.value));
-  // arrastrar directamente sobre la imagen
-  let dragging = false;
-  function posFromEvent(e){
-    const r = ba.getBoundingClientRect();
-    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-    return (x / r.width) * 100;
-  }
-  ba.addEventListener('pointerdown', e => { dragging = true; setPos(posFromEvent(e)); });
-  window.addEventListener('pointermove', e => { if(dragging) setPos(posFromEvent(e)); });
-  window.addEventListener('pointerup', ()=> dragging = false);
-  setPos(50);
-})();
-
 // Visor grande por año (casco urbano)
 (function(){
   const img = document.getElementById('yvImg');
@@ -747,6 +747,28 @@
     badge.textContent = y + ' · NDVI';
     btns.forEach(x => x.classList.toggle('active', x === b));
   }));
+})();
+
+// Mapa interactivo con calles (Leaflet + OpenStreetMap)
+(function(){
+  if (typeof L === 'undefined') return;
+  const el = document.getElementById('lmap');
+  if (!el) return;
+  // límites geográficos del casco urbano (deben coincidir con las imágenes generadas)
+  const B = { lonMin:-72.81968, lonMax:-72.48281, latMin:-38.77713, latMax:-38.64148 };
+  const bounds = [[B.latMin, B.lonMin], [B.latMax, B.lonMax]];
+  const map = L.map('lmap', { scrollWheelZoom:false, minZoom:11, maxZoom:18 });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  const urlFor = v => v === 'perdida' ? 'mapas/urbano_perdida.png' : 'mapas/' + v + '.png';
+  const overlay = L.imageOverlay(urlFor('perdida'), bounds, { opacity:0.8 }).addTo(map);
+  map.fitBounds(bounds);
+  map.on('click', () => map.scrollWheelZoom.enable());
+  const sel = document.getElementById('layerSel');
+  const op  = document.getElementById('opac');
+  if (sel) sel.addEventListener('change', () => overlay.setUrl(urlFor(sel.value)));
+  if (op)  op.addEventListener('input', () => overlay.setOpacity(op.value / 100));
 })();
 </script>
 </body>
