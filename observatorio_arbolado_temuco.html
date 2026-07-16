@@ -1,0 +1,665 @@
+<title>Observatorio del Arbolado — Temuco</title>
+<style>
+  :root {
+    --canopy:      #12352a;
+    --canopy-deep: #0c241d;
+    --green:       #6f9a4a;
+    --green-soft:  #8fb56a;
+    --ember:       #c85a2b;
+    --ember-soft:  #e08a54;
+    --cement:      #8f897a;
+
+    --bg:      #f3f5ee;
+    --bg-2:    #eaeee2;
+    --card:    #ffffff;
+    --ink:     #17241d;
+    --ink-2:   #46584d;
+    --ink-3:   #6c7d70;
+    --line:    #d7ddcd;
+    --accent:  #3f7241;
+
+    --serif: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono: "Cascadia Code",ui-monospace,"SF Mono",Consolas,"Liberation Mono",monospace;
+
+    --wrap: 1080px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:    #0d1310;
+      --bg-2:  #111a15;
+      --card:  #16211b;
+      --ink:   #e8efe4;
+      --ink-2: #a9bcac;
+      --ink-3: #7c8f80;
+      --line:  #24332a;
+      --accent:#8fb56a;
+      --cement:#9a9384;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#f3f5ee; --bg-2:#eaeee2; --card:#fff; --ink:#17241d; --ink-2:#46584d;
+    --ink-3:#6c7d70; --line:#d7ddcd; --accent:#3f7241; --cement:#8f897a;
+  }
+  :root[data-theme="dark"] {
+    --bg:#0d1310; --bg-2:#111a15; --card:#16211b; --ink:#e8efe4; --ink-2:#a9bcac;
+    --ink-3:#7c8f80; --line:#24332a; --accent:#8fb56a; --cement:#9a9384;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+  section { padding: 78px 0; }
+  @media (max-width: 640px){ section{ padding: 52px 0; } }
+
+  h1,h2,h3 { text-wrap: balance; margin: 0; }
+  p { margin: 0 0 1em; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--accent); font-weight: 600;
+    display: inline-flex; align-items: center; gap: .6em;
+  }
+  .eyebrow::before {
+    content:""; width: 26px; height: 1px; background: var(--accent); opacity:.6;
+  }
+
+  .lead { font-family: var(--serif); }
+
+  /* ---------- NAV ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-in {
+    max-width: var(--wrap); margin: 0 auto; padding: 13px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-.01em; }
+  .brand .leaf {
+    width: 26px; height: 26px; border-radius: 7px; flex: 0 0 auto;
+    background: radial-gradient(circle at 35% 30%, var(--green-soft), var(--canopy) 90%);
+    display:grid; place-items:center; color:#eaf3df; font-size: 15px;
+  }
+  .brand small { display:block; font-family:var(--mono); font-size:.62rem; letter-spacing:.14em;
+    text-transform:uppercase; color: var(--ink-3); font-weight:500; }
+  .nav-links { display:flex; gap:22px; font-size:.86rem; }
+  .nav-links a { color: var(--ink-2); text-decoration: none; }
+  .nav-links a:hover { color: var(--accent); }
+  @media (max-width: 720px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(111,154,74,.18), transparent 60%),
+      linear-gradient(180deg, var(--canopy) 0%, var(--canopy-deep) 100%);
+    color: #eaf3e2; position: relative; overflow: hidden;
+    border-bottom: 1px solid #0a1c16;
+  }
+  .hero .eyebrow { color: var(--green-soft); }
+  .hero .eyebrow::before { background: var(--green-soft); }
+  .hero h1 {
+    font-family: var(--sans); font-weight: 680; letter-spacing: -.025em;
+    font-size: clamp(2.1rem, 5.4vw, 3.5rem); line-height: 1.04; margin: .5em 0 .55em;
+    max-width: 16ch;
+  }
+  .hero h1 em { font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--green-soft); }
+  .hero .sub {
+    font-family: var(--serif); font-size: clamp(1.05rem,2.2vw,1.28rem);
+    color: #c7d8c1; max-width: 54ch; line-height: 1.55;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center;
+    padding: 74px 0 84px; }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; gap: 34px; padding: 54px 0 60px; } }
+
+  /* ---------- HEATMAP WIDGET ---------- */
+  .scan {
+    background: rgba(6,18,14,.55); border: 1px solid rgba(143,181,106,.28);
+    border-radius: 16px; padding: 16px; box-shadow: 0 24px 60px -30px rgba(0,0,0,.7);
+  }
+  .scan-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .scan-head .tag { font-family:var(--mono); font-size:.64rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--green-soft); }
+  .scan-head .coord { font-family:var(--mono); font-size:.64rem; color:#8fa588; }
+  canvas#map { width:100%; height:auto; display:block; border-radius:9px; image-rendering:pixelated; background:#0a1a14; }
+  .scan-readout { display:grid; grid-template-columns: repeat(3,1fr); gap:8px; margin:12px 0 4px; }
+  .ro { background: rgba(0,0,0,.28); border:1px solid rgba(143,181,106,.16); border-radius:9px; padding:8px 10px; }
+  .ro .k { font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:#8fa588; }
+  .ro .v { font-family:var(--mono); font-size:1.28rem; font-weight:600; color:#eaf3e2; font-variant-numeric:tabular-nums; }
+  .ro .v.loss { color: var(--ember-soft); }
+  .controls { display:flex; align-items:center; gap:12px; margin-top:10px; }
+  .playbtn {
+    flex:0 0 auto; width:38px; height:38px; border-radius:9px; border:1px solid rgba(143,181,106,.4);
+    background: rgba(143,181,106,.14); color:#eaf3e2; cursor:pointer; font-size:14px; display:grid; place-items:center;
+  }
+  .playbtn:hover{ background: rgba(143,181,106,.26); }
+  input[type=range]#year { flex:1; accent-color: var(--green); cursor:pointer; }
+  .yrmark { display:flex; justify-content:space-between; font-family:var(--mono); font-size:.6rem; color:#7d937a; margin-top:2px; }
+  .scan-note { font-family:var(--mono); font-size:.58rem; color:#6f8570; margin-top:10px; line-height:1.5; }
+
+  /* ---------- GENERIC SECTION HEADINGS ---------- */
+  .sec-h { font-family: var(--sans); font-weight: 660; letter-spacing:-.02em;
+    font-size: clamp(1.5rem,3.4vw,2.1rem); line-height:1.12; margin:.35em 0 .5em; max-width: 20ch; }
+  .sec-lead { font-family: var(--serif); font-size: 1.12rem; color: var(--ink-2); max-width: 62ch; }
+
+  .problem { background: var(--bg); }
+  .problem .body { max-width: 66ch; font-family: var(--serif); font-size: 1.14rem; color: var(--ink-2); }
+  .problem .body strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- OBJETIVOS ---------- */
+  .goals { background: var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .goal-general {
+    background: var(--canopy); color:#eaf3e2; border-radius:14px; padding:26px 28px; margin-bottom:26px;
+    display:grid; grid-template-columns: auto 1fr; gap:20px; align-items:center;
+  }
+  .goal-general .lbl { font-family:var(--mono); font-size:.66rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--green-soft); writing-mode:vertical-rl; transform:rotate(180deg); align-self:stretch;
+    border-right:1px solid rgba(143,181,106,.3); padding-right:14px; }
+  .goal-general p { margin:0; font-family:var(--serif); font-size:1.14rem; line-height:1.5; color:#dce6d3; }
+  @media (max-width:640px){ .goal-general{ grid-template-columns:1fr; } .goal-general .lbl{ writing-mode:horizontal-tb; transform:none; border-right:none; border-bottom:1px solid rgba(143,181,106,.3); padding:0 0 8px; } }
+
+  .cards { display:grid; grid-template-columns: repeat(2,1fr); gap:16px; }
+  @media (max-width:720px){ .cards{ grid-template-columns:1fr; } }
+  .card {
+    background: var(--card); border:1px solid var(--line); border-radius:13px; padding:22px 22px 24px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .card .num { font-family:var(--mono); font-size:.7rem; letter-spacing:.14em; color:var(--accent); font-weight:600; }
+  .card h3 { font-size:1.08rem; font-weight:640; letter-spacing:-.01em; }
+  .card p { margin:0; color:var(--ink-2); font-size:.96rem; }
+
+  /* ---------- METODOLOGIA ---------- */
+  .method .scales { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:8px; }
+  @media (max-width:820px){ .method .scales{ grid-template-columns:1fr; } }
+  .scale {
+    border-radius:14px; padding:26px; border:1px solid var(--line); position:relative; overflow:hidden;
+  }
+  .scale.macro { background: linear-gradient(160deg, var(--canopy), var(--canopy-deep)); color:#e7f1de; border-color:#0a1c16; }
+  .scale.human { background: var(--card); }
+  .scale .kicker { font-family:var(--mono); font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; }
+  .scale.macro .kicker{ color:var(--green-soft); }
+  .scale.human .kicker{ color:var(--accent); }
+  .scale h3 { font-size:1.32rem; font-weight:660; letter-spacing:-.02em; margin:.3em 0 .4em; }
+  .scale.macro p { color:#c7d8c1; }
+  .scale.human p { color:var(--ink-2); }
+  .scale ul { margin:.6em 0 0; padding-left:1.1em; font-size:.92rem; }
+  .scale.macro ul { color:#bcd0b3; }
+  .scale.human ul { color:var(--ink-2); }
+  .scale li { margin:.3em 0; }
+
+  .integration {
+    margin-top:18px; background: var(--bg-2); border:1px dashed var(--accent); border-radius:14px;
+    padding:24px 26px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:center;
+  }
+  .integration .plus { font-family:var(--serif); font-size:2rem; color:var(--accent); line-height:1; }
+  .integration p { margin:0; font-family:var(--serif); font-size:1.08rem; color:var(--ink-2); }
+  .integration p strong{ color:var(--ink); }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline { background: var(--canopy-deep); color:#dfe9d6; }
+  .timeline .sec-h { color:#eaf3e2; }
+  .timeline .sec-lead { color:#a9c19d; }
+  .tl { display:grid; grid-template-columns: repeat(5,1fr); gap:10px; margin-top:28px; }
+  @media (max-width:720px){ .tl{ grid-template-columns: repeat(2,1fr); } }
+  .tl-item { background: rgba(255,255,255,.03); border:1px solid rgba(143,181,106,.2); border-radius:11px; padding:16px 14px; }
+  .tl-item .yr { font-family:var(--mono); font-size:1.5rem; font-weight:600; color:#eaf3e2; font-variant-numeric:tabular-nums; }
+  .tl-item .sensor { font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; color:var(--green-soft); margin:4px 0 8px; text-transform:uppercase; }
+  .tl-item .desc { font-size:.84rem; color:#a9c19d; }
+  .tl-bar { height:5px; border-radius:3px; margin-top:12px;
+    background: linear-gradient(90deg, var(--green), var(--ember)); }
+
+  /* ---------- TECH ---------- */
+  .tech { background: var(--bg); }
+  .tech-grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:8px; }
+  @media (max-width:820px){ .tech-grid{ grid-template-columns:1fr; } }
+  .tblock { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:22px; }
+  .tblock h3 { font-size:1.02rem; font-weight:640; display:flex; align-items:center; gap:10px; margin-bottom:.5em; }
+  .tblock h3 .dot { width:9px;height:9px;border-radius:50%; background:var(--accent); flex:0 0 auto; }
+  .tblock p { font-size:.93rem; color:var(--ink-2); margin:0 0 .6em; }
+  .formula { font-family:var(--mono); font-size:.9rem; background:var(--bg-2); border:1px solid var(--line);
+    border-radius:8px; padding:10px 12px; color:var(--ink); display:inline-block; }
+  .chips { display:flex; flex-wrap:wrap; gap:7px; margin-top:6px; }
+  .chip { font-family:var(--mono); font-size:.72rem; padding:4px 9px; border-radius:20px;
+    background:var(--bg-2); border:1px solid var(--line); color:var(--ink-2); }
+  .scale-legend { display:flex; gap:0; margin-top:10px; border-radius:7px; overflow:hidden; border:1px solid var(--line); font-family:var(--mono); font-size:.62rem; }
+  .scale-legend div { padding:6px 8px; color:#fff; text-align:center; flex:1; white-space:nowrap; }
+
+  /* ---------- ECOSISTEMICOS ---------- */
+  .eco { background: var(--bg-2); border-top:1px solid var(--line); }
+  .eco-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
+  @media (max-width:720px){ .eco-grid{ grid-template-columns:1fr; } }
+  .eco-card { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:22px; }
+  .eco-card .ic { font-size:1.5rem; margin-bottom:8px; }
+  .eco-card h3 { font-size:1.02rem; font-weight:640; margin-bottom:.35em; }
+  .eco-card p { margin:0; font-size:.92rem; color:var(--ink-2); }
+
+  /* ---------- PARTICIPA ---------- */
+  .cta { background: linear-gradient(160deg, var(--canopy), var(--canopy-deep)); color:#eaf3e2; text-align:center; }
+  .cta .sec-h { color:#eaf3e2; margin-inline:auto; }
+  .cta .sec-lead { color:#bcd0b3; margin:0 auto; }
+  .cta-actions { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:26px; }
+  .cta-item { display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:.82rem; color:#c7d8c1; }
+  .cta-item .b { width:8px;height:8px;border-radius:50%; background:var(--green-soft); }
+
+  footer { background: var(--canopy-deep); color:#8fa588; padding:34px 0; border-top:1px solid #0a1c16; }
+  footer .wrap { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-family:var(--mono); font-size:.72rem; }
+  footer a { color:var(--green-soft); text-decoration:none; }
+
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand">
+      <span class="leaf">🌳</span>
+      <span>Observatorio del Arbolado
+        <small>Temuco · Satelital + Ciudadano</small>
+      </span>
+    </div>
+    <nav class="nav-links">
+      <a href="#problema">Problema</a>
+      <a href="#objetivos">Objetivos</a>
+      <a href="#metodologia">Metodología</a>
+      <a href="#tecnica">Técnica</a>
+      <a href="#marco">Marco legal</a>
+      <a href="#participa">Participa</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Investigación &amp; ciencia ciudadana</span>
+      <h1>El arbolado de Temuco, medido <em>desde el cielo</em> y desde la vereda.</h1>
+      <p class="sub">Documentar, cuantificar y visibilizar la pérdida de árboles urbanos —talas, podas severas y áreas verdes que desaparecen— cruzando imágenes satelitales históricas con la observación de los vecinos.</p>
+    </div>
+
+    <div class="scan" aria-label="Mapa de calor interactivo de pérdida de dosel">
+      <div class="scan-head">
+        <span class="tag">◉ Escaneo de dosel · sector urbano</span>
+        <span class="coord">38.74°S 72.60°O</span>
+      </div>
+      <canvas id="map" width="360" height="240" role="img" aria-label="Cuadrícula que muestra la cobertura arbórea volviéndose cemento con el paso de los años"></canvas>
+      <div class="scan-readout">
+        <div class="ro"><div class="k">Año</div><div class="v" id="ro-year">2005</div></div>
+        <div class="ro"><div class="k">Cobertura</div><div class="v" id="ro-cov">—</div></div>
+        <div class="ro"><div class="k">Pérdida</div><div class="v loss" id="ro-loss">—</div></div>
+      </div>
+      <div class="controls">
+        <button class="playbtn" id="play" aria-label="Reproducir línea de tiempo">▶</button>
+        <input type="range" id="year" min="2005" max="2025" step="1" value="2005" aria-label="Año">
+      </div>
+      <div class="yrmark"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2025</span></div>
+      <p class="scan-note">Esquema ilustrativo del método: verde = dosel arbóreo, gris = superficie construida. Los ejes que se despejan representan aperturas viales e inmobiliarias. Las cifras finales provendrán del análisis NDVI real (Landsat/Sentinel-2).</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section class="problem" id="problema">
+  <div class="wrap">
+    <span class="eyebrow">La necesidad</span>
+    <h2 class="sec-h">La indignación vecinal necesita una base técnica.</h2>
+    <div class="body">
+      <p>Frente a las constantes talas, podas severas y pérdida de áreas verdes en Temuco, la observación de los vecinos suele quedarse sin respaldo cuantitativo. Este proyecto le da una <strong>base técnica y científica</strong> a esa vigilancia comunitaria.</p>
+      <p>No basta con saber <em>cuánta</em> cobertura arbórea se ha perdido: buscamos entender <strong>por qué</strong> está ocurriendo. El análisis cruza los datos para evidenciar si existe una relación directa entre la desaparición de los árboles y la expansión inmobiliaria, la construcción de carreteras y otras transformaciones del paisaje urbano —como ocurrió con las aperturas viales hacia Pablo Neruda en los ejes de <strong>Avenida Imperial y Caupolicán</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OBJETIVOS -->
+<section class="goals" id="objetivos">
+  <div class="wrap">
+    <span class="eyebrow">Objetivos</span>
+    <h2 class="sec-h">Qué queremos lograr.</h2>
+    <div class="goal-general">
+      <span class="lbl">Objetivo general</span>
+      <p>Monitorear, medir y visibilizar la pérdida del arbolado y su impacto en Temuco, integrando herramientas satelitales de análisis histórico con la participación ciudadana activa para <strong>proteger y gestionar el patrimonio natural urbano</strong>.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="num">ESP · 01</span>
+        <h3>Automatizar la cuantificación</h3>
+        <p>Aplicar teledetección (índices de vegetación) para calcular la cobertura de dosel perdida en intervalos de cinco años, pasando del conteo manual "árbol por árbol" a una medición automatizada de todo el territorio urbano.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 02</span>
+        <h3>Correlacionar urbanización y deforestación</h3>
+        <p>Identificar los sectores de mayor cambio con mapas de "antes y después", demostrando la relación entre las obras de conectividad vial, el auge inmobiliario y la eliminación de áreas verdes consolidadas.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 03</span>
+        <h3>Estructurar la ciencia ciudadana</h3>
+        <p>Centralizar el material fotográfico, las denuncias por podas y talas, y las mediciones de los vecinos a través de la plataforma del Observatorio.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 04</span>
+        <h3>Evaluar servicios ecosistémicos</h3>
+        <p>Traducir los datos técnicos en impactos cotidianos: pérdida de sombra, efecto en la temperatura de los barrios, e identificación y protección del arbolado patrimonial restante.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section class="method" id="metodologia">
+  <div class="wrap">
+    <span class="eyebrow">Dimensiones de acción</span>
+    <h2 class="sec-h">Dos escalas que se retroalimentan.</h2>
+    <p class="sec-lead">La tecnología entrega las métricas; la comunidad aporta el contexto. El proyecto vive en el cruce de ambas.</p>
+    <div class="scales">
+      <div class="scale macro">
+        <span class="kicker">01 · Escala macro</span>
+        <h3>El mapeo satelital</h3>
+        <p>Observar la ciudad desde arriba. Analizando 20 años de imágenes, algoritmos detectan automáticamente el follaje y generan "mapas de calor" que muestran dónde estaba el verde y dónde hoy hay cemento.</p>
+        <ul>
+          <li>Cortes 2005 · 2010 · 2015 · 2020 · 2025</li>
+          <li>Evidencia visual de bandejones y calles vaciadas</li>
+          <li>Medición de todo el territorio, no muestras</li>
+        </ul>
+      </div>
+      <div class="scale human">
+        <span class="kicker">02 · Escala humana</span>
+        <h3>El Observatorio Ciudadano</h3>
+        <p>Un repositorio vivo impulsado por los vecinos: fotografías, denuncias en tiempo real de talas injustificadas y trabajo de campo —como las mediciones de tronco y copa en Caupolicán.</p>
+        <ul>
+          <li>Denuncias georreferenciadas con foto y fecha</li>
+          <li>Catálogo del arbolado patrimonial en riesgo</li>
+          <li>Mediciones que validan el dato satelital</li>
+        </ul>
+      </div>
+    </div>
+    <div class="integration">
+      <span class="plus">✕</span>
+      <p><strong>La integración de los datos.</strong> Cuando el Observatorio recibe una alerta —por ejemplo, los árboles eliminados por la carretera en Av. Imperial— el equipo técnico va al registro satelital y extrae <strong>cuántos metros cuadrados de sombra se perdieron</strong> en esa obra. Así, la indignación ciudadana se convierte en evidencia técnica concreta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--green-soft)">Cortes temporales</span>
+    <h2 class="sec-h">Veinte años en cinco fotografías.</h2>
+    <p class="sec-lead">Cada corte usa el mejor sensor disponible manteniendo comparabilidad, siempre en ventana de verano austral para captar el dosel pleno.</p>
+    <div class="tl">
+      <div class="tl-item"><div class="yr">2005</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Línea base histórica.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2010</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Serie consistente.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2015</div><div class="sensor">L8 + Sentinel-2</div><div class="desc">Entra el detalle de 10 m.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2020</div><div class="sensor">Sentinel-2 · 10 m</div><div class="desc">Dosel urbano fino.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2025</div><div class="sensor">Sentinel-2 / L9</div><div class="desc">Estado actual.</div><div class="tl-bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNICA -->
+<section class="tech" id="tecnica">
+  <div class="wrap">
+    <span class="eyebrow">Resumen técnico</span>
+    <h2 class="sec-h">Cómo el satélite detecta un árbol.</h2>
+    <p class="sec-lead">El método completo está en el plan técnico; esto es lo esencial.</p>
+    <div class="tech-grid">
+      <div class="tblock">
+        <h3><span class="dot"></span>Índice de vegetación (NDVI)</h3>
+        <p>Cada píxel se evalúa por cuánta luz infrarroja refleja la vegetación sana frente a la luz roja que absorbe:</p>
+        <span class="formula">NDVI = (NIR − Rojo) / (NIR + Rojo)</span>
+        <div class="scale-legend" aria-hidden="true">
+          <div style="background:#8f897a">Cemento &lt;0.1</div>
+          <div style="background:#b9a86a">Suelo 0.2</div>
+          <div style="background:#8fb56a">Pasto 0.4</div>
+          <div style="background:#3f7241">Dosel &gt;0.6</div>
+        </div>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Separar árbol de pasto</h3>
+        <p>El NDVI no distingue un árbol de un césped. Se combina umbral alto + persistencia estacional (el pasto se agosta, el árbol no), textura del dosel y, donde exista, <strong>altura de copa (LiDAR / GEDI)</strong>. Las mediciones ciudadanas calibran y validan.</p>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Detección de cambio</h3>
+        <p>Restando rásteres se obtiene el ΔNDVI: el mapa de calor de pérdida. Una matriz de transición cuantifica en hectáreas cuánto dosel pasó a superficie construida, barrio por barrio.</p>
+        <span class="formula">ΔNDVI = NDVI₂₀₂₅ − NDVI₂₀₀₅</span>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Plataforma &amp; herramientas</h3>
+        <p>Procesamiento en la nube sobre el archivo histórico completo, con compuestos mediana para vencer la nubosidad de Temuco.</p>
+        <div class="chips">
+          <span class="chip">Google Earth Engine</span>
+          <span class="chip">Landsat 5/8/9</span>
+          <span class="chip">Sentinel-2</span>
+          <span class="chip">Python · geemap</span>
+          <span class="chip">rasterio</span>
+          <span class="chip">geopandas</span>
+          <span class="chip">QGIS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSISTEMICOS -->
+<section class="eco">
+  <div class="wrap">
+    <span class="eyebrow">Del píxel al barrio</span>
+    <h2 class="sec-h">Qué perdemos cuando cae un árbol.</h2>
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="ic">☂️</div>
+        <h3>Sombra perdida</h3>
+        <p>El área de dosel eliminada (m²) es una medida directa de la sombra que desaparece de veredas y bandejones al mediodía.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🌡️</div>
+        <h3>Islas de calor</h3>
+        <p>La banda térmica de Landsat (temperatura superficial) compara barrios que perdieron árboles con los que los conservan: cuántos grados sube la calle.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🪶</div>
+        <h3>Patrimonio en riesgo</h3>
+        <p>El arbolado patrimonial restante se cataloga y monitorea con las imágenes más recientes para alertar cambios y exigir su protección.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARCO NORMATIVO -->
+<section class="goals" id="marco">
+  <div class="wrap">
+    <span class="eyebrow">Marco legal</span>
+    <h2 class="sec-h">El proyecto ya tiene respaldo en la ordenanza.</h2>
+    <p class="sec-lead">La <strong>Ordenanza Municipal N°004/2021 de Temuco</strong> ("árboles urbanos y áreas verdes en bien nacional de uso público") no solo prohíbe la tala no autorizada: obliga al municipio a mantener una plataforma pública de arbolado. El Observatorio se ancla ahí.</p>
+    <div class="goal-general">
+      <span class="lbl">Art. 28°</span>
+      <p>El municipio debe mantener un <strong>catastro forestal</strong> y una <strong>plataforma de acceso público</strong> que cuantifique especies mediante sistemas digitales y <strong>reciba comentarios y recomendaciones de los vecinos</strong>. Es el mandato legal exacto de una herramienta como este Observatorio.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="num">ART · 09</span>
+        <h3>Registro patrimonial vecinal</h3>
+        <p>Un grupo de vecinos puede solicitar declarar un árbol patrimonial presentando un informe con especie, ubicación, criterio y firmas. El Observatorio prepara justo esa evidencia.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 19</span>
+        <h3>Monitoreo periódico obligatorio</h3>
+        <p>Es responsabilidad municipal monitorear el estado del arbolado. El análisis satelital + terreno es el instrumento que la ordenanza exige.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 25 · 31</span>
+        <h3>Denuncia con valor probatorio</h3>
+        <p>Los habitantes deben denunciar destrozos a la DMAO, Carabineros o Juzgado de Policía Local. Las fotos georreferenciadas del Observatorio son ese medio de prueba. Multa: 1 a 5 UTM por evento.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 11</span>
+        <h3>Las obras reparan lo destruido</h3>
+        <p>Toda obra pública que afecte áreas verdes debe reconstruir a su cargo lo destruido. Base para exigir reposición en aperturas viales como Imperial y Caupolicán.</p>
+      </div>
+    </div>
+
+    <div class="integration" style="margin-top:26px">
+      <span class="plus">$</span>
+      <div>
+        <p style="margin-bottom:.5em"><strong>Art. 32° — cuánto vale un árbol talado.</strong> La ordenanza fija una fórmula para el cobro por daño. Cruzándola con los polígonos de pérdida de dosel, el Observatorio puede expresar la deforestación en dinero, no solo en m².</p>
+        <span class="formula">Vt = Vb · f<sub>sanidad</sub> · f<sub>ubicación</sub> · f<sub>singularidad</sub></span>
+        <div class="chips" style="margin-top:12px">
+          <span class="chip">Ubicación: plaza 200% · calle 150%</span>
+          <span class="chip">Singularidad: patrimonial 500% · monumento 700%</span>
+          <span class="chip">Nativas (Araucaria, Nothofagus) = Grupo 3</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-lead" style="margin-top:22px; font-size:.98rem">
+      Se complementa con el <strong>Plan Regulador (2010/2015, en modificación)</strong>, el <strong>PLADECO</strong> (actualizándose a 2027-2032), el <strong>SECAP 2020</strong>, la Ley 18.695 (áreas verdes = función municipal) y el estándar <strong>SIEDU de 10 m²/hab</strong>. El proyecto interopera con el IDE Municipal de Temuco y el Catastro INE de Áreas Verdes 2024.
+    </p>
+  </div>
+</section>
+
+<!-- PARTICIPA -->
+<section class="cta" id="participa">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--green-soft)">El Observatorio</span>
+    <h2 class="sec-h">La vigilancia vecinal, convertida en evidencia.</h2>
+    <p class="sec-lead">El Observatorio funciona como un repositorio vivo. Cada aporte de la comunidad fortalece el argumento técnico para exigir una mejor planificación urbana en Temuco.</p>
+    <div class="cta-actions">
+      <span class="cta-item"><span class="b"></span>Registra una tala o poda severa</span>
+      <span class="cta-item"><span class="b"></span>Sube fotos históricas del barrio</span>
+      <span class="cta-item"><span class="b"></span>Mide tronco y copa en terreno</span>
+      <span class="cta-item"><span class="b"></span>Señala arbolado patrimonial</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>OBSERVATORIO SATELITAL Y CIUDADANO DEL ARBOLADO URBANO · TEMUCO</span>
+    <span>NDVI · Landsat · Sentinel-2 · Ciencia ciudadana</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('map');
+  const ctx = canvas.getContext('2d');
+  const COLS = 60, ROWS = 40, CELL = 6;
+  const slider = document.getElementById('year');
+  const roYear = document.getElementById('ro-year');
+  const roCov  = document.getElementById('ro-cov');
+  const roLoss = document.getElementById('ro-loss');
+  const playBtn = document.getElementById('play');
+
+  // Deterministic pseudo-random field (stable across redraws)
+  function hash(x,y){
+    let h = x*374761393 + y*668265263;
+    h = (h ^ (h >> 13)) * 1274126177;
+    return ((h ^ (h >> 16)) >>> 0) / 4294967295;
+  }
+  // smooth value noise
+  function noise(x,y){
+    const xi=Math.floor(x), yi=Math.floor(y), xf=x-xi, yf=y-yi;
+    const tl=hash(xi,yi), tr=hash(xi+1,yi), bl=hash(xi,yi+1), br=hash(xi+1,yi+1);
+    const u=xf*xf*(3-2*xf), v=yf*yf*(3-2*yf);
+    return (tl*(1-u)+tr*u)*(1-v) + (bl*(1-u)+br*u)*v;
+  }
+
+  // Precompute base canopy + loss schedule per cell
+  const cells = [];
+  let baseCanopyTotal = 0;
+  for(let y=0;y<ROWS;y++){
+    for(let x=0;x<COLS;x++){
+      let n = noise(x/9, y/9)*0.7 + noise(x/3.5, y/3.5)*0.3;
+      // roads / built corridors start lower
+      const diag = Math.abs((x*0.5 + y) - 34);           // Caupolicán-like axis
+      const horiz = Math.abs(y - 22);                     // Imperial-like axis
+      let base = n;
+      if(diag < 2 || horiz < 1.4) base = Math.min(base, 0.18);
+      base = Math.max(0, Math.min(1, base));
+      const canopy = base > 0.42 ? base : 0;              // only vegetated cells count as canopy
+
+      // loss timing: cells near corridors clear earlier; scattered later loss
+      const nearAxis = Math.min(diag, horiz*1.4);
+      let lossStart, lossEnd;
+      if(nearAxis < 6){ lossStart = 0.12 + hash(x+7,y)*0.25; }
+      else            { lossStart = 0.45 + hash(x,y+3)*0.5; }
+      lossEnd = Math.min(1, lossStart + 0.12 + hash(x+2,y+2)*0.18);
+      // some cells never lose canopy (survivors / parks)
+      const survives = hash(x+11,y+11) > 0.72;
+      cells.push({base, canopy, lossStart, lossEnd, survives});
+      baseCanopyTotal += canopy;
+    }
+  }
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function mix(c1,c2,t){ return [Math.round(lerp(c1[0],c2[0],t)),Math.round(lerp(c1[1],c2[1],t)),Math.round(lerp(c1[2],c2[2],t))]; }
+  const CEMENT=[143,137,122], SOIL=[176,158,110], GRASS=[143,181,106], CANOPY=[35,74,46], EMBER=[200,90,43];
+
+  function colorFor(v){
+    if(v<=0.05) return CEMENT;
+    if(v<0.25) return mix(CEMENT,SOIL,v/0.25);
+    if(v<0.5)  return mix(SOIL,GRASS,(v-0.25)/0.25);
+    return mix(GRASS,CANOPY,(v-0.5)/0.5);
+  }
+
+  function draw(yearNorm){
+    let canopyNow=0;
+    for(let i=0;i<cells.length;i++){
+      const c=cells[i];
+      const x=(i%COLS)*CELL, y=Math.floor(i/COLS)*CELL;
+      let v = c.base;
+      let lossActive=0;
+      if(c.canopy>0 && !c.survives){
+        const t = (yearNorm - c.lossStart)/(c.lossEnd - c.lossStart);
+        const p = Math.max(0, Math.min(1, t));           // 0..1 loss progress
+        v = lerp(c.base, 0.03, p);
+        lossActive = (p>0 && p<1) ? (1 - Math.abs(p-0.5)*2) : 0; // ember glow during transition
+      }
+      if(v>0.42) canopyNow += v;
+      let col = colorFor(v);
+      if(lossActive>0.15){ col = mix(col, EMBER, lossActive*0.7); }
+      ctx.fillStyle = 'rgb('+col[0]+','+col[1]+','+col[2]+')';
+      ctx.fillRect(x,y,CELL,CELL);
+    }
+    // readouts
+    const year = Math.round(2005 + yearNorm*20);
+    roYear.textContent = year;
+    const covPct = (canopyNow/baseCanopyTotal);
+    const cov0 = 38; // illustrative baseline canopy % of area
+    const covNow = (cov0*covPct);
+    roCov.textContent = covNow.toFixed(1)+'%';
+    const lossPct = (1-covPct)*100;
+    roLoss.textContent = '−'+lossPct.toFixed(0)+'%';
+  }
+
+  function yearToNorm(y){ return (y-2005)/20; }
+
+  slider.addEventListener('input', ()=>{ stop(); draw(yearToNorm(+slider.value)); });
+
+  // autoplay
+  let raf=null, playing=false, t=0;
+  function tick(){
+    t += 0.004;
+    if(t>1){ t=1; }
+    slider.value = Math.round(2005 + t*20);
+    draw(t);
+    if(t>=1){ playing=false; playBtn.textContent='↺'; return; }
+    raf=requestAnimationFrame(tick);
+  }
+  function stop(){ if(raf) cancelAnimationFrame(raf); playing=false; playBtn.textContent='▶'; }
+  playBtn.addEventListener('click', ()=>{
+    if(playing){ stop(); return; }
+    if(+slider.value>=2025){ t=0; slider.value=2005; }
+    else { t = yearToNorm(+slider.value); }
+    playing=true; playBtn.textContent='❚❚';
+    raf=requestAnimationFrame(tick);
+  });
+
+  draw(0);
+})();
+</script>
