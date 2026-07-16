@@ -140,6 +140,22 @@
     text-transform:uppercase; color:var(--green-soft); }
   .scan-head .coord { font-family:var(--mono); font-size:.64rem; color:#8fa588; }
   canvas#map { width:100%; height:auto; display:block; border-radius:9px; image-rendering:pixelated; background:#0a1a14; }
+  /* comparador antes/después */
+  .ba { position:relative; border-radius:9px; overflow:hidden; background:#0a1a14; touch-action:none; cursor:ew-resize; --pos:50%; }
+  .ba img { display:block; width:100%; user-select:none; -webkit-user-drag:none; }
+  .ba-top { position:absolute; inset:0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .ba-tag { position:absolute; top:8px; font-family:var(--mono); font-size:.6rem; letter-spacing:.12em;
+    color:#fff; background:rgba(8,20,14,.55); padding:3px 8px; border-radius:12px; pointer-events:none; }
+  .ba-tag.left { left:8px; } .ba-tag.right { right:8px; }
+  .ba-divider { position:absolute; top:0; bottom:0; left:var(--pos); width:2px;
+    background:rgba(255,255,255,.9); transform:translateX(-1px); pointer-events:none; }
+  .ba-divider span { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:28px; height:28px; border-radius:50%; background:#fff; color:#123a29; display:grid;
+    place-items:center; font-size:13px; box-shadow:0 1px 7px rgba(0,0,0,.45); }
+  .ba-ctrl { display:block; margin-top:11px; }
+  .ba-ctrl > span { display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.1em;
+    text-transform:uppercase; color:#8fa588; margin-bottom:6px; }
+  .ba-ctrl input[type=range] { width:100%; accent-color:var(--green); cursor:pointer; }
   .scan-readout { display:grid; grid-template-columns: repeat(3,1fr); gap:8px; margin:12px 0 4px; }
   .ro { background: rgba(0,0,0,.28); border:1px solid rgba(143,181,106,.16); border-radius:9px; padding:8px 10px; }
   .ro .k { font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase; color:#8fa588; }
@@ -333,23 +349,30 @@
       <p class="sub">Documentar, cuantificar y visibilizar la pérdida de árboles urbanos —talas, podas severas y áreas verdes que desaparecen— cruzando imágenes satelitales históricas con la observación de los vecinos.</p>
     </div>
 
-    <div class="scan" aria-label="Mapa de calor interactivo de pérdida de dosel">
+    <div class="scan" aria-label="Comparador satelital del dosel de Temuco 2005 vs 2025">
       <div class="scan-head">
-        <span class="tag">◉ Escaneo de dosel · sector urbano</span>
+        <span class="tag">◉ Dosel de Temuco · Landsat NDVI</span>
         <span class="coord">38.74°S 72.60°O</span>
       </div>
-      <canvas id="map" width="360" height="240" role="img" aria-label="Cuadrícula que muestra la cobertura arbórea volviéndose cemento con el paso de los años"></canvas>
+      <div class="ba" id="ba">
+        <img class="ba-base" src="mapas/ciudad_ndvi_2025.png" alt="Vegetación de Temuco en 2025 (NDVI)">
+        <div class="ba-top" id="baTop">
+          <img src="mapas/ciudad_ndvi_2005.png" alt="Vegetación de Temuco en 2005 (NDVI)">
+        </div>
+        <span class="ba-tag left">2005</span>
+        <span class="ba-tag right">2025</span>
+        <div class="ba-divider" id="baDiv"><span>⇔</span></div>
+      </div>
+      <label class="ba-ctrl">
+        <span>Desliza para comparar 2005 ↔ 2025</span>
+        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Comparar 2005 y 2025">
+      </label>
       <div class="scan-readout">
-        <div class="ro"><div class="k">Año</div><div class="v" id="ro-year">2005</div></div>
-        <div class="ro"><div class="k">Cobertura</div><div class="v" id="ro-cov">—</div></div>
-        <div class="ro"><div class="k">Pérdida</div><div class="v loss" id="ro-loss">—</div></div>
+        <div class="ro"><div class="k">Perdido (bruto)</div><div class="v loss">≈874 ha</div></div>
+        <div class="ro"><div class="k">Estable</div><div class="v">≈2.823 ha</div></div>
+        <div class="ro"><div class="k">Ganado</div><div class="v">≈1.686 ha</div></div>
       </div>
-      <div class="controls">
-        <button class="playbtn" id="play" aria-label="Reproducir línea de tiempo">▶</button>
-        <input type="range" id="year" min="2005" max="2025" step="1" value="2005" aria-label="Año">
-      </div>
-      <div class="yrmark"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2025</span></div>
-      <p class="scan-note">Esquema ilustrativo del método: verde = dosel arbóreo, gris = superficie construida. Los ejes que se despejan representan aperturas viales e inmobiliarias. Las cifras finales provendrán del análisis NDVI real (Landsat/Sentinel-2).</p>
+      <p class="scan-note">Imágenes NDVI reales (Google Earth Engine, verano austral). Verde intenso = más vegetación. El satélite localiza dónde cambia el dosel; ver la sección <a href="#mapas" style="color:var(--green-soft)">Mapas</a> para la lectura completa.</p>
     </div>
   </div>
 </div>
@@ -661,121 +684,26 @@
 
 <script>
 (function(){
-  const canvas = document.getElementById('map');
-  const ctx = canvas.getContext('2d');
-  const COLS = 60, ROWS = 40, CELL = 6;
-  const slider = document.getElementById('year');
-  const roYear = document.getElementById('ro-year');
-  const roCov  = document.getElementById('ro-cov');
-  const roLoss = document.getElementById('ro-loss');
-  const playBtn = document.getElementById('play');
-
-  // Deterministic pseudo-random field (stable across redraws)
-  function hash(x,y){
-    let h = x*374761393 + y*668265263;
-    h = (h ^ (h >> 13)) * 1274126177;
-    return ((h ^ (h >> 16)) >>> 0) / 4294967295;
+  const ba = document.getElementById('ba');
+  const range = document.getElementById('baRange');
+  if(!ba || !range) return;
+  function setPos(p){
+    p = Math.max(0, Math.min(100, p));
+    ba.style.setProperty('--pos', p + '%');
+    if(+range.value !== Math.round(p)) range.value = Math.round(p);
   }
-  // smooth value noise
-  function noise(x,y){
-    const xi=Math.floor(x), yi=Math.floor(y), xf=x-xi, yf=y-yi;
-    const tl=hash(xi,yi), tr=hash(xi+1,yi), bl=hash(xi,yi+1), br=hash(xi+1,yi+1);
-    const u=xf*xf*(3-2*xf), v=yf*yf*(3-2*yf);
-    return (tl*(1-u)+tr*u)*(1-v) + (bl*(1-u)+br*u)*v;
+  range.addEventListener('input', ()=> setPos(+range.value));
+  // arrastrar directamente sobre la imagen
+  let dragging = false;
+  function posFromEvent(e){
+    const r = ba.getBoundingClientRect();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    return (x / r.width) * 100;
   }
-
-  // Precompute base canopy + loss schedule per cell
-  const cells = [];
-  let baseCanopyTotal = 0;
-  for(let y=0;y<ROWS;y++){
-    for(let x=0;x<COLS;x++){
-      let n = noise(x/9, y/9)*0.7 + noise(x/3.5, y/3.5)*0.3;
-      // roads / built corridors start lower
-      const diag = Math.abs((x*0.5 + y) - 34);           // Caupolicán-like axis
-      const horiz = Math.abs(y - 22);                     // Imperial-like axis
-      let base = n;
-      if(diag < 2 || horiz < 1.4) base = Math.min(base, 0.18);
-      base = Math.max(0, Math.min(1, base));
-      const canopy = base > 0.42 ? base : 0;              // only vegetated cells count as canopy
-
-      // loss timing: cells near corridors clear earlier; scattered later loss
-      const nearAxis = Math.min(diag, horiz*1.4);
-      let lossStart, lossEnd;
-      if(nearAxis < 6){ lossStart = 0.12 + hash(x+7,y)*0.25; }
-      else            { lossStart = 0.45 + hash(x,y+3)*0.5; }
-      lossEnd = Math.min(1, lossStart + 0.12 + hash(x+2,y+2)*0.18);
-      // some cells never lose canopy (survivors / parks)
-      const survives = hash(x+11,y+11) > 0.72;
-      cells.push({base, canopy, lossStart, lossEnd, survives});
-      baseCanopyTotal += canopy;
-    }
-  }
-
-  function lerp(a,b,t){ return a+(b-a)*t; }
-  function mix(c1,c2,t){ return [Math.round(lerp(c1[0],c2[0],t)),Math.round(lerp(c1[1],c2[1],t)),Math.round(lerp(c1[2],c2[2],t))]; }
-  const CEMENT=[143,137,122], SOIL=[176,158,110], GRASS=[143,181,106], CANOPY=[35,74,46], EMBER=[200,90,43];
-
-  function colorFor(v){
-    if(v<=0.05) return CEMENT;
-    if(v<0.25) return mix(CEMENT,SOIL,v/0.25);
-    if(v<0.5)  return mix(SOIL,GRASS,(v-0.25)/0.25);
-    return mix(GRASS,CANOPY,(v-0.5)/0.5);
-  }
-
-  function draw(yearNorm){
-    let canopyNow=0;
-    for(let i=0;i<cells.length;i++){
-      const c=cells[i];
-      const x=(i%COLS)*CELL, y=Math.floor(i/COLS)*CELL;
-      let v = c.base;
-      let lossActive=0;
-      if(c.canopy>0 && !c.survives){
-        const t = (yearNorm - c.lossStart)/(c.lossEnd - c.lossStart);
-        const p = Math.max(0, Math.min(1, t));           // 0..1 loss progress
-        v = lerp(c.base, 0.03, p);
-        lossActive = (p>0 && p<1) ? (1 - Math.abs(p-0.5)*2) : 0; // ember glow during transition
-      }
-      if(v>0.42) canopyNow += v;
-      let col = colorFor(v);
-      if(lossActive>0.15){ col = mix(col, EMBER, lossActive*0.7); }
-      ctx.fillStyle = 'rgb('+col[0]+','+col[1]+','+col[2]+')';
-      ctx.fillRect(x,y,CELL,CELL);
-    }
-    // readouts
-    const year = Math.round(2005 + yearNorm*20);
-    roYear.textContent = year;
-    const covPct = (canopyNow/baseCanopyTotal);
-    const cov0 = 38; // illustrative baseline canopy % of area
-    const covNow = (cov0*covPct);
-    roCov.textContent = covNow.toFixed(1)+'%';
-    const lossPct = (1-covPct)*100;
-    roLoss.textContent = '−'+lossPct.toFixed(0)+'%';
-  }
-
-  function yearToNorm(y){ return (y-2005)/20; }
-
-  slider.addEventListener('input', ()=>{ stop(); draw(yearToNorm(+slider.value)); });
-
-  // autoplay
-  let raf=null, playing=false, t=0;
-  function tick(){
-    t += 0.004;
-    if(t>1){ t=1; }
-    slider.value = Math.round(2005 + t*20);
-    draw(t);
-    if(t>=1){ playing=false; playBtn.textContent='↺'; return; }
-    raf=requestAnimationFrame(tick);
-  }
-  function stop(){ if(raf) cancelAnimationFrame(raf); playing=false; playBtn.textContent='▶'; }
-  playBtn.addEventListener('click', ()=>{
-    if(playing){ stop(); return; }
-    if(+slider.value>=2025){ t=0; slider.value=2005; }
-    else { t = yearToNorm(+slider.value); }
-    playing=true; playBtn.textContent='❚❚';
-    raf=requestAnimationFrame(tick);
-  });
-
-  draw(0);
+  ba.addEventListener('pointerdown', e => { dragging = true; setPos(posFromEvent(e)); });
+  window.addEventListener('pointermove', e => { if(dragging) setPos(posFromEvent(e)); });
+  window.addEventListener('pointerup', ()=> dragging = false);
+  setPos(50);
 })();
 </script>
 </body>
