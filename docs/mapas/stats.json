@@ -1,0 +1,14 @@
+{
+  "anio_inicial": 2005,
+  "anio_final": 2025,
+  "sensor_inicial": "LT05",
+  "sensor_final": "LC09",
+  "escenas_inicial": 5,
+  "escenas_final": 3,
+  "dosel_ha_inicial": 179.9,
+  "dosel_ha_final": 197.9,
+  "perdida_ha": -18.0,
+  "perdida_pct": -10.0,
+  "altura_dosel": true,
+  "ambito": "sector de prueba (eje Imperial/Caupolican)"
+}

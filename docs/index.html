@@ -279,6 +279,12 @@
   .mapcard figcaption { padding:14px 16px 16px; display:flex; flex-direction:column; gap:3px; }
   .mapcard figcaption strong { font-size:.98rem; }
   .mapcard figcaption span { font-size:.85rem; color:var(--ink-2); }
+  .mapcard img { width:100%; display:block; aspect-ratio:6/5; object-fit:cover; background:var(--bg-2); }
+  .mapnote { margin-top:18px; background:color-mix(in srgb, var(--ember) 8%, var(--card));
+    border:1px solid color-mix(in srgb, var(--ember) 35%, var(--line)); border-left:4px solid var(--ember);
+    border-radius:11px; padding:16px 18px; }
+  .mapnote p { margin:0; font-size:.92rem; color:var(--ink-2); }
+  .mapnote strong { color:var(--ink); }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -580,24 +586,24 @@
   <div class="wrap">
     <span class="eyebrow">Evidencia visual</span>
     <h2 class="sec-h">Los mapas de la pérdida.</h2>
-    <p class="sec-lead">Estos son los productos que genera el análisis satelital (notebook de Google Earth Engine). Se irán publicando aquí a medida que se procesen los cortes 2005–2025.</p>
+    <p class="sec-lead">Primeros mapas reales, generados con Google Earth Engine (Landsat, NDVI). Corresponden a una <strong>prueba en un sector del centro</strong> (eje Imperial/Caupolicán), comparando 2005 y 2025.</p>
     <div class="eco-grid">
       <figure class="mapcard">
-        <div class="mapph" data-label="NDVI 2005"></div>
-        <figcaption><strong>Cobertura 2005</strong><span>Línea base de dosel (NDVI, verano austral).</span></figcaption>
+        <img src="mapas/ndvi_2005.png" alt="Mapa NDVI del dosel en 2005, sector centro de Temuco" loading="lazy">
+        <figcaption><strong>Dosel 2005</strong><span>Verde intenso = más vegetación (Landsat 5, NDVI).</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <div class="mapph" data-label="NDVI 2025"></div>
-        <figcaption><strong>Cobertura 2025</strong><span>Estado actual del dosel.</span></figcaption>
+        <img src="mapas/ndvi_2025.png" alt="Mapa NDVI del dosel en 2025, sector centro de Temuco" loading="lazy">
+        <figcaption><strong>Dosel 2025</strong><span>Estado actual (Landsat 9, NDVI).</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <div class="mapph loss" data-label="ΔNDVI"></div>
-        <figcaption><strong>Mapa de calor de pérdida</strong><span>Rojo = dosel perdido 2005→2025.</span></figcaption>
+        <img src="mapas/dndvi_2005_2025.png" alt="Mapa de cambio de NDVI entre 2005 y 2025" loading="lazy">
+        <figcaption><strong>Cambio 2005→2025 (ΔNDVI)</strong><span>Rojo = menos verde · Verde = más verde.</span></figcaption>
       </figure>
     </div>
-    <p class="scan-note" style="color:var(--ink-3); font-family:var(--mono); font-size:.72rem; margin-top:16px">
-      Marcadores de posición. Para generarlos: abre <code>Observatorio_Arbolado_Temuco_GEE.ipynb</code>, autentícate en Earth Engine y exporta los rásteres. Luego reemplaza estas imágenes.
-    </p>
+    <div class="mapnote">
+      <p><strong>⚠️ Resultado preliminar — leer con cuidado.</strong> En este sector de prueba el índice de vegetación dio un <em>leve aumento</em>, no una pérdida. Esto <strong>no mide todavía la deforestación real</strong> de Temuco: es un recuadro pequeño, y 2005 (Landsat 5) y 2025 (Landsat 9) usan sensores distintos aún sin homogeneizar, lo que puede alterar la comparación. La medición válida vendrá del análisis de <strong>toda la ciudad, con sensores armonizados y los 5 cortes (2005–2025)</strong>. Estos mapas confirman que la herramienta funciona; la cifra oficial llega en la siguiente etapa.</p>
+    </div>
   </div>
 </section>
 
