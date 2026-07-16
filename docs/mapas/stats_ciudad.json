@@ -1,0 +1,39 @@
+{
+  "ambito": "ciudad completa (limite urbano oficial)",
+  "homogeneizacion": "Roy et al. 2016 (OLI->ETM+/TM)",
+  "altura_dosel": true,
+  "por_anio": [
+    {
+      "anio": 2005,
+      "sensor": "LT05",
+      "escenas": 8,
+      "dosel_ha": 3748.9
+    },
+    {
+      "anio": 2010,
+      "sensor": "LT05",
+      "escenas": 3,
+      "dosel_ha": 5798.9
+    },
+    {
+      "anio": 2015,
+      "sensor": "LC08",
+      "escenas": 10,
+      "dosel_ha": 3765.9
+    },
+    {
+      "anio": 2020,
+      "sensor": "LC08",
+      "escenas": 12,
+      "dosel_ha": 3643.0
+    },
+    {
+      "anio": 2025,
+      "sensor": "LC09",
+      "escenas": 8,
+      "dosel_ha": 4548.4
+    }
+  ],
+  "perdida_neta_ha": -799.5,
+  "perdida_neta_pct": -21.3
+}

@@ -285,6 +285,12 @@
     border-radius:11px; padding:16px 18px; }
   .mapnote p { margin:0; font-size:.92rem; color:var(--ink-2); }
   .mapnote strong { color:var(--ink); }
+  .statrow { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media (max-width:640px){ .statrow{ grid-template-columns:1fr; } }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .stat .v { font-family:var(--mono); font-size:1.6rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .stat .v.loss { color:var(--ember); }
+  .stat .k { font-size:.82rem; color:var(--ink-2); margin-top:3px; }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -584,25 +590,33 @@
 <!-- MAPAS -->
 <section class="tech" id="mapas">
   <div class="wrap">
-    <span class="eyebrow">Evidencia visual</span>
-    <h2 class="sec-h">Los mapas de la pérdida.</h2>
-    <p class="sec-lead">Primeros mapas reales, generados con Google Earth Engine (Landsat, NDVI). Corresponden a una <strong>prueba en un sector del centro</strong> (eje Imperial/Caupolicán), comparando 2005 y 2025.</p>
-    <div class="eco-grid">
+    <span class="eyebrow">Evidencia satelital</span>
+    <h2 class="sec-h">20 años de Temuco vistos desde el satélite.</h2>
+    <p class="sec-lead">Análisis de los 5 cortes (2005–2025) sobre todo el <strong>límite urbano oficial</strong> (133 km²), con Landsat homogeneizado entre sensores (Roy et&nbsp;al. 2016) y altura de dosel para separar árboles de pasto.</p>
+
+    <div class="statrow">
+      <div class="stat"><div class="v loss">≈ 874 ha</div><div class="k">Dosel perdido (bruto, 2005→2025)</div></div>
+      <div class="stat"><div class="v">≈ 2.823 ha</div><div class="k">Dosel que se mantuvo</div></div>
+      <div class="stat"><div class="v">≈ 1.686 ha</div><div class="k">Dosel ganado (sobre todo periferia)</div></div>
+    </div>
+
+    <div class="eco-grid" style="margin-top:20px">
       <figure class="mapcard">
-        <img src="mapas/ndvi_2005.png" alt="Mapa NDVI del dosel en 2005, sector centro de Temuco" loading="lazy">
-        <figcaption><strong>Dosel 2005</strong><span>Verde intenso = más vegetación (Landsat 5, NDVI).</span></figcaption>
+        <img src="mapas/ciudad_perdida_dosel.png" alt="Mapa de focos de pérdida de dosel en Temuco 2005-2025" loading="lazy">
+        <figcaption><strong>Focos de pérdida</strong><span>Rojo = dosel perdido · Verde = dosel estable (ej. Cerro Ñielol).</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <img src="mapas/ndvi_2025.png" alt="Mapa NDVI del dosel en 2025, sector centro de Temuco" loading="lazy">
-        <figcaption><strong>Dosel 2025</strong><span>Estado actual (Landsat 9, NDVI).</span></figcaption>
+        <img src="mapas/ciudad_dndvi_2005_2025.png" alt="Mapa de cambio de vegetación (NDVI) en Temuco 2005-2025" loading="lazy">
+        <figcaption><strong>Cambio de verdor (ΔNDVI)</strong><span>Rojo = menos verde · Verde = más verde.</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <img src="mapas/dndvi_2005_2025.png" alt="Mapa de cambio de NDVI entre 2005 y 2025" loading="lazy">
-        <figcaption><strong>Cambio 2005→2025 (ΔNDVI)</strong><span>Rojo = menos verde · Verde = más verde.</span></figcaption>
+        <img src="mapas/ciudad_tendencia.png" alt="Gráfico de cobertura de dosel por año 2005-2025" loading="lazy">
+        <figcaption><strong>Cobertura por año</strong><span>Serie no monótona: la señal es ruidosa a 30&nbsp;m.</span></figcaption>
       </figure>
     </div>
+
     <div class="mapnote">
-      <p><strong>⚠️ Resultado preliminar — leer con cuidado.</strong> En este sector de prueba el índice de vegetación dio un <em>leve aumento</em>, no una pérdida. Esto <strong>no mide todavía la deforestación real</strong> de Temuco: es un recuadro pequeño, y 2005 (Landsat 5) y 2025 (Landsat 9) usan sensores distintos aún sin homogeneizar, lo que puede alterar la comparación. La medición válida vendrá del análisis de <strong>toda la ciudad, con sensores armonizados y los 5 cortes (2005–2025)</strong>. Estos mapas confirman que la herramienta funciona; la cifra oficial llega en la siguiente etapa.</p>
+      <p><strong>Cómo leer estos resultados — con rigor.</strong> El satélite muestra con claridad <strong>dónde</strong> se concentra la pérdida: en el <strong>casco urbano y la expansión poniente</strong> (focos rojos), mientras el Cerro Ñielol se mantiene. Pero el <strong>balance neto de toda la comuna no baja</strong>: se perdieron ≈874 ha de dosel y se ganaron ≈1.686 ha, casi todas en zonas <strong>rurales/periurbanas</strong> que reverdecen (agricultura, plantaciones) y que “tapan” la pérdida urbana en el promedio. Además, a 30&nbsp;m Landsat <strong>no ve el árbol de calle</strong> y el índice capta también pasto: por eso estas cifras son <strong>indicativas, no exactas</strong>. Conclusión honesta: el satélite <strong>localiza</strong> el problema; medir el árbol individual y el patrimonio exige la <strong>escala ciudadana</strong> y datos de mayor resolución. Justo por eso el Observatorio combina ambas.</p>
     </div>
   </div>
 </section>
