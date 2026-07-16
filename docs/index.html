@@ -330,6 +330,10 @@
   .yv-btn.active { background:var(--canopy); color:#eaf3e2; border-color:var(--canopy); }
   .yv-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   .yv-legend { font-size:.85rem; color:var(--ink-2); margin-top:11px; }
+  .yv-slider { margin-top:14px; }
+  .yv-slider input[type=range] { width:100%; accent-color:var(--green); cursor:pointer; }
+  .heroscan .yv-slider input[type=range] { accent-color:var(--green-soft); }
+  .yv-scale { display:flex; justify-content:space-between; font-family:var(--mono); font-size:.62rem; color:#7d937a; margin-top:3px; }
   .mapduo { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px; }
   @media (max-width:720px){ .mapduo{ grid-template-columns:1fr; } }
   /* mapa interactivo leaflet */
@@ -389,17 +393,14 @@
         <span class="coord">38.74°S 72.60°O</span>
       </div>
       <div class="yv-stage big">
-        <img id="yvImg" src="mapas/urbano_ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
+        <img id="yvImg" src="mapas/anual/ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
         <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
       </div>
-      <div class="yv-tabs" role="tablist" aria-label="Elegir año">
-        <button class="yv-btn active" data-y="2005">2005</button>
-        <button class="yv-btn" data-y="2010">2010</button>
-        <button class="yv-btn" data-y="2015">2015</button>
-        <button class="yv-btn" data-y="2020">2020</button>
-        <button class="yv-btn" data-y="2025">2025</button>
+      <div class="yv-slider">
+        <input type="range" id="yvRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
+        <div class="yv-scale"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span></div>
       </div>
-      <p class="scan-note">Imágenes NDVI reales (Google Earth Engine, verano austral). Verde intenso = más dosel arbóreo; tonos claros = suelo construido. Cambia de año para ver la evolución 2005–2025. Para navegar sobre las calles, mira el <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
+      <p class="scan-note">Serie anual real 2005–2024 (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). Verde intenso = más dosel; tonos claros = suelo construido. Desliza para ver año a año. Para navegar sobre las calles, mira el <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
     </div>
   </div>
 </div>
@@ -641,13 +642,13 @@
 <section class="tech" id="mapas">
   <div class="wrap">
     <span class="eyebrow">Evidencia satelital</span>
-    <h2 class="sec-h">El dosel del casco urbano, año a año.</h2>
-    <p class="sec-lead">Recortamos el análisis al <strong>suelo urbano construido</strong> de Temuco (≈4.308 ha, según zonas edificadas GHSL), donde el reverdecer rural ya no diluye la señal. Los 5 cortes 2005–2025, con Landsat homogeneizado (Roy et&nbsp;al. 2016) y altura de dosel.</p>
+    <h2 class="sec-h">El dosel urbano y sus causas, 2005–2024.</h2>
+    <p class="sec-lead">Análisis del <strong>casco urbano construido</strong> de Temuco (≈4.308 ha, zonas edificadas GHSL), año a año, con Landsat homogeneizado (Roy et&nbsp;al. 2016), altura de dosel y Google Dynamic World para separar árbol de pasto.</p>
 
     <div class="statrow">
-      <div class="stat"><div class="v">252 → 233 ha</div><div class="k">Dosel urbano 2005 → 2025 (−8%)</div></div>
-      <div class="stat"><div class="v loss">139 ha</div><div class="k">Perdido (bruto) — supera a lo ganado</div></div>
-      <div class="stat"><div class="v">119 ha</div><div class="k">Ganado (bruto) → neto −20 ha</div></div>
+      <div class="stat"><div class="v loss">4,2×</div><div class="k">Más pérdida de verde <strong>dentro</strong> de loteos nuevos (44,9%) que fuera (10,7%)</div></div>
+      <div class="stat"><div class="v">≈3 °C</div><div class="k">Más fresco donde hay más árboles (28,7 vs 31,7 °C, veranos 2020–24)</div></div>
+      <div class="stat"><div class="v loss">139 ha</div><div class="k">Dosel urbano perdido (bruto) 2005→2025; supera a lo ganado (119 ha)</div></div>
     </div>
 
     <div class="mapduo">
@@ -656,13 +657,13 @@
         <figcaption><strong>Focos de pérdida (casco urbano)</strong><span>Rojo = dosel perdido 2005→2025 · Verde = estable.</span></figcaption>
       </figure>
       <figure class="mapcard">
-        <img src="mapas/urbano_tendencia.png" alt="Dosel urbano por año 2005-2025" loading="lazy">
-        <figcaption><strong>Dosel urbano por año</strong><span>El pico de 2010 es ruido (solo 3 imágenes ese verano).</span></figcaption>
+        <img src="mapas/anual/tendencia_anual.png" alt="Dosel urbano por año 2005-2024" loading="lazy">
+        <figcaption><strong>Dosel urbano, año a año</strong><span>Serie ruidosa a 30&nbsp;m; 2012–2013 sin dato Landsat.</span></figcaption>
       </figure>
     </div>
 
     <div class="mapnote">
-      <p><strong>Cómo leer esto — con rigor.</strong> Mirando solo el <strong>casco urbano construido</strong>, el dosel arbóreo <strong>sí retrocede</strong>: de ≈252 ha (2005) a ≈233 ha (2025), y la pérdida bruta (139 ha) <strong>supera</strong> a la ganancia (119 ha) → una caída neta de ~20 ha. A escala de toda la comuna, en cambio, el número no baja porque la periferia rural reverdece y tapa el promedio. Cautelas honestas: a 30&nbsp;m Landsat <strong>no cuenta el árbol de calle</strong>, el pico de 2010 es ruido, y estas cifras son <strong>indicativas</strong>. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza; la comunidad cuenta.</p>
+      <p><strong>Cómo leer esto — con rigor.</strong> La señal más fuerte es la <strong>causa</strong>: dentro de los <strong>loteos aprobados desde 2005</strong> se perdió <strong>4,2 veces más verde</strong> que en el resto de la ciudad — evidencia directa de que la expansión inmobiliaria explica buena parte de la pérdida. El calor lo confirma: las zonas con más árboles están <strong>~3&nbsp;°C más frescas</strong> (la correlación es débil, r≈−0,14, algo esperable en clima húmedo). En el conteo de hectáreas, el casco urbano pierde dosel neto (~20 ha), aunque la serie es <strong>ruidosa</strong> a 30&nbsp;m y no cuenta el árbol de calle individual. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza y explica; la comunidad cuenta.</p>
     </div>
   </div>
 </section>
@@ -677,19 +678,21 @@
       <label>Capa
         <select id="layerSel">
           <option value="perdida">Pérdida de dosel 2005 → 2025</option>
-          <option value="urbano_ndvi_2005">Dosel 2005</option>
-          <option value="urbano_ndvi_2010">Dosel 2010</option>
-          <option value="urbano_ndvi_2015">Dosel 2015</option>
-          <option value="urbano_ndvi_2020">Dosel 2020</option>
-          <option value="urbano_ndvi_2025">Dosel 2025</option>
+          <option value="anual">Dosel por año (2005–2024)</option>
+          <option value="lst">Calor de superficie (LST)</option>
+          <option value="dw">Árboles (Dynamic World)</option>
         </select>
       </label>
+      <label id="yearWrap" style="display:none">Año <strong id="yearLbl" style="color:var(--accent)">2005</strong>
+        <input type="range" id="yearRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
+      </label>
+      <label><input type="checkbox" id="loteosChk"> Loteos nuevos (2005+)</label>
       <label>Transparencia
         <input type="range" id="opac" min="20" max="100" value="80" aria-label="Transparencia de la capa">
       </label>
     </div>
     <div id="lmap"></div>
-    <p class="yv-legend"><strong>Pérdida:</strong> rojo = dosel perdido · verde = dosel estable. <strong>Capas por año:</strong> verde = dosel arbóreo (NDVI). Base cartográfica © OpenStreetMap. La superposición satelital es aproximada (resolución 30&nbsp;m); haz clic en el mapa para activar el zoom con la rueda.</p>
+    <p class="yv-legend"><strong>Pérdida:</strong> rojo = perdido · verde = estable. <strong>Dosel/año:</strong> verde = más vegetación. <strong>Calor:</strong> rojo = más caliente. <strong>Árboles (DW):</strong> verde = píxeles dominados por árboles. <strong>Loteos:</strong> polígonos naranja de urbanizaciones aprobadas desde 2005. Base © OpenStreetMap; superposición satelital aproximada (30&nbsp;m). Haz clic en el mapa para activar el zoom con la rueda.</p>
   </div>
 </section>
 
@@ -733,20 +736,22 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-// Visor grande por año (casco urbano)
+// Visor grande — deslizador anual (casco urbano)
+const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
 (function(){
   const img = document.getElementById('yvImg');
   const badge = document.getElementById('yvBadge');
-  const btns = document.querySelectorAll('.yv-btn');
-  if(!img || !btns.length) return;
-  ['2005','2010','2015','2020','2025'].forEach(y => { const p = new Image(); p.src = 'mapas/urbano_ndvi_' + y + '.png'; });
-  btns.forEach(b => b.addEventListener('click', () => {
-    const y = b.dataset.y;
-    img.src = 'mapas/urbano_ndvi_' + y + '.png';
+  const range = document.getElementById('yvRange');
+  if(!img || !range) return;
+  YV_YEARS.forEach(y => { const p = new Image(); p.src = 'mapas/anual/ndvi_' + y + '.png'; });
+  function show(i){
+    const y = YV_YEARS[i];
+    img.src = 'mapas/anual/ndvi_' + y + '.png';
     img.alt = 'Dosel urbano de Temuco en ' + y + ' (NDVI)';
     badge.textContent = y + ' · NDVI';
-    btns.forEach(x => x.classList.toggle('active', x === b));
-  }));
+  }
+  range.addEventListener('input', () => show(+range.value));
+  show(0);
 })();
 
 // Mapa interactivo con calles (Leaflet + OpenStreetMap)
@@ -761,14 +766,49 @@
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
-  const urlFor = v => v === 'perdida' ? 'mapas/urbano_perdida.png' : 'mapas/' + v + '.png';
-  const overlay = L.imageOverlay(urlFor('perdida'), bounds, { opacity:0.8 }).addTo(map);
+  const overlay = L.imageOverlay('mapas/urbano_perdida.png', bounds, { opacity:0.8 }).addTo(map);
   map.fitBounds(bounds);
   map.on('click', () => map.scrollWheelZoom.enable());
+
   const sel = document.getElementById('layerSel');
   const op  = document.getElementById('opac');
-  if (sel) sel.addEventListener('change', () => overlay.setUrl(urlFor(sel.value)));
-  if (op)  op.addEventListener('input', () => overlay.setOpacity(op.value / 100));
+  const yearWrap = document.getElementById('yearWrap');
+  const yearRange = document.getElementById('yearRange');
+  const yearLbl = document.getElementById('yearLbl');
+  const loteosChk = document.getElementById('loteosChk');
+
+  function urlFor(){
+    const v = sel.value;
+    if (v === 'perdida') return 'mapas/urbano_perdida.png';
+    if (v === 'lst') return 'mapas/urbano_lst.png';
+    if (v === 'dw') return 'mapas/urbano_dynamicworld.png';
+    if (v === 'anual') return 'mapas/anual/ndvi_' + YV_YEARS[+yearRange.value] + '.png';
+    return 'mapas/urbano_perdida.png';
+  }
+  function refresh(){ overlay.setUrl(urlFor()); }
+  sel.addEventListener('change', () => {
+    yearWrap.style.display = (sel.value === 'anual') ? '' : 'none';
+    refresh();
+  });
+  yearRange.addEventListener('input', () => {
+    yearLbl.textContent = YV_YEARS[+yearRange.value];
+    if (sel.value === 'anual') refresh();
+  });
+  op.addEventListener('input', () => overlay.setOpacity(op.value / 100));
+
+  // capa de loteos nuevos (vector)
+  let loteosLayer = null;
+  loteosChk.addEventListener('change', () => {
+    if (loteosChk.checked){
+      if (loteosLayer){ loteosLayer.addTo(map); return; }
+      fetch('data/loteos_recientes.geojson').then(r => r.json()).then(gj => {
+        loteosLayer = L.geoJSON(gj, {
+          style: { color:'#c85a2b', weight:1, fillColor:'#c85a2b', fillOpacity:0.15 },
+          onEachFeature: (f,l) => { const p=f.properties||{}; l.bindPopup('Loteo ' + (p.nombre||'') + '<br>Año: ' + (p.anio||'?') + (p.viviendas?('<br>'+p.viviendas+' viviendas'):'')); }
+        }).addTo(map);
+      });
+    } else if (loteosLayer){ map.removeLayer(loteosLayer); }
+  });
 })();
 </script>
 </body>
