@@ -326,6 +326,8 @@
   .tstep .tv { font-family:var(--mono); font-size:1.5rem; font-weight:600; font-variant-numeric:tabular-nums; }
   .tstep .tk { font-size:.82rem; opacity:.95; }
   .tempblock > p { margin:14px 0 0; font-size:.92rem; color:var(--ink-2); }
+  .tempblock > p.tempscale { margin-top:10px; font-size:.84rem; color:var(--ink-3);
+    border-left:3px solid var(--line); padding-left:12px; }
   /* visor grande por año */
   .yv-stage { position:relative; background:var(--bg-2); border:1px solid var(--line);
     border-radius:14px; overflow:hidden; min-height:120px; }
@@ -759,6 +761,7 @@
         <div class="tstep"><span class="tv">31,6&nbsp;°C</span><span class="tk">🧱 Nunca tuvo árboles</span></div>
       </div>
       <p>Temperatura de superficie (Landsat, veranos 2020–2024) en el casco urbano, según lo que pasó con el dosel entre 2005 y 2025. La progresión es directa: <strong>cada paso de pérdida de arbolado suma calor</strong>. Perder el árbol cuesta <strong>+1,4&nbsp;°C</strong>; quedarse sin dosel, hasta <strong>+2,3&nbsp;°C</strong> frente a conservarlo.</p>
+      <p class="tempscale">Ojo con la escala: esta es la temperatura <strong>promedio de la superficie a nivel de barrio</strong> (satélite, 30&nbsp;m). A ras de piso, la <strong>sombra de un árbol enfría bastante más</strong> de lo que refleja este promedio —esa diferencia vivida, al sol vs. bajo la copa, se medirá en terreno (escala ciudadana).</p>
     </div>
 
     <div class="mapduo">
