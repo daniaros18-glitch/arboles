@@ -316,6 +316,16 @@
   .stat .v { font-family:var(--mono); font-size:1.6rem; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
   .stat .v.loss { color:var(--ember); }
   .stat .k { font-size:.82rem; color:var(--ink-2); margin-top:3px; }
+  /* bloque de temperatura vs pérdida de dosel */
+  .tempblock { margin-top:20px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; }
+  .tempblock h3 { font-size:1.1rem; font-weight:660; letter-spacing:-.01em; margin:0 0 14px; }
+  .tempstrip { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-radius:11px; overflow:hidden; border:1px solid var(--line); }
+  @media (max-width:560px){ .tempstrip{ grid-template-columns:1fr; } }
+  .tstep { padding:16px 14px; display:flex; flex-direction:column; gap:4px; text-align:center; color:#fff; }
+  .tstep:nth-child(1){ background:#3f7ba0; } .tstep:nth-child(2){ background:#d98a4e; } .tstep:nth-child(3){ background:#b2472b; }
+  .tstep .tv { font-family:var(--mono); font-size:1.5rem; font-weight:600; font-variant-numeric:tabular-nums; }
+  .tstep .tk { font-size:.82rem; opacity:.95; }
+  .tempblock > p { margin:14px 0 0; font-size:.92rem; color:var(--ink-2); }
   /* visor grande por año */
   .yv-stage { position:relative; background:var(--bg-2); border:1px solid var(--line);
     border-radius:14px; overflow:hidden; min-height:120px; }
@@ -737,8 +747,18 @@
 
     <div class="statrow">
       <div class="stat"><div class="v loss">4,2×</div><div class="k">Más pérdida de verde <strong>dentro</strong> de loteos nuevos (44,9%) que fuera (10,7%)</div></div>
-      <div class="stat"><div class="v">≈3 °C</div><div class="k">Más fresco donde hay más árboles (28,7 vs 31,7 °C, veranos 2020–24)</div></div>
+      <div class="stat"><div class="v loss">+1,4 °C</div><div class="k">Más caliente donde se <strong>perdió</strong> el arbolado que donde se mantuvo</div></div>
       <div class="stat"><div class="v loss">139 ha</div><div class="k">Dosel urbano perdido (bruto) 2005→2025; supera a lo ganado (119 ha)</div></div>
+    </div>
+
+    <div class="tempblock">
+      <h3>Menos árboles, más calor — medido</h3>
+      <div class="tempstrip">
+        <div class="tstep"><span class="tv">29,3&nbsp;°C</span><span class="tk">🌳 Mantuvo su dosel</span></div>
+        <div class="tstep"><span class="tv">30,8&nbsp;°C</span><span class="tk">🍂 Perdió su dosel</span></div>
+        <div class="tstep"><span class="tv">31,6&nbsp;°C</span><span class="tk">🧱 Nunca tuvo árboles</span></div>
+      </div>
+      <p>Temperatura de superficie (Landsat, veranos 2020–2024) en el casco urbano, según lo que pasó con el dosel entre 2005 y 2025. La progresión es directa: <strong>cada paso de pérdida de arbolado suma calor</strong>. Perder el árbol cuesta <strong>+1,4&nbsp;°C</strong>; quedarse sin dosel, hasta <strong>+2,3&nbsp;°C</strong> frente a conservarlo.</p>
     </div>
 
     <div class="mapduo">
@@ -753,7 +773,7 @@
     </div>
 
     <div class="mapnote">
-      <p><strong>Cómo leer esto — con rigor.</strong> La señal más fuerte es la <strong>causa</strong>: dentro de los <strong>loteos aprobados desde 2005</strong> se perdió <strong>4,2 veces más verde</strong> que en el resto de la ciudad — evidencia directa de que la expansión inmobiliaria explica buena parte de la pérdida. El calor lo confirma: las zonas con más árboles están <strong>~3&nbsp;°C más frescas</strong> (la correlación es débil, r≈−0,14, algo esperable en clima húmedo). En el conteo de hectáreas, el casco urbano pierde dosel neto (~20 ha), aunque la serie es <strong>ruidosa</strong> a 30&nbsp;m y no cuenta el árbol de calle individual. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza y explica; la comunidad cuenta.</p>
+      <p><strong>Cómo leer esto — con rigor.</strong> La señal más fuerte es la <strong>causa</strong>: dentro de los <strong>loteos aprobados desde 2005</strong> se perdió <strong>4,2 veces más verde</strong> que en el resto de la ciudad — evidencia directa de que la expansión inmobiliaria explica buena parte de la pérdida. El calor lo confirma de forma directa: las zonas que <strong>perdieron</strong> su arbolado están hoy <strong>1,4&nbsp;°C más calientes</strong> que las que lo conservaron, y hasta 2,3&nbsp;°C donde nunca hubo árboles (la correlación pixel a pixel es débil, r≈−0,14, algo esperable en clima húmedo). En el conteo de hectáreas, el casco urbano pierde dosel neto (~20 ha), aunque la serie es <strong>ruidosa</strong> a 30&nbsp;m y no cuenta el árbol de calle individual. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza y explica; la comunidad cuenta.</p>
     </div>
   </div>
 </section>
