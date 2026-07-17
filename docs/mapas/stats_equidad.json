@@ -1,0 +1,62 @@
+{
+  "n_uv": 36,
+  "top": [
+    {
+      "uv": "TROMEN MOLLULCO",
+      "score": 82.0,
+      "canopy_pct": 18.0,
+      "lst": 30.8,
+      "green_pc": 0.0
+    },
+    {
+      "uv": "ESTACION",
+      "score": 81.7,
+      "canopy_pct": 3.0,
+      "lst": 32.6,
+      "green_pc": 13.3
+    },
+    {
+      "uv": "JAVIERA CARRERA ORIENTE",
+      "score": 80.0,
+      "canopy_pct": 3.1,
+      "lst": 31.1,
+      "green_pc": 5.5
+    },
+    {
+      "uv": "ALEMANIA",
+      "score": 80.0,
+      "canopy_pct": 3.6,
+      "lst": 32.4,
+      "green_pc": 5.7
+    },
+    {
+      "uv": "PRIETO SUR",
+      "score": 79.8,
+      "canopy_pct": 3.1,
+      "lst": 32.4,
+      "green_pc": 5.1
+    },
+    {
+      "uv": "MUSEO FERROVIARIO",
+      "score": 79.8,
+      "canopy_pct": 3.2,
+      "lst": 31.7,
+      "green_pc": 8.7
+    },
+    {
+      "uv": "AQUELARRE",
+      "score": 79.6,
+      "canopy_pct": 3.5,
+      "lst": 31.7,
+      "green_pc": 6.9
+    },
+    {
+      "uv": "ESTADIO",
+      "score": 79.4,
+      "canopy_pct": 4.2,
+      "lst": 32.2,
+      "green_pc": 23.0
+    }
+  ],
+  "formula": "score=100*(0.35*deficit_dosel+0.25*calor+0.20*deficit_verde+0.20*vulnerabilidad_social)"
+}
