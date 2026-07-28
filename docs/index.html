@@ -976,18 +976,24 @@
 <script>
 // Capas base disponibles en todos los mapas (calles / satélite / satélite con nombres)
 function capasBase(map, porDefecto){
+  const IMAGEN = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  const ATRIB_ESRI = 'Imágenes &copy; Esri, Maxar, Earthstar Geographics';
   const calles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
-  const satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:19, attribution:'Imágenes &copy; Esri, Maxar, Earthstar Geographics' });
-  const rotulos = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:19, attribution:'&copy; Esri' });
+    maxZoom:19, zIndex:1, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
+  const satelite = L.tileLayer(IMAGEN, { maxZoom:19, zIndex:1, attribution:ATRIB_ESRI });
+  // El fondo del grupo "con nombres" es una capa propia: si se compartiera la misma
+  // instancia con la opción "Satélite", el control le reasignaría un zIndex mayor
+  // y la imagen taparía los rótulos (por eso antes no se veían los nombres de calle).
+  const sateliteFondo = L.tileLayer(IMAGEN, { maxZoom:19, zIndex:1, attribution:ATRIB_ESRI });
   const calleros = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:19, attribution:'&copy; Esri' });
-  const satelitePlus = L.layerGroup([satelite, calleros, rotulos]);
+    maxZoom:19, zIndex:2, attribution:'&copy; Esri' });
+  const rotulos = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, zIndex:3, attribution:'&copy; Esri' });
+  const satelitePlus = L.layerGroup([sateliteFondo, calleros, rotulos]);
   const bases = { 'Calles': calles, 'Satélite': satelite, 'Satélite con nombres': satelitePlus };
   (porDefecto === 'satelite' ? satelitePlus : calles).addTo(map);
-  L.control.layers(bases, null, { position:'topright' }).addTo(map);
+  // autoZIndex:false — mantiene el orden de arriba (imagen abajo, nombres encima).
+  L.control.layers(bases, null, { position:'topright', autoZIndex:false }).addTo(map);
   return bases;
 }
 

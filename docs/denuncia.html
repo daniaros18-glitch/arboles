@@ -220,15 +220,24 @@ const GFORM = {
   const BBOX = '-72.92,-38.86,-72.42,-38.62';   // Temuco y Padre Las Casas
   const map = L.map('fmap', { scrollWheelZoom:false }).setView(TEMUCO, 13);
   // Capas base: satélite (con nombres) por defecto — es más fácil reconocer el árbol
+  const IMAGEN = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+  const ATRIB_ESRI = 'Imágenes &copy; Esri, Maxar, Earthstar Geographics';
   const calles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
-  const satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    maxZoom:19, attribution:'Imágenes &copy; Esri, Maxar, Earthstar Geographics' });
-  const rotulos = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom:19 });
-  const calleros = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', { maxZoom:19 });
-  const satelitePlus = L.layerGroup([satelite, calleros, rotulos]);
+    maxZoom:19, zIndex:1, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
+  const satelite = L.tileLayer(IMAGEN, { maxZoom:19, zIndex:1, attribution:ATRIB_ESRI });
+  // El fondo del grupo "con nombres" es una capa propia: si se compartiera la misma
+  // instancia con la opción "Satélite", el control le reasignaría un zIndex mayor
+  // y la imagen taparía los rótulos (por eso antes no se veían los nombres de calle).
+  const sateliteFondo = L.tileLayer(IMAGEN, { maxZoom:19, zIndex:1, attribution:ATRIB_ESRI });
+  const calleros = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, zIndex:2, attribution:'&copy; Esri' });
+  const rotulos = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, zIndex:3, attribution:'&copy; Esri' });
+  const satelitePlus = L.layerGroup([sateliteFondo, calleros, rotulos]);
   satelitePlus.addTo(map);
-  L.control.layers({ 'Satélite con nombres': satelitePlus, 'Satélite': satelite, 'Calles': calles }, null, { position:'topright' }).addTo(map);
+  // autoZIndex:false — mantiene el orden de arriba (imagen abajo, nombres encima).
+  L.control.layers({ 'Satélite con nombres': satelitePlus, 'Satélite': satelite, 'Calles': calles },
+    null, { position:'topright', autoZIndex:false }).addTo(map);
 
   let marker = null;
   const coordsI = document.getElementById('f_coords');
