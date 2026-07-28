@@ -422,6 +422,10 @@
   :root[data-theme="light"] .huella{ --agua:#2c7a94; }
   .huella .eyebrow.agua { color:var(--agua); }
   .huella .eyebrow.agua::before { background:var(--agua); }
+  .hdeclara { background:var(--card); border:1px solid var(--line); border-left:5px solid var(--agua);
+    border-radius:0 13px 13px 0; padding:22px 26px; margin:18px 0 20px; }
+  .hdeclara h3 { font-size:1.12rem; font-weight:660; letter-spacing:-.01em; margin:0 0 .55em; color:var(--ink); }
+  .hdeclara p { margin:0; font-family:var(--serif); font-size:1.04rem; line-height:1.6; color:var(--ink-2); }
   .hgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }
   @media (max-width:760px){ .hgrid{ grid-template-columns:1fr; } }
   .hcard { background:var(--card); border:1px solid var(--line); border-top:3px solid var(--agua);
@@ -863,6 +867,11 @@
     <span class="eyebrow agua">Transparencia</span>
     <h2 class="sec-h">Esta plataforma también consume agua.</h2>
     <p class="sec-lead">Un observatorio ambiental debería declarar su propio impacto. Este sitio se desarrolló <strong>con ayuda de inteligencia artificial</strong>, y esa tecnología consume electricidad y agua en centros de datos. Aquí explicamos cuánto, con qué supuestos y —sobre todo— qué <em>no</em> sabemos.</p>
+
+    <div class="hdeclara">
+      <h3>Huella digital del proyecto</h3>
+      <p>Esta plataforma fue desarrollada con apoyo de herramientas de inteligencia artificial. Aunque no es posible conocer con exactitud cuánta agua se utilizó en su creación, el entrenamiento y uso de modelos de IA requieren grandes centros de datos que consumen agua y energía para su funcionamiento y refrigeración. Este observatorio reconoce que las tecnologías digitales también tienen impactos ambientales y busca promover un uso consciente y transparente de ellas.</p>
+    </div>
 
     <div class="hgrid">
       <div class="hcard">
