@@ -74,7 +74,23 @@ perderse igual: **el correo no es prueba de que la denuncia quedó guardada.**
 
 Esa denuncia se recuperó a mano el 28/07/2026 y ya está en la planilla.
 
-**Tres defensas, para que ninguna denuncia se pierda otra vez:**
+**La solución de raíz (⬜ pendiente, 2 clics en el editor del Form):**
+
+Convertir la pregunta **Tipo** del Google Form de *Opción múltiple* a **Respuesta corta**.
+Así el Form deja de validar —guarda cualquier texto— y **no puede rechazar nada**. La validación
+queda solo en el sitio, que es por donde entra todo el mundo.
+
+1. Abrir el Google Form en modo edición → clic en la pregunta **Tipo**.
+2. En el desplegable de tipo de pregunta (arriba a la derecha de la pregunta), elegir
+   **Respuesta corta**. Google avisará que se descartan las opciones: es justamente lo que se busca.
+   Las respuestas ya recibidas **no se tocan**.
+3. En `docs/denuncia.html`, dejar `const TIPO_VALIDADO_POR_EL_FORM = false;`
+4. Correr `python scripts/verificar_opciones.py` para confirmar que ambos lados quedaron de acuerdo.
+
+El verificador reconoce solo en qué estado está la pregunta y avisa si el sitio y el Form se
+desalinean en cualquiera de los dos sentidos.
+
+**Y las tres defensas que ya están puestas:**
 
 1. `python scripts/verificar_opciones.py` compara las opciones del sitio con las del Google Form
    y falla si alguna no calza. Correrlo cada vez que se toque la lista, en cualquiera de los dos lados.

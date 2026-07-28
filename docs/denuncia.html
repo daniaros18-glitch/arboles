@@ -279,9 +279,18 @@ const GFORM = {
   }
 };
 
+/* ¿La pregunta 'Tipo' del Google Form sigue siendo de OPCIÓN MÚLTIPLE?
+   - true  → el Form valida: rechaza en silencio cualquier valor fuera de su lista,
+             así que hay que enviarle solo valores de TIPOS_DEL_FORM.
+   - false → la pregunta es de RESPUESTA CORTA: el Form guarda cualquier texto y ya
+             no puede rechazar nada. La validación queda solo en este sitio, que es
+             por donde entra todo el mundo.
+   Cambiar a false DESPUÉS de convertir la pregunta en el editor del Form.
+   Comprobar en qué estado está con:  python scripts/verificar_opciones.py */
+const TIPO_VALIDADO_POR_EL_FORM = true;
+
 /* Opciones que el Google Form acepta en la pregunta 'Tipo', COPIADAS TAL CUAL.
-   Google rechaza en silencio cualquier otra cosa, así que este arreglo es la última
-   defensa antes de perder una denuncia. Verificar con:  python scripts/verificar_opciones.py */
+   Solo se usan mientras TIPO_VALIDADO_POR_EL_FORM sea true. */
 const TIPOS_DEL_FORM = [
   'Tala',
   'Poda severa / mala poda',
@@ -483,11 +492,11 @@ form.addEventListener('submit', function(e){
     nombre: val('f_nombre'), contacto: val('f_contacto')
   };
 
-  // Red de seguridad: el Google Form RECHAZA cualquier valor de 'Tipo' que no esté en su
-  // lista, y el rechazo es invisible (el envío va sin CORS). Antes que perder la denuncia,
-  // se manda como 'Otro' y el tipo real queda escrito en la descripción.
+  // Red de seguridad, solo mientras el Form valide: rechaza en silencio cualquier valor de
+  // 'Tipo' fuera de su lista y el rechazo es invisible (el envío va sin CORS). Antes que
+  // perder la denuncia, se manda como 'Otro' y el tipo real queda escrito en la descripción.
   // Si esto llega a activarse, hay que correr: python scripts/verificar_opciones.py
-  if (mapa.tipo && TIPOS_DEL_FORM.indexOf(mapa.tipo) === -1){
+  if (TIPO_VALIDADO_POR_EL_FORM && mapa.tipo && TIPOS_DEL_FORM.indexOf(mapa.tipo) === -1){
     mapa.descripcion = '[' + mapa.tipo + '] ' + mapa.descripcion;
     mapa.tipo = 'Otro';
   }

@@ -46,8 +46,8 @@ def leer_url_del_form():
     return m.group(1).replace("/formResponse", "/viewform")
 
 
-def leer_opciones_del_form(url):
-    """Las opciones reales de cada pregunta, leidas del propio formulario publico."""
+def leer_preguntas_del_form(url):
+    """Cada pregunta del formulario publico -> sus opciones, o None si es texto libre."""
     req = Request(url, headers={"User-Agent": "Mozilla/5.0 (ObservatorioArbolado)"})
     with urlopen(req, timeout=60) as r:
         html = r.read().decode("utf-8", errors="replace")
@@ -59,22 +59,46 @@ def leer_opciones_del_form(url):
     for item in datos[1][1]:
         titulo = item[1]
         for campo in (item[4] or []):
-            if campo[1]:
-                preguntas[titulo] = [o[0] for o in campo[1]]
+            preguntas[titulo] = [o[0] for o in campo[1]] if campo[1] else None
     return preguntas
+
+
+def bandera_del_sitio():
+    """Como esta declarada en denuncia.html la constante TIPO_VALIDADO_POR_EL_FORM."""
+    with open(PAGINA, encoding="utf-8") as f:
+        m = re.search(r"const TIPO_VALIDADO_POR_EL_FORM\s*=\s*(true|false)", f.read())
+    return None if not m else (m.group(1) == "true")
 
 
 def main():
     valores = leer_valores_del_sitio()
-    preguntas = leer_opciones_del_form(leer_url_del_form())
+    preguntas = leer_preguntas_del_form(leer_url_del_form())
+    bandera = bandera_del_sitio()
 
-    tipo = None
-    for titulo, opciones in preguntas.items():
-        if "tipo" in titulo.lower():
-            tipo = opciones
-            break
+    if not any("tipo" in t.lower() for t in preguntas):
+        raise SystemExit("El Google Form no tiene ninguna pregunta llamada 'Tipo'")
+    tipo = next(o for t, o in preguntas.items() if "tipo" in t.lower())
+
+    # Caso bueno: la pregunta ya es de respuesta corta y el Form no puede rechazar nada.
     if tipo is None:
-        raise SystemExit("El Google Form no tiene una pregunta de opciones llamada 'Tipo'")
+        print("La pregunta 'Tipo' del Google Form es de RESPUESTA CORTA:")
+        print("acepta cualquier texto, asi que ninguna denuncia puede perderse por este motivo.")
+        print("Opciones que ofrece el sitio:", valores)
+        if bandera is not False:
+            print("\nFALTA UN PASO: en docs/denuncia.html hay que dejar")
+            print("  const TIPO_VALIDADO_POR_EL_FORM = false;")
+            print("Mientras siga en true, un tipo fuera de la lista se degrada a 'Otro' sin necesidad.")
+            return 1
+        print("\nOK: el sitio ya esta configurado en concordancia (TIPO_VALIDADO_POR_EL_FORM = false).")
+        return 0
+
+    # Caso a vigilar: sigue siendo opcion multiple, el Form valida y puede rechazar.
+    print("La pregunta 'Tipo' del Google Form es de OPCION MULTIPLE: el Form valida.")
+    if bandera is False:
+        print("\nPELIGRO: docs/denuncia.html declara TIPO_VALIDADO_POR_EL_FORM = false,")
+        print("pero el Form SI valida. La red de seguridad esta desactivada de mas.")
+        print("Dejarla en true, o convertir la pregunta a respuesta corta.")
+        return 1
 
     print("Opciones en el sitio :", valores)
     print("Opciones en el Form  :", tipo)
