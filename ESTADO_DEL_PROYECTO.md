@@ -52,6 +52,19 @@ sitio está en construcción y se necesita ver el circuito funcionando de punta 
 (incluidos datos personales de terceros, si los escribe). El nombre y contacto de quien denuncia
 siguen protegidos siempre por la fórmula `QUERY` de Sheet1.
 
+### Folio y acuse de recibo (pendiente de instalar)
+
+Escrito y probado, **falta que lo instales en la planilla** (5 minutos):
+[`docs/recursos/GUIA_CORREOS_Y_FOLIO.md`](docs/recursos/GUIA_CORREOS_Y_FOLIO.md) · código en [`scripts/apps_script_denuncias.gs`](scripts/apps_script_denuncias.gs).
+
+Un Apps Script en la planilla asigna a cada denuncia un **folio correlativo** (`TEM-2026-0001`),
+te avisa por correo con todos los datos, y le manda un **acuse de recibo con el folio** a quien
+denunció (si dejó correo). El sitio es estático y no puede hacer nada de esto: no tiene servidor
+ni forma de saber cuál fue el último número. Por eso el folio se asigna en la planilla.
+
+⬜ Instalar el script y su activador «Al enviarse el formulario».
+⬜ Ajustar `PLAZO_REVISION` (hoy dice 5 días hábiles) al plazo que se pueda sostener de verdad.
+
 ### Aviso por correo de cada denuncia
 
 `denuncia.html` manda cada denuncia por **dos vías**: los datos van a la planilla (Google Form) y una
