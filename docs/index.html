@@ -716,7 +716,7 @@
       </label>
       <span class="ctahint" id="dActualizado"></span>
     </div>
-    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada minuto. Más adelante se activará la aprobación manual.</p>
+    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada 10 segundos. Más adelante se activará la aprobación manual.</p>
     <div id="dmap"></div>
     <div class="dempty" id="dEmpty">
       <p><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales y el equipo los verifique, aparecerán aquí automáticamente. <a href="denuncia.html">Sé la primera persona en registrar una →</a></p>
@@ -998,7 +998,7 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     return [lat, lon];
   }
 
-  let capa = null, datos = [], modo = 'manual';
+  let capa = null, datos = [], modo = 'manual', ultimoConteo = -1;
   function pintar(filtro){
     if (capa) map.removeLayer(capa);
     const vis = datos.filter(d => !filtro || (d.tipo||'').toLowerCase().includes(filtro.toLowerCase()));
@@ -1012,7 +1012,11 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
       h += '<div class="dmeta">' + (d.fecha ? 'Ocurrio: ' + esc(d.fecha) + '  ' : '') + (d.verificada ? 'Verificada' : 'Recien registrada') + '</div></div>';
       return m.bindPopup(h);
     })).addTo(map);
-    if (vis.length){ try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){} }
+    // solo reencuadra cuando cambia la cantidad de puntos, para no mover el mapa mientras lo miran
+    if (vis.length && vis.length !== ultimoConteo){
+      try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){}
+    }
+    ultimoConteo = vis.length;
   }
   function refrescarPanel(){
     const cuenta = t => datos.filter(d => (d.tipo||'').toLowerCase().includes(t)).length;
@@ -1067,7 +1071,9 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     const aviso = document.getElementById('dAviso');
     if (aviso && modo === 'auto') aviso.style.display = 'block';
     cargar(cfg);
-    setInterval(() => cargar(cfg), 60000);
+    // se actualiza cada 10 s; se pausa si la pestaña no está a la vista
+    setInterval(() => { if (!document.hidden) cargar(cfg); }, 10000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(cfg); });
     document.getElementById('dFiltro').addEventListener('change', e => pintar(e.target.value));
   });
 })();
