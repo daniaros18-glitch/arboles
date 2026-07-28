@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Registra una tala, poda severa o árbol patrimonial en Temuco. Observatorio Ciudadano del Arbolado Urbano.">
+<meta property="og:title" content="Registrar una denuncia — Observatorio del Arbolado de Temuco">
+<meta property="og:description" content="Tu registro, con foto y ubicación, se convierte en evidencia para proteger el arbolado de Temuco.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<title>Registrar una denuncia — Observatorio del Arbolado de Temuco</title>
+<style>
+  :root {
+    --canopy:#12352a; --canopy-deep:#0c241d; --green:#6f9a4a; --green-soft:#8fb56a;
+    --ember:#c85a2b; --bg:#f3f5ee; --bg-2:#eaeee2; --card:#fff; --ink:#17241d;
+    --ink-2:#46584d; --ink-3:#6c7d70; --line:#d7ddcd; --accent:#3f7241;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:"Cascadia Code",ui-monospace,"SF Mono",Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0d1310; --bg-2:#111a15; --card:#16211b; --ink:#e8efe4; --ink-2:#a9bcac;
+            --ink-3:#7c8f80; --line:#24332a; --accent:#8fb56a; }
+  }
+  :root[data-theme="light"]{ --bg:#f3f5ee; --bg-2:#eaeee2; --card:#fff; --ink:#17241d; --ink-2:#46584d; --ink-3:#6c7d70; --line:#d7ddcd; --accent:#3f7241; }
+  :root[data-theme="dark"] { --bg:#0d1310; --bg-2:#111a15; --card:#16211b; --ink:#e8efe4; --ink-2:#a9bcac; --ink-3:#7c8f80; --line:#24332a; --accent:#8fb56a; }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 22px; }
+  a{ color:var(--accent); }
+
+  header.top{ background:linear-gradient(160deg,var(--canopy),var(--canopy-deep)); color:#eaf3e2; padding:16px 0 34px; }
+  .backlink{ display:inline-flex; align-items:center; gap:8px; color:#bcd0b3; text-decoration:none; font-size:.88rem; }
+  .backlink:hover{ color:#fff; }
+  header.top h1{ font-size:clamp(1.6rem,4.2vw,2.3rem); line-height:1.12; letter-spacing:-.02em; margin:22px 0 10px; max-width:20ch; }
+  header.top h1 em{ font-family:var(--serif); font-style:italic; color:var(--green-soft); }
+  header.top p{ color:#c7d8c1; margin:0; max-width:56ch; font-family:var(--serif); font-size:1.05rem; }
+  .eyebrow{ font-family:var(--mono); font-size:.68rem; letter-spacing:.2em; text-transform:uppercase; color:var(--green-soft); }
+
+  main{ padding:30px 0 60px; }
+  .pform{ background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; }
+  .pform-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:600px){ .pform-grid{ grid-template-columns:1fr; } }
+  .pfield{ display:flex; flex-direction:column; gap:6px; }
+  .pfield.full{ grid-column:1/-1; }
+  .pfield label{ font-size:.86rem; font-weight:600; }
+  .pfield label .opt{ font-weight:400; color:var(--ink-3); }
+  .pfield input,.pfield select,.pfield textarea{ font:inherit; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+  .pfield input:focus,.pfield select:focus,.pfield textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
+  .pfield textarea{ min-height:110px; resize:vertical; }
+  #fmap{ height:300px; border-radius:10px; border:1px solid var(--line); z-index:0; }
+  @media (max-width:600px){ #fmap{ height:250px; } }
+  .gpsbtn{ background:var(--accent); color:#fff; border:none; padding:9px 15px; border-radius:9px; cursor:pointer; font:inherit; font-size:.88rem; }
+  .gpsbtn:hover{ filter:brightness(1.08); }
+  .coordreadout{ font-family:var(--mono); font-size:.8rem; color:var(--ink-2); }
+  .pconsent{ display:flex; gap:10px; align-items:flex-start; font-size:.9rem; font-weight:400; color:var(--ink-2); }
+  .pconsent input{ margin-top:3px; }
+  .psubmit{ background:var(--canopy); color:#eaf3e2; border:none; padding:14px 30px; border-radius:10px; font:inherit; font-weight:600; cursor:pointer; font-size:1rem; }
+  .psubmit:hover{ background:#0c241d; }
+  .psubmit[disabled]{ opacity:.6; cursor:progress; }
+  .pnote{ font-size:.8rem; color:var(--ink-3); margin-top:12px; line-height:1.55; }
+
+  .modnote{ background:var(--bg-2); border:1px solid var(--line); border-left:4px solid var(--green); border-radius:12px; padding:16px 18px; margin-bottom:20px; font-size:.92rem; color:var(--ink-2); }
+  .modnote strong{ color:var(--ink); }
+  .okbox{ display:none; background:var(--bg-2); border:1px solid var(--accent); border-radius:14px; padding:26px; text-align:center; }
+  .okbox h2{ margin:0 0 8px; font-size:1.3rem; }
+  .okbox p{ color:var(--ink-2); margin:0 0 16px; }
+  footer{ background:var(--canopy-deep); color:#8fa588; padding:26px 0; font-family:var(--mono); font-size:.72rem; }
+  footer a{ color:var(--green-soft); text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none!important; transition:none!important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="backlink" href="index.html">← Volver al Observatorio</a>
+    <span class="eyebrow" style="display:block; margin-top:18px">Observatorio del Arbolado · Temuco</span>
+    <h1>Registra una tala, poda severa o <em>árbol patrimonial</em>.</h1>
+    <p>Tu registro, con foto y ubicación, se convierte en evidencia técnica y legal para proteger el arbolado de la comuna.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="modnote">
+    <strong>Cada denuncia se revisa antes de publicarse.</strong> Tu registro llega al equipo del Observatorio, que verifica la información. Solo cuando queda <strong>verificada</strong> aparece en el mapa público. <strong>Nunca publicamos tu nombre ni tu contacto.</strong>
+  </div>
+
+  <div class="okbox" id="okBox">
+    <h2>✓ ¡Gracias! Tu denuncia fue enviada.</h2>
+    <p>El equipo la revisará. Si es verificada, aparecerá en el mapa público del Observatorio.</p>
+    <a href="index.html#registro">Ver el mapa de denuncias →</a>
+  </div>
+
+  <form class="pform" id="denunciaForm" action="https://formsubmit.co/daniaros18@gmail.com" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_subject" value="Nueva denuncia — Observatorio del Arbolado de Temuco">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://daniaros18-glitch.github.io/arboles/denuncia.html?ok=1">
+    <input type="hidden" name="Coordenadas" id="f_coords">
+
+    <div class="pform-grid">
+      <div class="pfield">
+        <label for="f_tipo">Tipo de situación *</label>
+        <select id="f_tipo" name="Tipo" required>
+          <option value="">Elige…</option>
+          <option>Tala no autorizada</option>
+          <option>Poda severa / mala poda</option>
+          <option>Árbol dañado (herido, quemado, con publicidad)</option>
+          <option>Propuesta de árbol patrimonial (Art. 9)</option>
+          <option>Área verde eliminada por obra</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="pfield">
+        <label for="f_especie">Especie <span class="opt">(si la conoces)</span></label>
+        <input id="f_especie" name="Especie" type="text" placeholder="Ej. plátano oriental, roble, liquidámbar…">
+      </div>
+      <div class="pfield">
+        <label for="f_fecha">Fecha del hecho <span class="opt">(aprox.)</span></label>
+        <input id="f_fecha" name="Fecha" type="date">
+      </div>
+      <div class="pfield">
+        <label for="f_dir">Dirección o referencia</label>
+        <input id="f_dir" name="Direccion" type="text" placeholder="Calle, número, esquina, bandejón…">
+      </div>
+
+      <div class="pfield full">
+        <label>Ubicación exacta * <span class="opt">(toca el mapa o usa tu GPS)</span></label>
+        <div id="fmap"></div>
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:8px">
+          <button type="button" class="gpsbtn" id="gpsBtn">📍 Usar mi ubicación</button>
+          <span class="coordreadout" id="coordReadout">Sin ubicación marcada</span>
+        </div>
+      </div>
+
+      <div class="pfield full">
+        <label for="f_desc">¿Qué pasó? *</label>
+        <textarea id="f_desc" name="Descripcion" required placeholder="Describe brevemente: qué árbol(es), cuántos, quién intervino si lo sabes, si había señalética de empresa, etc."></textarea>
+      </div>
+
+      <div class="pfield full" id="fotoWrap">
+        <label for="f_foto">Foto <span class="opt">(opcional, ayuda muchísimo)</span></label>
+        <input id="f_foto" name="Foto" type="file" accept="image/*" capture="environment">
+        <img id="fotoPrev" alt="Vista previa de la foto" style="display:none; max-width:220px; border-radius:9px; margin-top:8px">
+      </div>
+
+      <div class="pfield">
+        <label for="f_nombre">Tu nombre <span class="opt">(opcional)</span></label>
+        <input id="f_nombre" name="Nombre" type="text">
+      </div>
+      <div class="pfield">
+        <label for="f_contacto">Correo o teléfono <span class="opt">(opcional)</span></label>
+        <input id="f_contacto" name="Contacto" type="text" placeholder="Por si necesitamos más datos">
+      </div>
+
+      <div class="pfield full">
+        <label class="pconsent"><input type="checkbox" required> Autorizo que esta información se use para el Observatorio Ciudadano del Arbolado de Temuco. Entiendo que mi nombre y contacto no se publican.</label>
+      </div>
+      <div class="pfield full">
+        <button type="submit" class="psubmit" id="btnEnviar">Enviar denuncia</button>
+        <p class="pnote">Para daño en curso, llama también a Carabineros o al Juzgado de Policía Local: la Ordenanza 004/2021 de Temuco establece el deber de denunciar destrozos (Art. 25) y sanciona las infracciones (Art. 31).</p>
+      </div>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <div class="wrap">
+    OBSERVATORIO SATELITAL Y CIUDADANO DEL ARBOLADO URBANO · TEMUCO ·
+    <a href="index.html">Volver al sitio</a>
+  </div>
+</footer>
+
+<iframe name="sink" id="sink" style="display:none" title="destino de envío"></iframe>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+/* ─────────────────────────────────────────────────────────────
+   CONFIGURACIÓN DEL FORMULARIO DE GOOGLE
+   Mientras 'action' esté vacío, la denuncia se envía por correo.
+   Al pegar aquí los datos del Google Form, pasa a guardarse en la
+   planilla (y de ahí, ya verificada, al mapa público).
+   Ver: docs/recursos/GUIA_FORMULARIO_DENUNCIAS.md
+   ───────────────────────────────────────────────────────────── */
+const GFORM = {
+  action: '',        // https://docs.google.com/forms/d/e/XXXXXXXX/formResponse
+  campos: {
+    tipo:        '', // entry.1111111
+    especie:     '',
+    fecha:       '',
+    direccion:   '',
+    coords:      '',
+    descripcion: '',
+    nombre:      '',
+    contacto:    ''
+  }
+};
+
+/* Mapa para marcar la ubicación */
+(function(){
+  const map = L.map('fmap', { scrollWheelZoom:false }).setView([-38.7359, -72.5904], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  let marker = null;
+  const coordsI = document.getElementById('f_coords');
+  const ro = document.getElementById('coordReadout');
+  function marcar(lat, lng){
+    if (!marker){
+      marker = L.marker([lat,lng], { draggable:true }).addTo(map);
+      marker.on('dragend', () => { const p = marker.getLatLng(); marcar(p.lat, p.lng); });
+    } else marker.setLatLng([lat,lng]);
+    coordsI.value = lat.toFixed(6) + ', ' + lng.toFixed(6);
+    ro.textContent = '📍 ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
+  }
+  map.on('click', e => { marcar(e.latlng.lat, e.latlng.lng); map.scrollWheelZoom.enable(); });
+  document.getElementById('gpsBtn').addEventListener('click', () => {
+    if (!navigator.geolocation){ ro.textContent = 'GPS no disponible; toca el mapa.'; return; }
+    ro.textContent = 'Ubicando…';
+    navigator.geolocation.getCurrentPosition(
+      p => { marcar(p.coords.latitude, p.coords.longitude); map.setView([p.coords.latitude, p.coords.longitude], 17); },
+      () => { ro.textContent = 'No se pudo obtener el GPS; toca el mapa para marcar.'; });
+  });
+  window.__mapaListo = true;
+})();
+
+/* Vista previa de la foto */
+document.getElementById('f_foto').addEventListener('change', function(){
+  if (this.files && this.files[0]){
+    const pv = document.getElementById('fotoPrev');
+    pv.src = URL.createObjectURL(this.files[0]); pv.style.display = 'block';
+  }
+});
+
+/* Envío */
+const form = document.getElementById('denunciaForm');
+form.addEventListener('submit', function(e){
+  if (!document.getElementById('f_coords').value){
+    e.preventDefault();
+    alert('Marca la ubicación en el mapa (o usa el botón de GPS) para poder ubicar la denuncia.');
+    return;
+  }
+  if (!GFORM.action) return;   // sin Google Form configurado -> envío normal por correo
+
+  // Con Google Form: mandamos los datos a la planilla sin recargar la página
+  e.preventDefault();
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+
+  const datos = new FormData();
+  const val = id => (document.getElementById(id) || {}).value || '';
+  const mapa = {
+    tipo: val('f_tipo'), especie: val('f_especie'), fecha: val('f_fecha'),
+    direccion: val('f_dir'), coords: val('f_coords'), descripcion: val('f_desc'),
+    nombre: val('f_nombre'), contacto: val('f_contacto')
+  };
+  for (const k in mapa){ if (GFORM.campos[k]) datos.append(GFORM.campos[k], mapa[k]); }
+
+  fetch(GFORM.action, { method:'POST', mode:'no-cors', body:datos })
+    .catch(()=>{})
+    .finally(() => {
+      // si hay foto, se envía por correo para que el equipo la revise
+      const foto = document.getElementById('f_foto');
+      if (foto.files && foto.files[0]){
+        form.setAttribute('target','sink');
+        form.submit();
+      }
+      form.style.display = 'none';
+      document.getElementById('okBox').style.display = 'block';
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+});
+
+/* Mensaje de éxito al volver del envío por correo (?ok=1) */
+if (new URLSearchParams(location.search).get('ok') === '1'){
+  form.style.display = 'none';
+  document.getElementById('okBox').style.display = 'block';
+}
+</script>
+</body>
+</html>

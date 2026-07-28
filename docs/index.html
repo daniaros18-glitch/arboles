@@ -378,6 +378,22 @@
   .psubmit { background:var(--canopy); color:#eaf3e2; border:none; padding:13px 28px; border-radius:10px; font:inherit; font-weight:600; cursor:pointer; font-size:1rem; }
   .psubmit:hover { background:#0c241d; }
   .pnote { font-size:.8rem; color:var(--ink-3); margin-top:12px; line-height:1.5; }
+  /* llamado a denunciar + mapa de registro ciudadano */
+  .ctarow { display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-top:20px; }
+  .bigcta { display:inline-block; background:var(--canopy); color:#eaf3e2; text-decoration:none;
+    padding:15px 32px; border-radius:11px; font-weight:600; font-size:1.05rem; transition:transform .15s, background .15s; }
+  .bigcta:hover { background:#0c241d; transform:translateY(-2px); }
+  .ctahint { font-size:.86rem; color:var(--ink-3); }
+  #dmap { height:520px; border-radius:14px; border:1px solid var(--line); margin-top:6px; z-index:0; background:var(--bg-2); }
+  @media (max-width:640px){ #dmap{ height:400px; } }
+  .dempty { display:none; background:var(--bg-2); border:1px dashed var(--line); border-radius:12px;
+    padding:18px 20px; margin-top:14px; }
+  .dempty p { margin:0; font-size:.92rem; color:var(--ink-2); }
+  .dpop { font-size:.9rem; min-width:190px; }
+  .dpop .dtipo { display:inline-block; background:var(--canopy); color:#eaf3e2; font-size:.7rem;
+    padding:3px 9px; border-radius:20px; margin-bottom:6px; }
+  .dpop img { max-width:100%; border-radius:7px; margin-top:7px; }
+  .dpop .dmeta { color:var(--ink-3); font-size:.8rem; margin-top:5px; }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -406,8 +422,9 @@
       <a href="#marco">Marco legal</a>
       <a href="#mapas">Mapas</a>
       <a href="#explora">Explora</a>
+      <a href="#registro">Denuncias</a>
       <a href="#descargas">Descargas</a>
-      <a href="#participa">Participa</a>
+      <a href="denuncia.html">Denunciar</a>
     </nav>
   </div>
 </header>
@@ -660,83 +677,46 @@
 <!-- PARTICIPA -->
 <section class="eco" id="participa">
   <div class="wrap">
-    <span class="eyebrow">El Observatorio</span>
-    <h2 class="sec-h">Registra una tala, poda o árbol patrimonial.</h2>
-    <p class="sec-lead">Cada aporte de la comunidad se convierte en evidencia. Tu denuncia queda georreferenciada y, junto al análisis satelital y la Ordenanza 004/2021, fortalece el argumento para exigir protección.</p>
+    <span class="eyebrow">Participa</span>
+    <h2 class="sec-h">La vigilancia vecinal, convertida en evidencia.</h2>
+    <p class="sec-lead">¿Viste una tala, una poda severa o conoces un árbol que merece protección patrimonial? Registrarlo toma dos minutos y queda georreferenciado. Cada denuncia se <strong>revisa antes de publicarse</strong>: solo las verificadas aparecen en el mapa.</p>
+    <div class="ctarow">
+      <a class="bigcta" href="denuncia.html">Registrar una denuncia →</a>
+      <span class="ctahint">No publicamos tu nombre ni tu contacto.</span>
+    </div>
+  </div>
+</section>
 
-    <form class="pform" id="denunciaForm" action="https://formsubmit.co/daniaros18@gmail.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_subject" value="Nueva denuncia — Observatorio del Arbolado de Temuco">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://daniaros18-glitch.github.io/arboles/?ok=1#participa">
-      <input type="hidden" name="lat" id="f_lat">
-      <input type="hidden" name="lon" id="f_lon">
+<!-- REGISTRO CIUDADANO (mapa de denuncias) -->
+<section class="tech" id="registro">
+  <div class="wrap">
+    <span class="eyebrow">Registro ciudadano</span>
+    <h2 class="sec-h">Las denuncias, en el mapa.</h2>
+    <p class="sec-lead">Cada punto es un registro vecinal verificado por el equipo del Observatorio. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
 
-      <div class="pform-grid">
-        <div class="pfield">
-          <label for="f_tipo">Tipo de situación *</label>
-          <select id="f_tipo" name="Tipo" required>
-            <option value="">Elige…</option>
-            <option>Tala no autorizada</option>
-            <option>Poda severa / mala poda</option>
-            <option>Árbol dañado (herido, quemado, con publicidad)</option>
-            <option>Propuesta de árbol patrimonial (Art. 9)</option>
-            <option>Área verde eliminada por obra</option>
-            <option>Otro</option>
-          </select>
-        </div>
-        <div class="pfield">
-          <label for="f_especie">Especie <span class="opt">(si la conoces)</span></label>
-          <input id="f_especie" name="Especie" type="text" placeholder="Ej. plátano oriental, roble, liquidámbar…">
-        </div>
-        <div class="pfield">
-          <label for="f_fecha">Fecha del hecho <span class="opt">(aprox.)</span></label>
-          <input id="f_fecha" name="Fecha" type="date">
-        </div>
-        <div class="pfield">
-          <label for="f_dir">Dirección o referencia</label>
-          <input id="f_dir" name="Direccion" type="text" placeholder="Calle, número, esquina, bandejón…">
-        </div>
+    <div class="statrow" id="denunciaStats">
+      <div class="stat"><div class="v" id="dTotal">0</div><div class="k">Denuncias verificadas en el mapa</div></div>
+      <div class="stat"><div class="v loss" id="dTalas">0</div><div class="k">Talas y podas severas</div></div>
+      <div class="stat"><div class="v" id="dPatri">0</div><div class="k">Propuestas de árbol patrimonial</div></div>
+    </div>
 
-        <div class="pfield full">
-          <label>Ubicación en el mapa <span class="opt">(toca el mapa o usa tu GPS)</span></label>
-          <div id="fmap"></div>
-          <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:8px">
-            <button type="button" class="gpsbtn" id="gpsBtn">📍 Usar mi ubicación</button>
-            <span class="coordreadout" id="coordReadout">Sin ubicación marcada</span>
-          </div>
-        </div>
-
-        <div class="pfield full">
-          <label for="f_desc">¿Qué pasó? *</label>
-          <textarea id="f_desc" name="Descripcion" required placeholder="Describe brevemente: qué árbol(es), quién intervino si lo sabes, si había señalética de empresa, etc."></textarea>
-        </div>
-
-        <div class="pfield full">
-          <label for="f_foto">Foto <span class="opt">(opcional, ayuda muchísimo)</span></label>
-          <input id="f_foto" name="Foto" type="file" accept="image/*" capture="environment">
-          <img id="fotoPrev" alt="Vista previa de la foto" style="display:none; max-width:220px; border-radius:9px; margin-top:8px">
-        </div>
-
-        <div class="pfield">
-          <label for="f_nombre">Tu nombre <span class="opt">(opcional)</span></label>
-          <input id="f_nombre" name="Nombre" type="text">
-        </div>
-        <div class="pfield">
-          <label for="f_contacto">Correo o teléfono <span class="opt">(opcional)</span></label>
-          <input id="f_contacto" name="Contacto" type="text" placeholder="Por si necesitamos más datos">
-        </div>
-
-        <div class="pfield full">
-          <label class="pconsent"><input type="checkbox" required> Autorizo que esta información se use para el Observatorio Ciudadano del Arbolado de Temuco.</label>
-        </div>
-        <div class="pfield full">
-          <button type="submit" class="psubmit">Enviar denuncia</button>
-          <p id="okMsg" style="display:none; color:var(--accent); font-weight:600; margin-top:10px">✓ ¡Gracias! Tu denuncia fue enviada.</p>
-          <p class="pnote">Los datos se envían por correo al equipo del Observatorio (servicio FormSubmit). No publicamos tu contacto. Para emergencias o daño en curso, llama también a Carabineros o al Juzgado de Policía Local (Art. 25/31 de la Ordenanza 004).</p>
-        </div>
-      </div>
-    </form>
+    <div class="lmapctrl">
+      <label>Mostrar
+        <select id="dFiltro">
+          <option value="">Todas las situaciones</option>
+          <option value="Tala">Solo talas</option>
+          <option value="Poda">Solo podas severas</option>
+          <option value="patrimonial">Solo árboles patrimoniales</option>
+          <option value="Área verde">Solo áreas verdes eliminadas</option>
+        </select>
+      </label>
+      <span class="ctahint" id="dActualizado"></span>
+    </div>
+    <div id="dmap"></div>
+    <div class="dempty" id="dEmpty">
+      <p><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales y el equipo los verifique, aparecerán aquí automáticamente. <a href="denuncia.html">Sé la primera persona en registrar una →</a></p>
+    </div>
+    <p class="yv-legend">Los puntos se actualizan solos desde el registro verificado del Observatorio. Por privacidad, nunca se publican los datos de contacto de quien denuncia. Base cartográfica © OpenStreetMap.</p>
   </div>
 </section>
 
@@ -957,40 +937,55 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
   });
 })();
 
-// Formulario de denuncias: mapa de ubicación, GPS y vista previa de foto
+// Mapa del registro ciudadano de denuncias verificadas
 (function(){
   if (typeof L === 'undefined') return;
-  const el = document.getElementById('fmap');
+  const el = document.getElementById('dmap');
   if (!el) return;
-  const map = L.map('fmap', { scrollWheelZoom:false }).setView([-38.735, -72.59], 13);
+  const map = L.map('dmap', { scrollWheelZoom:false }).setView([-38.7359, -72.5904], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
-  let marker = null;
-  const latI = document.getElementById('f_lat'), lonI = document.getElementById('f_lon'), ro = document.getElementById('coordReadout');
-  function write(lat, lng){ latI.value = lat.toFixed(6); lonI.value = lng.toFixed(6); ro.textContent = '📍 ' + lat.toFixed(5) + ', ' + lng.toFixed(5); }
-  function setPt(lat, lng){
-    if (!marker){
-      marker = L.marker([lat, lng], { draggable:true }).addTo(map);
-      marker.on('dragend', () => { const p = marker.getLatLng(); write(p.lat, p.lng); });
-    } else marker.setLatLng([lat, lng]);
-    write(lat, lng);
+  map.on('click', () => map.scrollWheelZoom.enable());
+
+  const COLORES = { 'Tala':'#8b1a1a', 'Poda':'#c85a2b', 'patrimonial':'#3f7241', 'Área verde':'#b8860b' };
+  function colorDe(tipo){
+    for (const k in COLORES){ if ((tipo||'').toLowerCase().includes(k.toLowerCase())) return COLORES[k]; }
+    return '#6c7d70';
   }
-  map.on('click', e => { setPt(e.latlng.lat, e.latlng.lng); map.scrollWheelZoom.enable(); });
-  const gps = document.getElementById('gpsBtn');
-  if (gps) gps.addEventListener('click', () => {
-    if (!navigator.geolocation){ ro.textContent = 'GPS no disponible; toca el mapa.'; return; }
-    ro.textContent = 'Ubicando…';
-    navigator.geolocation.getCurrentPosition(
-      p => { setPt(p.coords.latitude, p.coords.longitude); map.setView([p.coords.latitude, p.coords.longitude], 16); },
-      () => { ro.textContent = 'No se pudo obtener el GPS; toca el mapa para marcar.'; });
-  });
-  const ph = document.getElementById('f_foto'), pv = document.getElementById('fotoPrev');
-  if (ph) ph.addEventListener('change', () => { if (ph.files && ph.files[0]){ pv.src = URL.createObjectURL(ph.files[0]); pv.style.display = 'block'; } });
-  // mensaje de éxito al volver de FormSubmit (?ok=1)
-  if (new URLSearchParams(location.search).get('ok') === '1'){
-    const ok = document.getElementById('okMsg'); if (ok) ok.style.display = 'block';
+  function esc(s){ return String(s==null?'':s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
+
+  let capa = null, datos = [];
+  function pintar(filtro){
+    if (capa) map.removeLayer(capa);
+    const vis = datos.filter(f => !filtro || (f.properties.tipo||'').toLowerCase().includes(filtro.toLowerCase()));
+    capa = L.layerGroup(vis.map(f => {
+      const c = f.geometry.coordinates, p = f.properties;
+      const m = L.circleMarker([c[1], c[0]], {
+        radius:8, color:'#fff', weight:2, fillColor:colorDe(p.tipo), fillOpacity:0.9
+      });
+      let html = '<div class="dpop"><span class="dtipo">' + esc(p.tipo) + '</span>';
+      if (p.direccion)   html += '<br><strong>' + esc(p.direccion) + '</strong>';
+      if (p.especie)     html += '<br>Especie: ' + esc(p.especie);
+      if (p.descripcion) html += '<br>' + esc(p.descripcion);
+      if (p.foto && /^https?:/.test(p.foto)) html += '<br><img src="' + esc(p.foto) + '" alt="Foto de la denuncia">';
+      html += '<div class="dmeta">' + (p.fecha ? 'Ocurrió: ' + esc(p.fecha) + ' · ' : '') + '✓ Verificada</div></div>';
+      return m.bindPopup(html);
+    })).addTo(map);
+    if (vis.length){ try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){} }
   }
+
+  fetch('data/denuncias.geojson').then(r => r.json()).then(gj => {
+    datos = (gj.features || []).filter(f => f.geometry && f.geometry.coordinates);
+    const cuenta = t => datos.filter(f => (f.properties.tipo||'').toLowerCase().includes(t)).length;
+    document.getElementById('dTotal').textContent = datos.length;
+    document.getElementById('dTalas').textContent = cuenta('tala') + cuenta('poda');
+    document.getElementById('dPatri').textContent = cuenta('patrimonial');
+    if (gj.actualizado) document.getElementById('dActualizado').textContent = 'Actualizado: ' + gj.actualizado;
+    if (!datos.length){ document.getElementById('dEmpty').style.display = 'block'; }
+    pintar('');
+    document.getElementById('dFiltro').addEventListener('change', e => pintar(e.target.value));
+  }).catch(() => { document.getElementById('dEmpty').style.display = 'block'; });
 })();
 </script>
 </body>
