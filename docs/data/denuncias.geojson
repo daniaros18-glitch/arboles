@@ -1,5 +1,106 @@
 {
  "type": "FeatureCollection",
- "actualizado": "2026-07-28 17:11 UTC",
- "features": []
+ "actualizado": "2026-07-28 21:46 UTC",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.601371,
+     -38.743245
+    ]
+   },
+   "properties": {
+    "tipo": "Tala",
+    "especie": "acacia",
+    "fecha": "2026-07-27",
+    "direccion": "León Gallo 98, Temuco, Región de La Araucanía",
+    "descripcion": "tala",
+    "foto": "",
+    "registrada": "7/27/2026 23:01:15",
+    "estado": "Registrada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.612551,
+     -38.73427
+    ]
+   },
+   "properties": {
+    "tipo": "Tala",
+    "especie": "roble",
+    "fecha": "2026-07-28",
+    "direccion": "Avenida Alemania, Temuco, Región de la Araucanía",
+    "descripcion": "poda",
+    "foto": "",
+    "registrada": "7/28/2026 14:05:38",
+    "estado": "Registrada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.612556,
+     -38.73427
+    ]
+   },
+   "properties": {
+    "tipo": "Tala",
+    "especie": "laurel",
+    "fecha": "2026-07-28",
+    "direccion": "Avenida Alemania, Temuco, Región de la Araucanía",
+    "descripcion": "tala",
+    "foto": "",
+    "registrada": "7/28/2026 14:06:56",
+    "estado": "Registrada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.627321,
+     -38.738464
+    ]
+   },
+   "properties": {
+    "tipo": "Propuesta de árbol patrimonial",
+    "especie": "Puducita",
+    "fecha": "2026-03-07",
+    "direccion": "Pudú Helados Artesanales, Avenida Pablo Neruda 01725, Villa Los Lagos, Temuco, Región de La Araucanía",
+    "descripcion": "Pudu enojada",
+    "foto": "",
+    "registrada": "7/28/2026 14:44:45",
+    "estado": "Registrada"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.597331,
+     -38.732145
+    ]
+   },
+   "properties": {
+    "tipo": "Propuesta de árbol patrimonial",
+    "especie": "Puducita v2",
+    "fecha": "2026-07-23",
+    "direccion": "Flora Temuco, Avenida Balmaceda, Temuco, Región de la Araucanía",
+    "descripcion": "Pudo enojona v2",
+    "foto": "",
+    "registrada": "7/28/2026 14:45:00",
+    "estado": "Registrada"
+   }
+  }
+ ]
 }
