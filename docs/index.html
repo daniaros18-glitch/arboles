@@ -415,6 +415,55 @@
   a.card.dl:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
   a.card.dl h3 { color:var(--ink); }
 
+  /* ---------- HUELLA HÍDRICA DE LA IA ---------- */
+  .huella { background:var(--bg-2); border-top:1px solid var(--line); --agua:#2c7a94; }
+  @media (prefers-color-scheme: dark){ .huella{ --agua:#6fb6cd; } }
+  :root[data-theme="dark"] .huella{ --agua:#6fb6cd; }
+  :root[data-theme="light"] .huella{ --agua:#2c7a94; }
+  .huella .eyebrow.agua { color:var(--agua); }
+  .huella .eyebrow.agua::before { background:var(--agua); }
+  .hgrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }
+  @media (max-width:760px){ .hgrid{ grid-template-columns:1fr; } }
+  .hcard { background:var(--card); border:1px solid var(--line); border-top:3px solid var(--agua);
+    border-radius:13px; padding:22px; }
+  .hcard .hico { font-size:1.5rem; display:block; margin-bottom:6px; }
+  .hcard h3 { font-size:1.05rem; font-weight:640; margin:0 0 .5em; }
+  .hcard p { font-size:.93rem; color:var(--ink-2); margin:0 0 .7em; }
+  .hcard p:last-child { margin-bottom:0; }
+  .hsupuesto { background:var(--bg-2); border-radius:8px; padding:9px 12px; font-size:.87rem !important; }
+
+  .hrango { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:22px; margin-top:16px; }
+  .hrango-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;
+    font-size:.9rem; font-weight:600; margin-bottom:14px; }
+  .hincert { font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--agua); border:1px solid var(--agua); border-radius:20px; padding:3px 10px; font-weight:500; }
+  .hbarra { position:relative; height:16px; border-radius:20px; margin:6px 0 34px;
+    background:linear-gradient(90deg, #bcd9e2 0%, var(--agua) 55%, #1d5c70 100%); }
+  .hbarra span { position:absolute; top:22px; font-family:var(--mono); font-size:.8rem; font-weight:600; color:var(--ink); }
+  .hbarra span::before { content:''; position:absolute; top:-24px; left:50%; width:2px; height:16px;
+    background:var(--ink); opacity:.55; }
+  .hbarra .hmin { left:0; } .hbarra .hmin::before { left:4px; }
+  .hbarra .hmax { right:0; } .hbarra .hmax::before { right:4px; left:auto; }
+  .hrango-pies { display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:.87rem; color:var(--ink-2); }
+  @media (max-width:760px){ .hrango-pies{ grid-template-columns:1fr; } }
+  .hrango-pies strong { color:var(--ink); }
+  .hrango-pies span { color:var(--ink-3); }
+  .hnota { margin:16px 0 0; font-size:.88rem; color:var(--ink-2); background:var(--bg-2);
+    border-left:3px solid var(--agua); border-radius:0 9px 9px 0; padding:12px 14px; }
+
+  .hlimites { background:var(--card); border:1px solid var(--line); border-radius:13px; padding:22px; margin-top:16px; }
+  .hlimites h3 { font-size:1.05rem; font-weight:640; margin:0 0 .6em; }
+  .hlimites ul { margin:0; padding-left:1.15em; }
+  .hlimites li { font-size:.92rem; color:var(--ink-2); margin:.5em 0; }
+  .hlimites strong { color:var(--ink); }
+
+  .hcierre { margin-top:16px; background:color-mix(in srgb, var(--agua) 10%, var(--card));
+    border:1px solid color-mix(in srgb, var(--agua) 35%, var(--line)); border-radius:13px; padding:20px 22px; }
+  .hcierre p { margin:0; font-size:.94rem; color:var(--ink-2); }
+  .hcierre strong { color:var(--ink); }
+  .hfuentes { margin-top:14px; font-size:.8rem; color:var(--ink-3); line-height:1.7; }
+  .hfuentes a { color:var(--agua); }
+
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
 </style>
 </head>
@@ -437,6 +486,7 @@
       <a href="#mapas">Mapas</a>
       <a href="#explora">Explora</a>
       <a href="#registro">Denuncias</a>
+      <a href="#huella">Transparencia</a>
       <a href="#descargas">Descargas</a>
       <a href="denuncia.html">Denunciar</a>
     </nav>
@@ -804,6 +854,69 @@
     </div>
     <div id="lmap"></div>
     <p class="yv-legend"><strong>Pérdida:</strong> rojo = perdido · verde = estable. <strong>Dosel/año:</strong> verde = más vegetación. <strong>Calor:</strong> rojo = más caliente. <strong>Árboles (DW):</strong> verde = píxeles dominados por árboles. <strong>Loteos:</strong> polígonos naranja de urbanizaciones aprobadas desde 2005. <strong>Prioridad:</strong> rojo = barrio con más urgencia de plantar (poca sombra + calor + poco verde + población vulnerable); verde = menos urgencia. Base © OpenStreetMap; superposición satelital aproximada (30&nbsp;m). Haz clic en el mapa (o en un barrio) para más detalle.</p>
+  </div>
+</section>
+
+<!-- HUELLA HÍDRICA DE LA IA -->
+<section class="huella" id="huella">
+  <div class="wrap">
+    <span class="eyebrow agua">Transparencia</span>
+    <h2 class="sec-h">Esta plataforma también consume agua.</h2>
+    <p class="sec-lead">Un observatorio ambiental debería declarar su propio impacto. Este sitio se desarrolló <strong>con ayuda de inteligencia artificial</strong>, y esa tecnología consume electricidad y agua en centros de datos. Aquí explicamos cuánto, con qué supuestos y —sobre todo— qué <em>no</em> sabemos.</p>
+
+    <div class="hgrid">
+      <div class="hcard">
+        <span class="hico">💧</span>
+        <h3>¿Por qué la IA consume agua?</h3>
+        <p>Los computadores que ejecutan la IA se concentran en <strong>centros de datos</strong> que generan mucho calor. Buena parte de ese calor se disipa <strong>evaporando agua dulce</strong> en torres de enfriamiento: esa agua no vuelve al sistema.</p>
+        <p>Y hay una segunda agua, menos visible: la que se usa para <strong>generar la electricidad</strong> que los alimenta (centrales térmicas, hidroeléctricas). Casi todas las cifras públicas cuentan solo la primera.</p>
+      </div>
+
+      <div class="hcard">
+        <span class="hico">📐</span>
+        <h3>¿Cuánta se usó aquí?</h3>
+        <p><strong>No existe una medición exacta.</strong> La empresa del asistente que usamos no publica consumo por consulta, así que estimamos por <strong>orden de magnitud</strong> con cifras de otros proveedores.</p>
+        <p class="hsupuesto">Supuesto: el desarrollo tomó del orden de <strong>unos cientos de intercambios</strong> (≈300, incluyendo respuestas y uso de herramientas).</p>
+      </div>
+    </div>
+
+    <div class="hrango">
+      <div class="hrango-head">
+        <span>Estimación del agua usada para desarrollar este sitio</span>
+        <span class="hincert">rango de incertidumbre ≈ 100×</span>
+      </div>
+      <div class="hbarra"><span class="hmin">0,08 L</span><span class="hmax">15 L</span></div>
+      <div class="hrango-pies">
+        <div>
+          <strong>Piso: ~0,08 L</strong> (menos de medio vaso)<br>
+          <span>0,26 mL por consulta — medición de Google (mayo 2025). Solo agua del centro de datos.</span>
+        </div>
+        <div>
+          <strong>Techo: ~15 L</strong> (unas 2 descargas de estanque)<br>
+          <span>10–50 mL por respuesta — Li et&nbsp;al. Incluye el agua de generar la electricidad.</span>
+        </div>
+      </div>
+      <p class="hnota">La diferencia de ~100 veces entre ambos extremos <strong>no es un error nuestro</strong>: se explica porque miden cosas distintas (alcance y año). Es probable que el valor real esté <strong>más cerca del techo</strong>, porque este trabajo usó contextos largos y muchas herramientas, no consultas breves de chat.</p>
+    </div>
+
+    <div class="hlimites">
+      <h3>Lo que estas cifras <em>no</em> incluyen</h3>
+      <ul>
+        <li><strong>El entrenamiento de los modelos.</strong> Entrenar GPT-3 consumió unos <strong>700.000 L</strong> de agua dulce en el centro de datos (≈5,4 millones de litros contando la electricidad). Ese costo se reparte entre millones de usos y no podemos atribuirnos una fracción justa.</li>
+        <li><strong>El análisis satelital</strong> que corrimos en Google Earth Engine, ni el alojamiento del sitio.</li>
+        <li><strong>Dónde está el centro de datos.</strong> Un litro evaporado en una zona con estrés hídrico no equivale a uno en una zona con agua abundante.</li>
+        <li><strong>Verificación independiente.</strong> La cifra de Google no fue auditada por terceros y excluye el agua usada para generar su electricidad.</li>
+      </ul>
+    </div>
+
+    <div class="hcierre">
+      <p><strong>¿Por qué publicamos esto?</strong> Por coherencia: quien mide la pérdida de árboles debería medirse también a sí mismo. El punto no es que esta plataforma sea grave por sí sola —no lo es—, sino que <strong>el agregado sí importa</strong>: se proyecta que la demanda global de IA implique entre <strong>4,2 y 6,6 mil millones de m³</strong> de extracción de agua al año hacia 2027, más que el consumo anual de varios países. Preferimos decirlo con cifras imperfectas y explicadas, antes que no decirlo.</p>
+    </div>
+
+    <p class="hfuentes"><strong>Fuentes:</strong>
+      Li, Yang, Islam &amp; Ren, <a href="https://arxiv.org/abs/2304.03271" target="_blank" rel="noopener">“Making AI Less ‘Thirsty’”</a> (arXiv 2304.03271; <a href="https://dl.acm.org/doi/10.1145/3724499" target="_blank" rel="noopener">Communications of the ACM</a>) ·
+      Google Cloud, <a href="https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference" target="_blank" rel="noopener">“Measuring the environmental impact of AI inference”</a> (ago. 2025).
+    </p>
   </div>
 </section>
 
