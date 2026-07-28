@@ -747,7 +747,7 @@
   <div class="wrap">
     <span class="eyebrow">Participa</span>
     <h2 class="sec-h">La vigilancia vecinal, convertida en evidencia.</h2>
-    <p class="sec-lead">¿Viste una tala, una poda severa o conoces un árbol que merece protección patrimonial? Registrarlo toma dos minutos y queda georreferenciado. Cada denuncia se <strong>revisa antes de publicarse</strong>: solo las verificadas aparecen en el mapa.</p>
+    <p class="sec-lead">¿Viste una tala, una poda severa o conoces un árbol que merece protección patrimonial? Registrarlo toma dos minutos y queda georreferenciado. <span id="dLead">Cada denuncia se <strong>revisa antes de publicarse</strong>: solo las verificadas aparecen en el mapa.</span></p>
     <div class="ctarow">
       <a class="bigcta" href="denuncia.html">Registrar una denuncia →</a>
       <span class="ctahint">No publicamos tu nombre ni tu contacto.</span>
@@ -1161,16 +1161,40 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
   function pintar(filtro){
     if (capa) map.removeLayer(capa);
     const vis = datos.filter(d => !filtro || sinTildes(d.tipo).includes(sinTildes(filtro)));
-    capa = L.layerGroup(vis.map(d => {
-      const m = L.marker([d.lat, d.lon], { icon: iconoDe(d.tipo), title: d.tipo || 'Denuncia' });
-      let h = '<div class="dpop"><span class="dtipo" style="background:' + tipoDe(d.tipo).color + '">' +
+    // Dos denuncias en el mismo punto (p. ej. dos árboles de la misma vereda) se dibujan
+    // una encima de otra y parecen una sola. Se agrupan en un marcador cuyo globo las lista
+    // todas, en vez de moverlas de sitio: la ubicación declarada no se toca.
+    // Se agrupan por cercanía real (no redondeando coordenadas: -72.612551 y -72.612556
+    // caen a distinto lado del redondeo y quedarían separados pese a estar a 40 cm).
+    const METROS_JUNTOS = 5;
+    const distancia = (a, b) => {
+      const dLat = (a.lat - b.lat) * 111320;
+      const dLon = (a.lon - b.lon) * 111320 * Math.cos(a.lat * Math.PI / 180);
+      return Math.hypot(dLat, dLon);
+    };
+    const grupos = [];
+    vis.forEach(d => {
+      const cerca = grupos.find(g => distancia(g[0], d) <= METROS_JUNTOS);
+      if (cerca) cerca.push(d); else grupos.push([d]);
+    });
+    const bloque = d => {
+      let h = '<span class="dtipo" style="background:' + tipoDe(d.tipo).color + '">' +
               tipoDe(d.tipo).emoji + ' ' + esc(d.tipo || 'Denuncia') + '</span>';
       if (d.direccion)   h += '<br><strong>' + esc(d.direccion) + '</strong>';
       if (d.especie)     h += '<br>Especie: ' + esc(d.especie);
       if (d.descripcion) h += '<br>' + esc(d.descripcion);
       if (d.foto && /^https?:/.test(d.foto)) h += '<br><img src="' + esc(d.foto) + '" alt="Foto de la denuncia">';
-      h += '<div class="dmeta">' + (d.fecha ? 'Ocurrio: ' + esc(d.fecha) + '  ' : '') + (d.verificada ? 'Verificada' : 'Recien registrada') + '</div></div>';
-      return m.bindPopup(h);
+      h += '<div class="dmeta">' + (d.fecha ? 'Ocurrio: ' + esc(d.fecha) + '  ' : '') + (d.verificada ? 'Verificada' : 'Recien registrada') + '</div>';
+      return h;
+    };
+    capa = L.layerGroup(grupos.map(gr => {
+      const d = gr[0];
+      const titulo = gr.length > 1 ? gr.length + ' denuncias en este punto'
+                                   : (d.tipo || 'Denuncia');
+      const m = L.marker([d.lat, d.lon], { icon: iconoDe(d.tipo), title: titulo });
+      const h = (gr.length > 1 ? '<div class="dmeta"><strong>' + gr.length + ' denuncias registradas en este punto</strong></div>' : '') +
+                gr.map(bloque).join('<hr style="border:none;border-top:1px solid #d8ded6;margin:9px 0">');
+      return m.bindPopup('<div class="dpop">' + h + '</div>');
     })).addTo(map);
     // solo reencuadra cuando cambia la cantidad de puntos, para no mover el mapa mientras lo miran
     if (vis.length && vis.length !== ultimoConteo){
@@ -1252,6 +1276,11 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     modo = (cfg && cfg.modo_denuncias) || 'manual';
     const aviso = document.getElementById('dAviso');
     if (aviso && modo === 'auto') aviso.style.display = 'block';
+    // En modo 'auto' no hay revisión previa: decir lo contrario sería falso.
+    const lead = document.getElementById('dLead');
+    if (lead && modo === 'auto'){
+      lead.innerHTML = 'Mientras el sitio está en construcción, las denuncias aparecen en el mapa <strong>apenas se envían</strong>, sin revisión previa.';
+    }
     cargar(cfg);
     // se actualiza cada 10 s; se pausa si la pestaña no está a la vista
     setInterval(() => { if (!document.hidden) cargar(cfg); }, 10000);

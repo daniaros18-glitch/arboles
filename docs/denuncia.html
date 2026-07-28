@@ -75,6 +75,23 @@
 
   .modnote{ background:var(--bg-2); border:1px solid var(--line); border-left:4px solid var(--green); border-radius:12px; padding:16px 18px; margin-bottom:20px; font-size:.92rem; color:var(--ink-2); }
   .modnote strong{ color:var(--ink); }
+
+  /* Ordenanza 004/2021 — plegable, para no empujar el formulario hacia abajo */
+  .ley{ background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:20px; }
+  .ley > summary{ cursor:pointer; padding:15px 18px; font-size:.92rem; font-weight:600; color:var(--ink);
+    list-style:none; display:flex; align-items:center; gap:9px; }
+  .ley > summary::-webkit-details-marker{ display:none; }
+  .ley > summary::after{ content:'▾'; margin-left:auto; color:var(--ink-3); transition:transform .2s; }
+  .ley[open] > summary::after{ transform:rotate(180deg); }
+  .ley > summary:hover{ color:var(--accent); }
+  .ley .leybody{ padding:0 18px 16px; font-size:.9rem; color:var(--ink-2); line-height:1.6; }
+  .ley .art{ border-top:1px solid var(--line); padding:13px 0 0; margin-top:13px; }
+  .ley .art:first-child{ border-top:none; margin-top:0; padding-top:0; }
+  .ley .art h4{ margin:0 0 4px; font-size:.88rem; color:var(--ink); }
+  .ley .art p{ margin:0; }
+  .ley .art .cita{ font-size:.82rem; color:var(--ink-3); margin-top:5px; }
+  .ley .leynota{ margin-top:16px; padding-top:13px; border-top:1px dashed var(--line); font-size:.83rem; color:var(--ink-3); }
+  .ley a{ color:var(--accent); }
   .okbox{ display:none; background:var(--bg-2); border:1px solid var(--accent); border-radius:14px; padding:26px; text-align:center; }
   .okbox h2{ margin:0 0 8px; font-size:1.3rem; }
   .okbox p{ color:var(--ink-2); margin:0 0 16px; }
@@ -99,6 +116,41 @@
     <strong>Cada denuncia se revisa antes de publicarse.</strong> Tu registro llega al equipo del Observatorio, que verifica la información. Solo cuando queda <strong>verificada</strong> aparece en el mapa público. <strong>Nunca publicamos tu nombre ni tu contacto.</strong>
   </div>
 
+  <details class="ley">
+    <summary>⚖️ Qué dice la Ordenanza de Temuco sobre esto (004/2021)</summary>
+    <div class="leybody">
+      <div class="art">
+        <h4>Art. 25° — Denunciar no es opcional</h4>
+        <p>Quienes habitan la comuna <strong>deberán denunciar cualquier destrozo</strong> de un bien nacional de uso público —lo que incluye el arbolado de calles, plazas y parques— ante la Dirección de Medio Ambiente, Aseo y Ornato (DMAO), Carabineros o el Juzgado de Policía Local.</p>
+        <p class="cita">Por eso este formulario <strong>no reemplaza</strong> la denuncia formal: la complementa, dejando registro público y georreferenciado.</p>
+      </div>
+      <div class="art">
+        <h4>Art. 31° — Multa de 1 a 5 UTM por evento</h4>
+        <p>Toda infracción se sanciona con multa de <strong>1 a 5 UTM por evento</strong>. La denuncia ante el Juzgado de Policía Local debe ser <strong>fundada y con medios probatorios</strong>: ahí es donde tu foto, la fecha y las coordenadas valen.</p>
+        <p class="cita">Ojo con lo que circula en prensa: el tope de la multa son 5 UTM, no millones de pesos. Los montos altos vienen del Art. 32.</p>
+      </div>
+      <div class="art">
+        <h4>Art. 32° — Un árbol talado se cobra, y no es barato</h4>
+        <p>Quien daña o destruye un árbol debe pagar <strong>derechos municipales</strong> calculados según especie, tamaño y singularidad del ejemplar. Es un cobro distinto de la multa y se suma a ella.</p>
+      </div>
+      <div class="art">
+        <h4>Art. 9° — Puedes proponer un árbol patrimonial</h4>
+        <p>El municipio mantiene un <strong>registro de árboles patrimoniales</strong>, y la incorporación puede hacerse <strong>a solicitud de un grupo de vecinos</strong> ante la DMAO, con un informe que caracterice la especie, su ubicación y el criterio que la hace singular, firmado por quienes lo patrocinan.</p>
+        <p class="cita">Si conoces un árbol así, regístralo acá con la opción «Propuesta de árbol patrimonial»: reunimos los antecedentes para presentarlos.</p>
+      </div>
+      <div class="art">
+        <h4>Art. 28° — La plataforma pública que la Ordenanza ordena y que no existe</h4>
+        <p>El municipio <strong>debe</strong> mantener un catastro forestal de acceso público y una <strong>plataforma accesible a todos los vecinos</strong> que identifique las especies y <strong>reciba comentarios y recomendaciones</strong> de la ciudadanía.</p>
+        <p class="cita">Esa plataforma no se ha implementado. Este Observatorio es un esfuerzo ciudadano por materializarla mientras tanto.</p>
+      </div>
+      <p class="leynota">
+        Resumen en lenguaje simple de la <strong>Ordenanza Municipal N°004/2021</strong> de Temuco, hecho a partir de una transcripción del texto oficial. Ante cualquier diferencia, <strong>manda lo que dice la Ordenanza</strong>, no este resumen:
+        <a href="recursos/Ordenanza_004_2021_OCR_articulado.md">leer la transcripción articulada →</a>.
+        A nivel nacional, el proyecto de ley de Arbolado Urbano (Boletín 14.213-12) <strong>todavía no es ley</strong>.
+      </p>
+    </div>
+  </details>
+
   <div class="okbox" id="okBox">
     <h2>✓ ¡Gracias! Tu denuncia fue registrada.</h2>
     <p>Si dejaste tu <strong>correo electrónico</strong>, en unos minutos recibirás un mensaje con el <strong>número de folio</strong> de tu denuncia. Guárdalo: sirve para hacerle seguimiento y para consultarnos por ella.</p>
@@ -117,13 +169,16 @@
       <div class="pfield">
         <label for="f_tipo">Tipo de situación *</label>
         <select id="f_tipo" name="Tipo" required>
+          <!-- ⚠️ El atributo value debe coincidir EXACTAMENTE con las opciones del
+               Google Form: si no coincide, Google rechaza la respuesta y la denuncia
+               se pierde sin aviso. El texto visible sí puede ser más explicativo. -->
           <option value="">Elige…</option>
-          <option>Tala</option>
-          <option>Poda severa / mala poda</option>
-          <option>Árbol dañado (herido, quemado, con publicidad)</option>
-          <option>Propuesta de árbol patrimonial (Art. 9)</option>
-          <option>Área verde eliminada por obra</option>
-          <option>Otro</option>
+          <option value="Tala">Tala</option>
+          <option value="Poda severa / mala poda">Poda severa / mala poda</option>
+          <option value="Árbol dañado">Árbol dañado (herido, quemado, con publicidad)</option>
+          <option value="Propuesta de árbol patrimonial">Propuesta de árbol patrimonial (Art. 9)</option>
+          <option value="Área verde eliminada por obra">Área verde eliminada por obra</option>
+          <option value="Otro">Otro</option>
         </select>
       </div>
       <div class="pfield">

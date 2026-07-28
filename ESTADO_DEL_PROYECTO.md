@@ -52,6 +52,20 @@ sitio está en construcción y se necesita ver el circuito funcionando de punta 
 (incluidos datos personales de terceros, si los escribe). El nombre y contacto de quien denuncia
 siguen protegidos siempre por la fórmula `QUERY` de Sheet1.
 
+### ⚠️ Las opciones del formulario deben calzar EXACTAS con el Google Form
+
+El `<select>` de *Tipo de situación* en `denuncia.html` envía su `value` al Google Form.
+Google **rechaza** cualquier valor que no esté en su propia lista de opciones, y como el envío
+va por `fetch` con `mode:'no-cors'`, **la página no se entera: la denuncia se pierde en silencio.**
+
+Ocurrió con dos opciones (28/07/2026): el sitio mandaba «Árbol dañado (herido, quemado, con
+publicidad)» y «Propuesta de árbol patrimonial (Art. 9)», y el Form solo acepta «Árbol dañado» y
+«Propuesta de árbol patrimonial». Ya está corregido separando `value` (exacto) del texto visible
+(explicativo). **Si se agrega o edita una opción, hay que hacerlo en los dos lados.**
+
+Las opciones válidas hoy son: `Tala` · `Poda severa / mala poda` · `Árbol dañado` ·
+`Propuesta de árbol patrimonial` · `Área verde eliminada por obra` · `Otro`.
+
 ### Folio y acuse de recibo (pendiente de instalar)
 
 Escrito y probado, **falta que lo instales en la planilla** (5 minutos):
