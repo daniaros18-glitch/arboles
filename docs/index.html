@@ -1057,7 +1057,7 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
       refrescarPanel(); pintar(document.getElementById('dFiltro').value || '');
     }).catch(() => { document.getElementById('dEmpty').style.display = 'block'; });
     if (!url) return alFallar();
-    fetch(url).then(r => r.text()).then(txt => {
+    fetch(url, { cache:'no-store' }).then(r => r.text()).then(txt => {
       datos = desdeCSV(txt);
       refrescarPanel();
       pintar(document.getElementById('dFiltro').value || '');
