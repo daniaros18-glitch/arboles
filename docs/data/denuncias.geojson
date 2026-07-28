@@ -1,26 +1,5 @@
 {
  "type": "FeatureCollection",
- "actualizado": "2026-07-28 11:30 UTC",
- "features": [
-  {
-   "type": "Feature",
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -72.601371,
-     -38.743245
-    ]
-   },
-   "properties": {
-    "tipo": "Tala",
-    "especie": "acacia",
-    "fecha": "2026-07-27",
-    "direccion": "León Gallo 98, Temuco, Región de La Araucanía",
-    "descripcion": "tala",
-    "foto": "",
-    "registrada": "7/27/2026 23:01:15",
-    "estado": "Registrada"
-   }
-  }
- ]
+ "actualizado": "2026-07-28 17:11 UTC",
+ "features": []
 }

@@ -38,13 +38,17 @@ Vecino → denuncia.html → Google Form → Planilla → (moderación) → Mapa
   ⚠️ **No borrar ni editar esa fórmula:** es lo que protege la privacidad de quien denuncia.
 - La **foto** llega por correo (no se sube sola al mapa): si se quiere mostrar, hay que pegar su enlace en la columna *Foto*.
 
-## 3. ⚠️ Modo prueba activo
+## 3. Modo de publicación: `manual` (moderado)
 
-`docs/data/config.json` tiene `"modo_denuncias": "auto"`:
-las denuncias aparecen en el mapa **sin aprobación previa**, actualizándose cada 10 segundos.
+`docs/data/config.json` tiene `"modo_denuncias": "manual"`:
+al mapa **solo llegan** las denuncias marcadas `VERIFICADA` en la columna **ESTADO** de la planilla.
+La prueba con personas (27/07/2026) terminó y se cerró el modo `auto`.
 
-**Después de la prueba con personas hay que cambiarlo a `"manual"`**, para que solo se publiquen las marcadas `VERIFICADA` en la columna **ESTADO** de la planilla.
-En cualquiera de los dos modos, escribir **`RECHAZADA`** oculta una denuncia en ~10 segundos.
+- Para publicar una denuncia: escribir `VERIFICADA` en **ESTADO** → aparece en ~10 segundos.
+- Escribir **`RECHAZADA`** la oculta, en cualquiera de los dos modos.
+- Para volver a abrir una prueba en vivo: cambiar a `"auto"` y **acordarse de devolverlo a `"manual"` al terminar**.
+
+⚠️ Queda pendiente **borrar de la planilla la fila de prueba** (fila 2: *León Gallo 98*, 27/07/2026 23:01). Con el modo `manual` ya no se ve en el mapa, pero sigue en la planilla.
 
 ## 4. Resultados científicos (y cómo deben citarse)
 
@@ -63,7 +67,7 @@ En cualquiera de los dos modos, escribir **`RECHAZADA`** oculta una denuncia en 
 
 ## 6. Pendientes
 
-1. **Volver a modo `"manual"`** después de la prueba y borrar filas de prueba.
+1. **Borrar la fila de prueba de la planilla** (el modo ya volvió a `"manual"`).
 2. Generar un **código QR** del formulario para difusión en terreno.
 3. Agregar estimación de **energía y CO₂** a la sección de transparencia.
 4. **Capa 2:** conteo manual de copas en un corredor piloto (guía en `docs/recursos/GUIA_CAPA2_CONTEO_MANUAL.md`). Da la cifra "había N árboles, quedan M".
