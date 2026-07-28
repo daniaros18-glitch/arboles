@@ -72,8 +72,18 @@ correo pero nunca entró a la planilla**. El correo sale de `formsubmit.co`, que
 cosa; la planilla depende del Google Form, que valida. Por eso el aviso puede llegar y el registro
 perderse igual: **el correo no es prueba de que la denuncia quedó guardada.**
 
-Para no repetirlo hay un verificador: `python scripts/verificar_opciones.py` compara las opciones
-del sitio con las del Google Form y falla si alguna no calza. Correrlo cada vez que se toque la lista.
+Esa denuncia se recuperó a mano el 28/07/2026 y ya está en la planilla.
+
+**Tres defensas, para que ninguna denuncia se pierda otra vez:**
+
+1. `python scripts/verificar_opciones.py` compara las opciones del sitio con las del Google Form
+   y falla si alguna no calza. Correrlo cada vez que se toque la lista, en cualquiera de los dos lados.
+2. En `denuncia.html`, la constante `TIPOS_DEL_FORM` lista lo que el Form acepta. Si alguien
+   selecciona algo fuera de esa lista, **se envía como `Otro` y el tipo real se guarda al principio
+   de la descripción** entre corchetes. Se pierde precisión en la clasificación, nunca la denuncia.
+3. Después de enviar, la página **relee la planilla publicada** hasta 60 s buscando las coordenadas
+   recién enviadas. Si aparecen, confirma; si no, avisa honestamente que no pudo confirmarlo y deja
+   el correo de contacto. Nadie se va con un «Gracias» falso.
 
 ### Folio y acuse de recibo (pendiente de instalar)
 

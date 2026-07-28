@@ -95,6 +95,13 @@
   .okbox{ display:none; background:var(--bg-2); border:1px solid var(--accent); border-radius:14px; padding:26px; text-align:center; }
   .okbox h2{ margin:0 0 8px; font-size:1.3rem; }
   .okbox p{ color:var(--ink-2); margin:0 0 16px; }
+  /* Resultado de la comprobación: ¿quedó realmente guardada en la planilla? */
+  .okestado{ font-size:.88rem; border-radius:10px; padding:11px 14px; text-align:left; }
+  .okestado:empty{ display:none; }
+  .okestado.buscando{ background:var(--bg); border:1px dashed var(--line); color:var(--ink-3); }
+  .okestado.ok{ background:color-mix(in srgb, var(--green) 15%, var(--card)); border:1px solid color-mix(in srgb, var(--green) 45%, var(--line)); color:var(--ink-2); }
+  .okestado.duda{ background:#fdf6e6; border:1px solid #e6c264; color:#5c4708; }
+  .okestado.duda a{ color:#7a5c00; }
   footer{ background:var(--canopy-deep); color:#8fa588; padding:26px 0; font-family:var(--mono); font-size:.72rem; }
   footer a{ color:var(--green-soft); text-decoration:none; }
   @media (prefers-reduced-motion: reduce){ *{ animation:none!important; transition:none!important; } }
@@ -155,6 +162,7 @@
     <h2>✓ ¡Gracias! Tu denuncia fue registrada.</h2>
     <p>Si dejaste tu <strong>correo electrónico</strong>, en unos minutos recibirás un mensaje con el <strong>número de folio</strong> de tu denuncia. Guárdalo: sirve para hacerle seguimiento y para consultarnos por ella.</p>
     <p>El equipo del Observatorio recibe todas las denuncias y las revisa.</p>
+    <p class="okestado" id="okEstado"></p>
     <a href="index.html#registro">Ver el mapa de denuncias →</a>
   </div>
 
@@ -270,6 +278,18 @@ const GFORM = {
     contacto:    'entry.740984615'
   }
 };
+
+/* Opciones que el Google Form acepta en la pregunta 'Tipo', COPIADAS TAL CUAL.
+   Google rechaza en silencio cualquier otra cosa, así que este arreglo es la última
+   defensa antes de perder una denuncia. Verificar con:  python scripts/verificar_opciones.py */
+const TIPOS_DEL_FORM = [
+  'Tala',
+  'Poda severa / mala poda',
+  'Árbol dañado',
+  'Propuesta de árbol patrimonial',
+  'Área verde eliminada por obra',
+  'Otro'
+];
 
 /* Mapa + buscador de direcciones reales (Photon / OpenStreetMap) */
 (function(){
@@ -462,6 +482,15 @@ form.addEventListener('submit', function(e){
     direccion: val('f_dir'), coords: val('f_coords'), descripcion: val('f_desc'),
     nombre: val('f_nombre'), contacto: val('f_contacto')
   };
+
+  // Red de seguridad: el Google Form RECHAZA cualquier valor de 'Tipo' que no esté en su
+  // lista, y el rechazo es invisible (el envío va sin CORS). Antes que perder la denuncia,
+  // se manda como 'Otro' y el tipo real queda escrito en la descripción.
+  // Si esto llega a activarse, hay que correr: python scripts/verificar_opciones.py
+  if (mapa.tipo && TIPOS_DEL_FORM.indexOf(mapa.tipo) === -1){
+    mapa.descripcion = '[' + mapa.tipo + '] ' + mapa.descripcion;
+    mapa.tipo = 'Otro';
+  }
   for (const k in mapa){
     const campo = GFORM.campos[k];
     if (!campo || !mapa[k]) continue;
@@ -489,8 +518,51 @@ form.addEventListener('submit', function(e){
       form.style.display = 'none';
       document.getElementById('okBox').style.display = 'block';
       window.scrollTo({ top:0, behavior:'smooth' });
+      confirmarRegistro(mapa.coords);
     });
 });
+
+/**
+ * El envío a Google va sin CORS: el navegador no puede leer si fue aceptado o rechazado.
+ * En vez de creerle, se comprueba: se relee la planilla publicada hasta encontrar estas
+ * coordenadas. Así nadie se va con un "Gracias" cuando la denuncia no quedó guardada.
+ */
+function confirmarRegistro(coords){
+  const aviso = document.getElementById('okEstado');
+  if (!aviso || !coords) return;
+  aviso.className = 'okestado buscando';
+  aviso.textContent = 'Comprobando que haya quedado guardada…';
+
+  const HASTA = 60000, CADA = 5000, inicio = Date.now();
+
+  fetch('data/config.json?t=' + Date.now()).then(r => r.json()).then(cfg => {
+    if (!cfg || !cfg.csv_url) throw new Error('sin planilla publicada');
+
+    const revisar = () => fetch(cfg.csv_url + '&t=' + Date.now(), { cache:'no-store' })
+      .then(r => r.text())
+      .then(txt => {
+        if (txt.indexOf(coords) !== -1){
+          aviso.className = 'okestado ok';
+          aviso.innerHTML = '✓ <strong>Confirmado:</strong> tu denuncia quedó guardada en el registro del Observatorio.';
+          return;
+        }
+        if (Date.now() - inicio < HASTA) return setTimeout(revisar, CADA);
+        sinConfirmar(aviso);
+      })
+      .catch(() => sinConfirmar(aviso));
+
+    revisar();
+  }).catch(() => sinConfirmar(aviso));
+}
+
+function sinConfirmar(aviso){
+  aviso.className = 'okestado duda';
+  aviso.innerHTML = '⚠️ <strong>No pudimos confirmar que se haya guardado.</strong> ' +
+    'Puede ser solo demora del registro público, pero también un fallo. ' +
+    'El equipo recibió una copia por correo de todas formas. ' +
+    'Si en un rato no la ves en <a href="index.html#registro">el mapa</a>, escríbenos a ' +
+    '<a href="mailto:daniaros18@gmail.com">daniaros18@gmail.com</a> y la registramos a mano.';
+}
 
 /* Mensaje de éxito al volver del envío por correo (?ok=1) */
 if (new URLSearchParams(location.search).get('ok') === '1'){
