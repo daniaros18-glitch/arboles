@@ -332,8 +332,25 @@
   .yv-stage { position:relative; background:var(--bg-2); border:1px solid var(--line);
     border-radius:14px; overflow:hidden; min-height:120px; }
   .yv-stage img { display:block; width:100%; }
-  .yv-badge { position:absolute; top:12px; left:12px; font-family:var(--mono); font-size:.72rem;
-    letter-spacing:.1em; color:#fff; background:rgba(8,20,14,.6); padding:5px 11px; border-radius:20px; }
+  /* el visor del inicio ahora es un mapa navegable, no una lámina */
+  #yvMap { height:460px; width:100%; background:#0b1a12; }
+  @media (max-width:820px){ #yvMap{ height:340px; } }
+  .yv-overlay { image-rendering:pixelated; }   /* el píxel Landsat de 30 m se ve como lo que es */
+  .yv-badge { position:absolute; top:12px; left:12px; z-index:500; font-family:var(--mono); font-size:.72rem;
+    letter-spacing:.1em; color:#fff; background:rgba(8,20,14,.72); padding:5px 11px; border-radius:20px;
+    pointer-events:none; }
+  .yv-leyenda { position:absolute; bottom:12px; left:12px; z-index:500; display:flex; gap:12px; flex-wrap:wrap;
+    background:rgba(8,20,14,.72); padding:7px 12px; border-radius:9px; pointer-events:none; }
+  .yv-leyenda span { display:flex; align-items:center; gap:6px; font-family:var(--mono);
+    font-size:.62rem; color:#cfe0c8; letter-spacing:.04em; }
+  .yv-leyenda i { width:13px; height:13px; border-radius:3px; display:inline-block; }
+  @media (max-width:560px){ .yv-leyenda{ display:none; } }
+  .yv-tools { display:flex; align-items:center; gap:12px; margin-top:11px; flex-wrap:wrap; }
+  .yv-tools label { font-family:var(--mono); font-size:.62rem; color:#7d937a; letter-spacing:.08em; text-transform:uppercase; }
+  .yv-tools input[type=range] { flex:1 1 120px; min-width:110px; accent-color:var(--green-soft); cursor:pointer; }
+  .yv-play { font-family:var(--mono); font-size:.68rem; padding:6px 13px; border-radius:20px; cursor:pointer;
+    border:1px solid rgba(143,181,106,.4); background:rgba(143,181,106,.12); color:#cfe0c8; letter-spacing:.06em; }
+  .yv-play:hover { background:rgba(143,181,106,.24); color:#eaf3e2; }
   .yv-tabs { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
   .yv-btn { font-family:var(--mono); font-size:.92rem; padding:9px 18px; border-radius:9px;
     border:1px solid var(--line); background:var(--card); color:var(--ink-2); cursor:pointer;
@@ -667,14 +684,24 @@
         <span class="coord">38.74°S 72.60°O</span>
       </div>
       <div class="yv-stage big">
-        <img id="yvImg" src="mapas/anual/ndvi_2005.png" alt="Dosel urbano de Temuco en 2005 (NDVI)">
+        <div id="yvMap" role="application" aria-label="Mapa del dosel urbano de Temuco por año"></div>
         <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
+        <div class="yv-leyenda">
+          <span><i style="background:#2f6b3a"></i> más dosel</span>
+          <span><i style="background:#cfe0a8"></i> poco</span>
+          <span><i style="background:#e8e0cd"></i> suelo construido</span>
+        </div>
       </div>
       <div class="yv-slider">
         <input type="range" id="yvRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
         <div class="yv-scale"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span></div>
       </div>
-      <p class="scan-note">Serie anual real 2005–2024 (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). Verde intenso = más dosel; tonos claros = suelo construido. Desliza para ver año a año. Para navegar sobre las calles, mira el <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
+      <div class="yv-tools">
+        <label for="yvOpac">Transparencia</label>
+        <input type="range" id="yvOpac" min="20" max="100" value="82" step="1" aria-label="Opacidad de la capa de dosel">
+        <button type="button" id="yvPlay" class="yv-play" aria-label="Reproducir la serie 2005–2024">▶ Reproducir</button>
+      </div>
+      <p class="scan-note">Serie anual real 2005–2024 sobre el callejero de Temuco (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). <strong>Haz clic en el mapa</strong> y ya puedes acercarte con la rueda —o con los botones + / −— hasta encontrar tu calle. Para cruzar capas —calor, loteos, prioridad de plantación— entra al <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
     </div>
   </div>
 </div>
@@ -1530,19 +1557,57 @@ function capasBase(map, porDefecto){
 // Visor grande — deslizador anual (casco urbano)
 const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
 (function(){
-  const img = document.getElementById('yvImg');
+  const cont  = document.getElementById('yvMap');
   const badge = document.getElementById('yvBadge');
   const range = document.getElementById('yvRange');
-  if(!img || !range) return;
+  const opac  = document.getElementById('yvOpac');
+  const play  = document.getElementById('yvPlay');
+  if (!cont || !range || typeof L === 'undefined') return;
+
+  // Mismos límites que usan las imágenes generadas en Earth Engine.
+  const B = { lonMin:-72.81968, lonMax:-72.48281, latMin:-38.77713, latMax:-38.64148 };
+  const bounds = [[B.latMin, B.lonMin], [B.latMax, B.lonMax]];
+
+  // La rueda no hace zoom hasta que se hace clic: si no, al bajar por la página
+  // el mapa se traga el scroll y no se puede pasar de la portada.
+  const map = L.map('yvMap', { scrollWheelZoom:false, minZoom:11, maxZoom:18, zoomControl:true });
+  map.on('click', () => map.scrollWheelZoom.enable());
+  capasBase(map, 'satelite');
+  const capa = L.imageOverlay('mapas/anual/ndvi_' + YV_YEARS[0] + '.png', bounds,
+    { opacity: (+opac.value) / 100, className:'yv-overlay' }).addTo(map);
+  map.fitBounds(bounds);
+  map.setMaxBounds(L.latLngBounds(bounds).pad(0.6));
+
+  // se precargan para que deslizar el año no parpadee
   YV_YEARS.forEach(y => { const p = new Image(); p.src = 'mapas/anual/ndvi_' + y + '.png'; });
-  function show(i){
+
+  function mostrar(i){
     const y = YV_YEARS[i];
-    img.src = 'mapas/anual/ndvi_' + y + '.png';
-    img.alt = 'Dosel urbano de Temuco en ' + y + ' (NDVI)';
+    capa.setUrl('mapas/anual/ndvi_' + y + '.png');
+    capa.getElement() && capa.getElement().setAttribute('alt', 'Dosel urbano de Temuco en ' + y);
     badge.textContent = y + ' · NDVI';
   }
-  range.addEventListener('input', () => show(+range.value));
-  show(0);
+  range.addEventListener('input', () => { detener(); mostrar(+range.value); });
+  opac.addEventListener('input', () => capa.setOpacity((+opac.value) / 100));
+
+  // Reproducir la serie completa: es donde mejor se ve el avance del loteo.
+  let reloj = null;
+  function detener(){
+    if (!reloj) return;
+    clearInterval(reloj); reloj = null;
+    play.textContent = '▶ Reproducir';
+  }
+  play.addEventListener('click', () => {
+    if (reloj) return detener();
+    play.textContent = '❚❚ Pausar';
+    reloj = setInterval(() => {
+      const i = (+range.value + 1) % YV_YEARS.length;
+      range.value = i; mostrar(i);
+    }, 900);
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) detener(); });
+
+  mostrar(0);
 })();
 
 // Mapa interactivo con calles (Leaflet + OpenStreetMap)
