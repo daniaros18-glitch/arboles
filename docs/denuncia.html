@@ -200,16 +200,17 @@
    Ver: docs/recursos/GUIA_FORMULARIO_DENUNCIAS.md
    ───────────────────────────────────────────────────────────── */
 const GFORM = {
-  action: '',        // https://docs.google.com/forms/d/e/XXXXXXXX/formResponse
+  action: 'https://docs.google.com/forms/d/e/1FAIpQLSf59deWAeIg-XC-cUwou8zOHG294OdlPa2LxPVl0Yzm7xJa1w/formResponse',
   campos: {
-    tipo:        '', // entry.1111111
-    especie:     '',
-    fecha:       '',
-    direccion:   '',
-    coords:      '',
-    descripcion: '',
-    nombre:      '',
-    contacto:    ''
+    tipo:        'entry.1397943220',
+    especie:     'entry.708557995',
+    fecha:       'entry.1460869918',   // pregunta de tipo Fecha (se envía en año/mes/día)
+    direccion:   'entry.698783300',
+    coords:      'entry.1130109094',
+    descripcion: 'entry.256148889',
+    foto:        'entry.1014491220',
+    nombre:      'entry.560032132',
+    contacto:    'entry.740984615'
   }
 };
 
@@ -388,7 +389,21 @@ form.addEventListener('submit', function(e){
     direccion: val('f_dir'), coords: val('f_coords'), descripcion: val('f_desc'),
     nombre: val('f_nombre'), contacto: val('f_contacto')
   };
-  for (const k in mapa){ if (GFORM.campos[k]) datos.append(GFORM.campos[k], mapa[k]); }
+  for (const k in mapa){
+    const campo = GFORM.campos[k];
+    if (!campo || !mapa[k]) continue;
+    if (k === 'fecha'){
+      // las preguntas de tipo Fecha se envían separadas en año, mes y día
+      const [a, m, d] = mapa[k].split('-');
+      if (a && m && d){
+        datos.append(campo + '_year',  a);
+        datos.append(campo + '_month', String(+m));
+        datos.append(campo + '_day',   String(+d));
+      }
+    } else {
+      datos.append(campo, mapa[k]);
+    }
+  }
 
   fetch(GFORM.action, { method:'POST', mode:'no-cors', body:datos })
     .catch(()=>{})

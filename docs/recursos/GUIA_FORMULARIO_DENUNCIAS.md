@@ -11,6 +11,31 @@ Vecino/a          →  Planilla Google        →  Tú revisas          →  Rob
 
 ---
 
+## ✅ Ya está configurado (jul-2026)
+
+Todo esto quedó creado en la cuenta **daniaros18@gmail.com**:
+
+| Pieza | Estado |
+|---|---|
+| Formulario de Google con las 9 preguntas | ✅ creado y **publicado** |
+| Planilla de respuestas vinculada | ✅ *Denuncias Arbolado Temuco (Respuestas)* |
+| Columna **ESTADO** (moderación) | ✅ columna **K** de la hoja *Form Responses 1* |
+| Hoja pública **sin nombre ni contacto** | ✅ hoja *Sheet1* (fórmula QUERY) |
+| Publicación como CSV | ✅ |
+| Página `denuncia.html` conectada al formulario | ✅ |
+
+### Tu rutina de moderación
+1. Abre la planilla → hoja **Form Responses 1**.
+2. Revisa la denuncia nueva (tipo, foto, ubicación, descripción).
+3. En la columna **ESTADO** escribe **`VERIFICADA`** (se publica) o **`RECHAZADA`** (no se publica).
+4. En hasta 3 horas aparece en el mapa. Si borras el `VERIFICADA`, desaparece.
+
+> ⚠️ **Importante sobre privacidad:** la planilla completa (con Nombre y Contacto) es **privada**. Lo único público es la hoja *Sheet1*, que no incluye esos datos. **No borres ni edites la fórmula de Sheet1**, porque es lo que protege los datos de quien denuncia.
+
+---
+
+## Los pasos originales (referencia, ya ejecutados)
+
 ## Paso 1 — Crear el formulario en Google (10 minutos)
 
 1. Entra a [forms.google.com](https://forms.google.com) y crea un **formulario en blanco**.
