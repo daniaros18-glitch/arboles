@@ -50,6 +50,15 @@ La prueba con personas (27/07/2026) terminó y se cerró el modo `auto`.
 
 ⚠️ Queda pendiente **borrar de la planilla la fila de prueba** (fila 2: *León Gallo 98*, 27/07/2026 23:01). Con el modo `manual` ya no se ve en el mapa, pero sigue en la planilla.
 
+### Checklist para el paso a producción (fin del período de prueba)
+
+Que ninguna denuncia real se pierda en silencio depende de tres cosas:
+
+1. ⬜ **Aviso por correo de cada respuesta nueva.** Hoy solo llega correo si la persona adjuntó **foto** (ese envío pasa por `formsubmit.co`). Una denuncia **sin foto** entra a la planilla sin avisar a nadie.
+   → Activar en el Google Form: *Respuestas* → ⋮ → **«Recibir notificaciones por correo de respuestas nuevas»**. Es la pieza que falta.
+2. ✅ **Contador de pendientes en el mapa público.** Se muestra «N denuncias en revisión» (solo el número: ni ubicación ni detalle). Quien denunció ve que su registro llegó, aunque todavía no se publique.
+3. ⬜ **Compromiso de plazo de moderación.** Definir cada cuánto se revisa la planilla (p. ej. 48 h hábiles) y decirlo en `denuncia.html`. Sin plazo declarado, «en revisión» puede durar para siempre.
+
 ## 4. Resultados científicos (y cómo deben citarse)
 
 - **La cifra más fuerte:** dentro de los **344 loteos aprobados entre 2005 y 2024** se perdió **4,2 veces más verde** (44,9%) que en el resto de la ciudad (10,7%). Es evidencia directa de la relación entre expansión inmobiliaria y pérdida de arbolado.
