@@ -49,6 +49,18 @@
   .pfield input,.pfield select,.pfield textarea{ font:inherit; padding:10px 12px; border-radius:9px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
   .pfield input:focus,.pfield select:focus,.pfield textarea:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent); }
   .pfield textarea{ min-height:110px; resize:vertical; }
+  /* buscador de direcciones */
+  .addrwrap{ position:relative; }
+  .suggest{ position:absolute; top:100%; left:0; right:0; z-index:1200; margin:4px 0 0; padding:4px;
+    list-style:none; background:var(--card); border:1px solid var(--line); border-radius:10px;
+    box-shadow:0 12px 30px -12px rgba(0,0,0,.35); max-height:250px; overflow-y:auto; }
+  .suggest li{ padding:9px 11px; border-radius:7px; cursor:pointer; font-size:.9rem; line-height:1.35; }
+  .suggest li:hover,.suggest li[aria-selected="true"]{ background:var(--bg-2); }
+  .suggest li .s1{ display:block; font-weight:600; color:var(--ink); }
+  .suggest li .s2{ display:block; font-size:.8rem; color:var(--ink-3); }
+  .suggest li.vacio{ color:var(--ink-3); cursor:default; font-size:.85rem; }
+  .addrhint{ font-size:.78rem; color:var(--ink-3); }
+  .addrhint.ok{ color:var(--accent); font-weight:600; }
   #fmap{ height:300px; border-radius:10px; border:1px solid var(--line); z-index:0; }
   @media (max-width:600px){ #fmap{ height:250px; } }
   .gpsbtn{ background:var(--accent); color:#fff; border:none; padding:9px 15px; border-radius:9px; cursor:pointer; font:inherit; font-size:.88rem; }
@@ -105,7 +117,7 @@
         <label for="f_tipo">Tipo de situación *</label>
         <select id="f_tipo" name="Tipo" required>
           <option value="">Elige…</option>
-          <option>Tala no autorizada</option>
+          <option>Tala</option>
           <option>Poda severa / mala poda</option>
           <option>Árbol dañado (herido, quemado, con publicidad)</option>
           <option>Propuesta de árbol patrimonial (Art. 9)</option>
@@ -121,9 +133,13 @@
         <label for="f_fecha">Fecha del hecho <span class="opt">(aprox.)</span></label>
         <input id="f_fecha" name="Fecha" type="date">
       </div>
-      <div class="pfield">
-        <label for="f_dir">Dirección o referencia</label>
-        <input id="f_dir" name="Direccion" type="text" placeholder="Calle, número, esquina, bandejón…">
+      <div class="pfield addrwrap">
+        <label for="f_dir">Dirección</label>
+        <input id="f_dir" name="Direccion" type="text" autocomplete="off" role="combobox"
+               aria-autocomplete="list" aria-expanded="false" aria-controls="dirSuggest"
+               placeholder="Escribe la calle y número…">
+        <ul class="suggest" id="dirSuggest" role="listbox" hidden></ul>
+        <span class="addrhint" id="dirHint">Empieza a escribir y elige la dirección de la lista.</span>
       </div>
 
       <div class="pfield full">
@@ -197,32 +213,149 @@ const GFORM = {
   }
 };
 
-/* Mapa para marcar la ubicación */
+/* Mapa + buscador de direcciones reales (Photon / OpenStreetMap) */
 (function(){
-  const map = L.map('fmap', { scrollWheelZoom:false }).setView([-38.7359, -72.5904], 13);
+  const TEMUCO = [-38.7359, -72.5904];
+  const BBOX = '-72.92,-38.86,-72.42,-38.62';   // Temuco y Padre Las Casas
+  const map = L.map('fmap', { scrollWheelZoom:false }).setView(TEMUCO, 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
+
   let marker = null;
   const coordsI = document.getElementById('f_coords');
-  const ro = document.getElementById('coordReadout');
+  const ro   = document.getElementById('coordReadout');
+  const dir  = document.getElementById('f_dir');
+  const lista= document.getElementById('dirSuggest');
+  const hint = document.getElementById('dirHint');
+
   function marcar(lat, lng){
     if (!marker){
       marker = L.marker([lat,lng], { draggable:true }).addTo(map);
-      marker.on('dragend', () => { const p = marker.getLatLng(); marcar(p.lat, p.lng); });
+      marker.on('dragend', () => { const p = marker.getLatLng(); marcar(p.lat, p.lng); buscarDireccionDe(p.lat, p.lng); });
     } else marker.setLatLng([lat,lng]);
     coordsI.value = lat.toFixed(6) + ', ' + lng.toFixed(6);
     ro.textContent = '📍 ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
   }
-  map.on('click', e => { marcar(e.latlng.lat, e.latlng.lng); map.scrollWheelZoom.enable(); });
+
+  /* Texto legible de una dirección devuelta por Photon */
+  const norm = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  function via(p){
+    const calle = p.street ? (p.street + (p.housenumber ? ' ' + p.housenumber : '')) : '';
+    const a = norm(p.name), b = norm(p.street);
+    // solo anteponemos el nombre del lugar si no repite la calle
+    if (calle && a && b && !b.includes(a) && !a.includes(b)) return p.name + ', ' + calle;
+    return calle || p.name || '';
+  }
+  function zona(p){
+    return [p.district, p.city || p.county, p.state]
+      .filter(Boolean).filter((v,i,a) => a.indexOf(v) === i && v !== via(p)).join(', ');
+  }
+  function etiqueta(p){
+    return [via(p), zona(p)].filter(Boolean).join(', ');
+  }
+
+  function cerrarLista(){ lista.hidden = true; lista.innerHTML = ''; dir.setAttribute('aria-expanded','false'); }
+
+  /* Reverse: de un punto del mapa -> dirección real */
+  function buscarDireccionDe(lat, lon){
+    hint.textContent = 'Buscando la dirección…'; hint.classList.remove('ok');
+    fetch('https://photon.komoot.io/reverse?lat=' + lat + '&lon=' + lon + '&lang=default&limit=1')
+      .then(r => r.json())
+      .then(d => {
+        const f = (d.features || [])[0];
+        if (!f){ hint.textContent = 'No encontramos la dirección: puedes escribirla a mano.'; return; }
+        dir.value = etiqueta(f.properties);
+        hint.textContent = '✓ Dirección detectada desde el mapa';
+        hint.classList.add('ok');
+      })
+      .catch(() => { hint.textContent = 'No pudimos buscar la dirección: escríbela a mano.'; });
+  }
+
+  /* Autocompletar: al escribir -> sugerencias reales */
+  let temporizador = null, indice = -1, resultados = [];
+  dir.addEventListener('input', () => {
+    hint.textContent = 'Empieza a escribir y elige la dirección de la lista.'; hint.classList.remove('ok');
+    clearTimeout(temporizador);
+    const q = dir.value.trim();
+    if (q.length < 3){ cerrarLista(); return; }
+    temporizador = setTimeout(() => {
+      fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) +
+            '&lat=' + TEMUCO[0] + '&lon=' + TEMUCO[1] + '&bbox=' + BBOX + '&limit=6&lang=default')
+        .then(r => r.json())
+        .then(d => {
+          // OSM parte las calles en tramos: dejamos una sola opción por dirección
+          const vistos = new Set();
+          resultados = (d.features || [])
+            .filter(f => f.geometry && f.geometry.coordinates)
+            .filter(f => { const e = etiqueta(f.properties); if (!e || vistos.has(e)) return false; vistos.add(e); return true; });
+          pintarLista();
+        })
+        .catch(() => { cerrarLista(); hint.textContent = 'Buscador no disponible: escribe la dirección y marca el punto en el mapa.'; });
+    }, 350);
+  });
+
+  function pintarLista(){
+    lista.innerHTML = ''; indice = -1;
+    if (!resultados.length){
+      lista.innerHTML = '<li class="vacio">Sin resultados. Escribe la dirección y marca el punto en el mapa.</li>';
+      lista.hidden = false; return;
+    }
+    resultados.forEach((f, i) => {
+      const p = f.properties;
+      const li = document.createElement('li');
+      li.setAttribute('role','option'); li.dataset.i = i;
+      li.innerHTML = '<span class="s1"></span><span class="s2"></span>';
+      li.querySelector('.s1').textContent = via(p) || etiqueta(p);
+      li.querySelector('.s2').textContent = zona(p);
+      li.addEventListener('mousedown', e => { e.preventDefault(); elegir(i); });
+      lista.appendChild(li);
+    });
+    lista.hidden = false; dir.setAttribute('aria-expanded','true');
+  }
+
+  function elegir(i){
+    const f = resultados[i]; if (!f) return;
+    const [lon, lat] = f.geometry.coordinates;
+    dir.value = etiqueta(f.properties);
+    marcar(lat, lon);
+    map.setView([lat, lon], 17);
+    hint.textContent = '✓ Marcada en el mapa. Si el punto no es exacto, arrastra el marcador.';
+    hint.classList.add('ok');
+    cerrarLista();
+  }
+
+  dir.addEventListener('keydown', e => {
+    if (lista.hidden) return;
+    const items = lista.querySelectorAll('li[role="option"]');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      e.preventDefault();
+      indice = e.key === 'ArrowDown' ? Math.min(indice + 1, items.length - 1) : Math.max(indice - 1, 0);
+      items.forEach((el, n) => el.setAttribute('aria-selected', n === indice));
+    } else if (e.key === 'Enter' && indice >= 0){ e.preventDefault(); elegir(indice); }
+    else if (e.key === 'Escape'){ cerrarLista(); }
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('.addrwrap')) cerrarLista(); });
+
+  /* Marcar tocando el mapa -> también resuelve la dirección */
+  map.on('click', e => {
+    marcar(e.latlng.lat, e.latlng.lng);
+    buscarDireccionDe(e.latlng.lat, e.latlng.lng);
+    map.scrollWheelZoom.enable();
+  });
+
   document.getElementById('gpsBtn').addEventListener('click', () => {
     if (!navigator.geolocation){ ro.textContent = 'GPS no disponible; toca el mapa.'; return; }
     ro.textContent = 'Ubicando…';
     navigator.geolocation.getCurrentPosition(
-      p => { marcar(p.coords.latitude, p.coords.longitude); map.setView([p.coords.latitude, p.coords.longitude], 17); },
+      p => {
+        marcar(p.coords.latitude, p.coords.longitude);
+        map.setView([p.coords.latitude, p.coords.longitude], 17);
+        buscarDireccionDe(p.coords.latitude, p.coords.longitude);
+      },
       () => { ro.textContent = 'No se pudo obtener el GPS; toca el mapa para marcar.'; });
   });
-  window.__mapaListo = true;
 })();
 
 /* Vista previa de la foto */

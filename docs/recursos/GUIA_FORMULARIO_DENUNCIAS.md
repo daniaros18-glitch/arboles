@@ -19,7 +19,7 @@ Vecino/a          →  Planilla Google        →  Tú revisas          →  Rob
 
 | # | Pregunta | Tipo |
 |---|---|---|
-| 1 | `Tipo` | Selección múltiple: Tala no autorizada · Poda severa / mala poda · Árbol dañado · Propuesta de árbol patrimonial · Área verde eliminada por obra · Otro |
+| 1 | `Tipo` | Selección múltiple: Tala · Poda severa / mala poda · Árbol dañado · Propuesta de árbol patrimonial · Área verde eliminada por obra · Otro |
 | 2 | `Especie` | Respuesta corta |
 | 3 | `Fecha del hecho` | Fecha |
 | 4 | `Direccion` | Respuesta corta |
