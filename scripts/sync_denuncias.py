@@ -14,6 +14,16 @@ from urllib.request import urlopen, Request
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SALIDA = os.path.join(RAIZ, "docs", "data", "denuncias.geojson")
+CONFIG = os.path.join(RAIZ, "docs", "data", "config.json")
+
+
+def modo_actual():
+    """'auto' = publica todo salvo lo RECHAZADO · 'manual' = solo lo VERIFICADO."""
+    try:
+        with open(CONFIG, encoding="utf-8") as f:
+            return (json.load(f).get("modo_denuncias") or "manual").strip().lower()
+    except Exception:
+        return "manual"
 
 # Solo estos estados se publican (moderacion)
 ESTADOS_PUBLICABLES = {"VERIFICADA", "VERIFICADO", "APROBADA", "APROBADO", "SI", "PUBLICAR"}
@@ -90,14 +100,19 @@ def construir_geojson(texto_csv):
         "foto": buscar_columna(enc, "foto", "imagen"),
         "marca": buscar_columna(enc, "marca temporal", "timestamp"),
     }
-    if not col["estado"]:
+    modo = modo_actual()
+    print("Modo de publicacion:", modo)
+    if not col["estado"] and modo != "auto":
         print("AVISO: no se encontro la columna ESTADO -> no se publica nada (moderacion).")
         return {"type": "FeatureCollection", "features": []}, len(filas), 0
 
+    publicables = {e.replace(" ", "") for e in ESTADOS_PUBLICABLES}
     features, publicadas = [], 0
     for i, fila in enumerate(filas, start=2):  # fila 1 = encabezados
-        estado = limpiar(fila.get(col["estado"], "")).upper().replace(" ", "")
-        if estado not in {e.replace(" ", "") for e in ESTADOS_PUBLICABLES}:
+        estado = limpiar(fila.get(col["estado"], "")).upper().replace(" ", "") if col["estado"] else ""
+        if estado.startswith("RECHAZAD"):      # oculta siempre, en cualquier modo
+            continue
+        if modo != "auto" and estado not in publicables:
             continue
         coords = parsear_coords(fila.get(col["coords"], "")) if col["coords"] else None
         if not coords:
@@ -112,7 +127,7 @@ def construir_geojson(texto_csv):
             "descripcion": (fila.get(col["descripcion"]) or "").strip() if col["descripcion"] else "",
             "foto": (fila.get(col["foto"]) or "").strip() if col["foto"] else "",
             "registrada": normalizar_fecha(fila.get(col["marca"])) if col["marca"] else "",
-            "estado": "Verificada",
+            "estado": "Verificada" if estado in publicables else "Registrada",
         }
         # blindaje de privacidad: jamas publicar datos de contacto
         for k in list(props):

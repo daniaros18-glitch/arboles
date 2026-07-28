@@ -394,6 +394,10 @@
     padding:3px 9px; border-radius:20px; margin-bottom:6px; }
   .dpop img { max-width:100%; border-radius:7px; margin-top:7px; }
   .dpop .dmeta { color:var(--ink-3); font-size:.8rem; margin-top:5px; }
+  .avisoprueba { background:color-mix(in srgb, var(--green) 14%, var(--card));
+    border:1px solid color-mix(in srgb, var(--green) 45%, var(--line)); border-radius:10px;
+    padding:12px 15px; font-size:.88rem; color:var(--ink-2); margin:0 0 12px; }
+  .avisoprueba strong { color:var(--ink); }
 
   /* ---------- DESCARGAS ---------- */
   a.card.dl { text-decoration:none; color:inherit; transition:border-color .15s, transform .15s; }
@@ -712,6 +716,7 @@
       </label>
       <span class="ctahint" id="dActualizado"></span>
     </div>
+    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada minuto. Más adelante se activará la aprobación manual.</p>
     <div id="dmap"></div>
     <div class="dempty" id="dEmpty">
       <p><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales y el equipo los verifique, aparecerán aquí automáticamente. <a href="denuncia.html">Sé la primera persona en registrar una →</a></p>
@@ -835,6 +840,23 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+// Capas base disponibles en todos los mapas (calles / satélite / satélite con nombres)
+function capasBase(map, porDefecto){
+  const calles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
+  const satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, attribution:'Imágenes &copy; Esri, Maxar, Earthstar Geographics' });
+  const rotulos = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, attribution:'&copy; Esri' });
+  const calleros = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom:19, attribution:'&copy; Esri' });
+  const satelitePlus = L.layerGroup([satelite, calleros, rotulos]);
+  const bases = { 'Calles': calles, 'Satélite': satelite, 'Satélite con nombres': satelitePlus };
+  (porDefecto === 'satelite' ? satelitePlus : calles).addTo(map);
+  L.control.layers(bases, null, { position:'topright' }).addTo(map);
+  return bases;
+}
+
 // Visor grande — deslizador anual (casco urbano)
 const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
 (function(){
@@ -862,9 +884,7 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
   const B = { lonMin:-72.81968, lonMax:-72.48281, latMin:-38.77713, latMax:-38.64148 };
   const bounds = [[B.latMin, B.lonMin], [B.latMax, B.lonMax]];
   const map = L.map('lmap', { scrollWheelZoom:false, minZoom:11, maxZoom:18 });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
+  capasBase(map);
   const overlay = L.imageOverlay('mapas/urbano_perdida.png', bounds, { opacity:0.8 }).addTo(map);
   map.fitBounds(bounds);
   map.on('click', () => map.scrollWheelZoom.enable());
@@ -937,55 +957,119 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
   });
 })();
 
-// Mapa del registro ciudadano de denuncias verificadas
+// Mapa del registro ciudadano — lee la planilla en vivo
 (function(){
   if (typeof L === 'undefined') return;
   const el = document.getElementById('dmap');
   if (!el) return;
   const map = L.map('dmap', { scrollWheelZoom:false }).setView([-38.7359, -72.5904], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
+  capasBase(map);
   map.on('click', () => map.scrollWheelZoom.enable());
 
-  const COLORES = { 'Tala':'#8b1a1a', 'Poda':'#c85a2b', 'patrimonial':'#3f7241', 'Área verde':'#b8860b' };
-  function colorDe(tipo){
-    for (const k in COLORES){ if ((tipo||'').toLowerCase().includes(k.toLowerCase())) return COLORES[k]; }
-    return '#6c7d70';
-  }
-  function esc(s){ return String(s==null?'':s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c])); }
+  const COLORES = { 'Tala':'#8b1a1a', 'Poda':'#c85a2b', 'patrimonial':'#3f7241', 'rea verde':'#b8860b' };
+  const colorDe = t => { for (const k in COLORES){ if ((t||'').toLowerCase().includes(k.toLowerCase())) return COLORES[k]; } return '#6c7d70'; };
+  const esc = s => String(s==null?'':s).replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  const norm = s => (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s/g,'');
 
-  let capa = null, datos = [];
+  function parseCSV(txt){
+    const filas=[]; let campo='', fila=[], comillas=false;
+    for (let i=0;i<txt.length;i++){
+      const c=txt[i];
+      if (comillas){
+        if (c==='"'){ if (txt[i+1]==='"'){ campo+='"'; i++; } else comillas=false; }
+        else campo+=c;
+      } else if (c==='"') comillas=true;
+      else if (c===','){ fila.push(campo); campo=''; }
+      else if (c==='\n'){ fila.push(campo); filas.push(fila); fila=[]; campo=''; }
+      else if (c!=='\r') campo+=c;
+    }
+    if (campo!=='' || fila.length){ fila.push(campo); filas.push(fila); }
+    return filas;
+  }
+  const buscaCol = (enc, ...claves) => {
+    for (const k of claves){ const i = enc.findIndex(h => norm(h).includes(norm(k))); if (i >= 0) return i; }
+    return -1;
+  };
+  function coords(txt){
+    const n = String(txt||'').match(/-?\d+[.,]\d+/g);
+    if (!n || n.length < 2) return null;
+    const lat = parseFloat(n[0].replace(',','.')), lon = parseFloat(n[1].replace(',','.'));
+    if (!(lat > -56 && lat < -17 && lon > -76 && lon < -66)) return null;
+    return [lat, lon];
+  }
+
+  let capa = null, datos = [], modo = 'manual';
   function pintar(filtro){
     if (capa) map.removeLayer(capa);
-    const vis = datos.filter(f => !filtro || (f.properties.tipo||'').toLowerCase().includes(filtro.toLowerCase()));
-    capa = L.layerGroup(vis.map(f => {
-      const c = f.geometry.coordinates, p = f.properties;
-      const m = L.circleMarker([c[1], c[0]], {
-        radius:8, color:'#fff', weight:2, fillColor:colorDe(p.tipo), fillOpacity:0.9
-      });
-      let html = '<div class="dpop"><span class="dtipo">' + esc(p.tipo) + '</span>';
-      if (p.direccion)   html += '<br><strong>' + esc(p.direccion) + '</strong>';
-      if (p.especie)     html += '<br>Especie: ' + esc(p.especie);
-      if (p.descripcion) html += '<br>' + esc(p.descripcion);
-      if (p.foto && /^https?:/.test(p.foto)) html += '<br><img src="' + esc(p.foto) + '" alt="Foto de la denuncia">';
-      html += '<div class="dmeta">' + (p.fecha ? 'Ocurrió: ' + esc(p.fecha) + ' · ' : '') + '✓ Verificada</div></div>';
-      return m.bindPopup(html);
+    const vis = datos.filter(d => !filtro || (d.tipo||'').toLowerCase().includes(filtro.toLowerCase()));
+    capa = L.layerGroup(vis.map(d => {
+      const m = L.circleMarker([d.lat, d.lon], { radius:8, color:'#fff', weight:2, fillColor:colorDe(d.tipo), fillOpacity:0.9 });
+      let h = '<div class="dpop"><span class="dtipo">' + esc(d.tipo || 'Denuncia') + '</span>';
+      if (d.direccion)   h += '<br><strong>' + esc(d.direccion) + '</strong>';
+      if (d.especie)     h += '<br>Especie: ' + esc(d.especie);
+      if (d.descripcion) h += '<br>' + esc(d.descripcion);
+      if (d.foto && /^https?:/.test(d.foto)) h += '<br><img src="' + esc(d.foto) + '" alt="Foto de la denuncia">';
+      h += '<div class="dmeta">' + (d.fecha ? 'Ocurrio: ' + esc(d.fecha) + '  ' : '') + (d.verificada ? 'Verificada' : 'Recien registrada') + '</div></div>';
+      return m.bindPopup(h);
     })).addTo(map);
     if (vis.length){ try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){} }
   }
-
-  fetch('data/denuncias.geojson').then(r => r.json()).then(gj => {
-    datos = (gj.features || []).filter(f => f.geometry && f.geometry.coordinates);
-    const cuenta = t => datos.filter(f => (f.properties.tipo||'').toLowerCase().includes(t)).length;
+  function refrescarPanel(){
+    const cuenta = t => datos.filter(d => (d.tipo||'').toLowerCase().includes(t)).length;
     document.getElementById('dTotal').textContent = datos.length;
     document.getElementById('dTalas').textContent = cuenta('tala') + cuenta('poda');
     document.getElementById('dPatri').textContent = cuenta('patrimonial');
-    if (gj.actualizado) document.getElementById('dActualizado').textContent = 'Actualizado: ' + gj.actualizado;
-    if (!datos.length){ document.getElementById('dEmpty').style.display = 'block'; }
-    pintar('');
+    document.getElementById('dEmpty').style.display = datos.length ? 'none' : 'block';
+  }
+
+  function desdeCSV(txt){
+    const filas = parseCSV(txt).filter(f => f.some(c => (c||'').trim() !== ''));
+    if (!filas.length) return [];
+    const enc = filas[0];
+    const iEstado = buscaCol(enc,'estado'), iTipo = buscaCol(enc,'tipo'), iEsp = buscaCol(enc,'especie'),
+          iDir = buscaCol(enc,'direccion'), iCoord = buscaCol(enc,'coordenada'), iFoto = buscaCol(enc,'foto'),
+          iDesc = buscaCol(enc,'descripcion'), iFecha = buscaCol(enc,'fechadelhecho','fecha');
+    const out = [];
+    for (let i=1;i<filas.length;i++){
+      const f = filas[i];
+      const estado = iEstado >= 0 ? norm(f[iEstado]) : '';
+      if (estado.indexOf('RECHAZAD') === 0) continue;
+      const verificada = ['VERIFICADA','VERIFICADO','APROBADA','APROBADO','SI','PUBLICAR'].indexOf(estado) >= 0;
+      if (modo !== 'auto' && !verificada) continue;
+      const c = iCoord >= 0 ? coords(f[iCoord]) : null;
+      if (!c) continue;
+      out.push({ lat:c[0], lon:c[1], verificada:verificada,
+        tipo: iTipo>=0?f[iTipo]:'', especie: iEsp>=0?f[iEsp]:'', direccion: iDir>=0?f[iDir]:'',
+        foto: iFoto>=0?f[iFoto]:'', descripcion: iDesc>=0?f[iDesc]:'', fecha: iFecha>=0?f[iFecha]:'' });
+    }
+    return out;
+  }
+
+  function cargar(cfg){
+    const url = (cfg && cfg.csv_url) ? cfg.csv_url + '&t=' + Date.now() : null;
+    const alFallar = () => fetch('data/denuncias.geojson').then(r => r.json()).then(gj => {
+      datos = (gj.features||[]).filter(f => f.geometry).map(f => Object.assign(
+        { lat:f.geometry.coordinates[1], lon:f.geometry.coordinates[0], verificada:true }, f.properties));
+      refrescarPanel(); pintar(document.getElementById('dFiltro').value || '');
+    }).catch(() => { document.getElementById('dEmpty').style.display = 'block'; });
+    if (!url) return alFallar();
+    fetch(url).then(r => r.text()).then(txt => {
+      datos = desdeCSV(txt);
+      refrescarPanel();
+      pintar(document.getElementById('dFiltro').value || '');
+      const av = document.getElementById('dActualizado');
+      if (av) av.textContent = 'Actualizado: ' + new Date().toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'});
+    }).catch(alFallar);
+  }
+
+  fetch('data/config.json?t=' + Date.now()).then(r => r.json()).catch(() => ({})).then(cfg => {
+    modo = (cfg && cfg.modo_denuncias) || 'manual';
+    const aviso = document.getElementById('dAviso');
+    if (aviso && modo === 'auto') aviso.style.display = 'block';
+    cargar(cfg);
+    setInterval(() => cargar(cfg), 60000);
     document.getElementById('dFiltro').addEventListener('change', e => pintar(e.target.value));
-  }).catch(() => { document.getElementById('dEmpty').style.display = 'block'; });
+  });
 })();
 </script>
 </body>

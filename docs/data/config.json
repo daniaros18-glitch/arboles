@@ -1,0 +1,5 @@
+{
+  "_comentario": "modo_denuncias: 'auto' = las denuncias aparecen en el mapa apenas se envian (modo prueba). 'manual' = solo aparecen las marcadas VERIFICADA en la columna ESTADO. En ambos modos, escribir RECHAZADA oculta una denuncia.",
+  "modo_denuncias": "auto",
+  "csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vR5WgzrrvIlXZhLWb4csgs07unxsdyh1NKHRpKwXtBQFi_NxOazskS9HVUsKxPKsLo0sCRoy61-n4LE/pub?gid=258950203&single=true&output=csv"
+}
