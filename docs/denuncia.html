@@ -424,12 +424,11 @@ form.addEventListener('submit', function(e){
   fetch(GFORM.action, { method:'POST', mode:'no-cors', body:datos })
     .catch(()=>{})
     .finally(() => {
-      // si hay foto, se envía por correo para que el equipo la revise
-      const foto = document.getElementById('f_foto');
-      if (foto.files && foto.files[0]){
-        form.setAttribute('target','sink');
-        form.submit();
-      }
+      // Aviso por correo al equipo en TODAS las denuncias (antes solo se enviaba
+      // cuando había foto: las denuncias sin foto entraban a la planilla sin avisar).
+      // Va a un iframe oculto para que la persona no salga de la página.
+      form.setAttribute('target','sink');
+      try { form.submit(); } catch(e){}
       form.style.display = 'none';
       document.getElementById('okBox').style.display = 'block';
       window.scrollTo({ top:0, behavior:'smooth' });

@@ -38,26 +38,37 @@ Vecino → denuncia.html → Google Form → Planilla → (moderación) → Mapa
   ⚠️ **No borrar ni editar esa fórmula:** es lo que protege la privacidad de quien denuncia.
 - La **foto** llega por correo (no se sube sola al mapa): si se quiere mostrar, hay que pegar su enlace en la columna *Foto*.
 
-## 3. Modo de publicación: `manual` (moderado)
+## 3. ⚠️ Modo de publicación: `auto` (sitio en construcción)
 
-`docs/data/config.json` tiene `"modo_denuncias": "manual"`:
-al mapa **solo llegan** las denuncias marcadas `VERIFICADA` en la columna **ESTADO** de la planilla.
-La prueba con personas (27/07/2026) terminó y se cerró el modo `auto`.
+`docs/data/config.json` tiene `"modo_denuncias": "auto"`: las denuncias aparecen en el mapa
+**sin aprobación previa**, ~10 segundos después de enviarse. Es lo que corresponde mientras el
+sitio está en construcción y se necesita ver el circuito funcionando de punta a punta.
 
-- Para publicar una denuncia: escribir `VERIFICADA` en **ESTADO** → aparece en ~10 segundos.
-- Escribir **`RECHAZADA`** la oculta, en cualquiera de los dos modos.
-- Para volver a abrir una prueba en vivo: cambiar a `"auto"` y **acordarse de devolverlo a `"manual"` al terminar**.
+- Escribir **`RECHAZADA`** en la columna ESTADO oculta una denuncia en ~10 s. Es el único freno en este modo.
+- Al abrir el sitio al público de verdad: cambiar a `"manual"` → solo se publica lo marcado `VERIFICADA`.
+- El mapa muestra el aviso «🧪 Modo prueba» mientras esté en `auto`, para no engañar a nadie sobre qué está viendo.
 
-⚠️ Queda pendiente **borrar de la planilla la fila de prueba** (fila 2: *León Gallo 98*, 27/07/2026 23:01). Con el modo `manual` ya no se ve en el mapa, pero sigue en la planilla.
+⚠️ **En `auto` no hay filtro humano**: lo que alguien escriba en la descripción se publica tal cual
+(incluidos datos personales de terceros, si los escribe). El nombre y contacto de quien denuncia
+siguen protegidos siempre por la fórmula `QUERY` de Sheet1.
 
-### Checklist para el paso a producción (fin del período de prueba)
+### Aviso por correo de cada denuncia
 
-Que ninguna denuncia real se pierda en silencio depende de tres cosas:
+`denuncia.html` manda cada denuncia por **dos vías**: los datos van a la planilla (Google Form) y una
+copia por correo a daniaros18@gmail.com vía `formsubmit.co`. **Hasta el 28/07/2026 el correo solo se
+enviaba si la persona adjuntaba foto** — por eso la denuncia del 27/07 no avisó a nadie. Ya está
+corregido: el correo sale siempre, con o sin foto.
 
-1. ⬜ **Aviso por correo de cada respuesta nueva.** Hoy solo llega correo si la persona adjuntó **foto** (ese envío pasa por `formsubmit.co`). Una denuncia **sin foto** entra a la planilla sin avisar a nadie.
-   → Activar en el Google Form: *Respuestas* → ⋮ → **«Recibir notificaciones por correo de respuestas nuevas»**. Es la pieza que falta.
-2. ✅ **Contador de pendientes en el mapa público.** Se muestra «N denuncias en revisión» (solo el número: ni ubicación ni detalle). Quien denunció ve que su registro llegó, aunque todavía no se publique.
-3. ⬜ **Compromiso de plazo de moderación.** Definir cada cuánto se revisa la planilla (p. ej. 48 h hábiles) y decirlo en `denuncia.html`. Sin plazo declarado, «en revisión» puede durar para siempre.
+- ⬜ **Verificar que `formsubmit.co` esté activado.** La primera vez que se usa, envía un correo de
+  confirmación con un enlace que hay que abrir una sola vez. Si nunca se hizo, no llegará nada.
+- ⬜ **Respaldo recomendado:** activar además en el Google Form *Respuestas* → ⋮ →
+  «Recibir notificaciones por correo de respuestas nuevas». No depende de terceros.
+
+### Checklist para el paso a producción
+
+1. ⬜ Volver a `"modo_denuncias": "manual"`.
+2. ✅ Contador de pendientes en el mapa: muestra «N denuncias en revisión» (solo el número, ni ubicación ni detalle). Solo se ve en modo `manual`.
+3. ⬜ **Compromiso de plazo de moderación**: definir cada cuánto se revisa la planilla (p. ej. 48 h hábiles) y decirlo en `denuncia.html`. Sin plazo declarado, «en revisión» puede durar para siempre.
 
 ## 4. Resultados científicos (y cómo deben citarse)
 
