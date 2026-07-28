@@ -469,6 +469,161 @@
   .hfuentes a { color:var(--agua); }
 
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  /* ============ NAVEGACIÓN DE LA HISTORIA ============ */
+  .storynav{ position:sticky; top:0; z-index:900; background:color-mix(in srgb, var(--canopy-deep) 96%, transparent);
+    border-bottom:1px solid color-mix(in srgb, var(--green) 25%, transparent); backdrop-filter:blur(8px); }
+  .storynav-in{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:thin; padding:0; }
+  .storynav a{ flex:0 0 auto; display:flex; align-items:center; gap:7px; padding:13px 14px; text-decoration:none;
+    color:#b9cdb2; font-size:.82rem; font-weight:600; white-space:nowrap; border-bottom:2px solid transparent; }
+  .storynav a:hover{ color:#eaf3e2; background:rgba(255,255,255,.05); }
+  .storynav a.activo{ color:#eaf3e2; border-bottom-color:var(--green-soft); }
+  .storynav a .n{ display:inline-flex; align-items:center; justify-content:center; width:19px; height:19px;
+    border-radius:50%; background:rgba(255,255,255,.12); font-size:.7rem; font-family:var(--mono); }
+  .storynav a.activo .n{ background:var(--green-soft); color:var(--canopy-deep); }
+  section[id]{ scroll-margin-top:56px; }
+  .tech.alt{ background:var(--bg-2); }
+
+  /* ============ CIFRA PROTAGONISTA ============ */
+  .bigstat{ display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin:26px 0 8px; }
+  .bigstat-v{ font-family:var(--serif); font-size:clamp(3.2rem,9vw,5.5rem); line-height:.95; font-weight:700; color:var(--canopy); }
+  .bigstat-v.loss{ color:var(--ember); }
+  .bigstat-k{ font-size:1.05rem; color:var(--ink-2); line-height:1.5; max-width:26ch; }
+  .bigstat-note{ font-size:.92rem; color:var(--ink-2); margin:0 0 22px; max-width:70ch; }
+
+  /* ============ PÉRDIDA / GANANCIA / ESTABLE ============ */
+  .flowrow{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:22px 0 10px; }
+  @media (max-width:700px){ .flowrow{ grid-template-columns:1fr; } }
+  .flowcard{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; border-top:4px solid var(--line); }
+  .flowcard.loss{ border-top-color:var(--ember); }
+  .flowcard.gain{ border-top-color:var(--green); }
+  .flowcard.stable{ border-top-color:var(--cement); }
+  .flowv{ font-family:var(--serif); font-size:2.1rem; font-weight:700; color:var(--ink); line-height:1.1; }
+  .flowk{ font-size:.95rem; color:var(--ink-2); margin-bottom:8px; }
+  .flowcard p{ font-size:.86rem; color:var(--ink-3); margin:0; line-height:1.55; }
+  .flownote{ font-size:.9rem; color:var(--ink-2); max-width:75ch; line-height:1.6; }
+
+  /* ============ CAJA DE HONESTIDAD ============ */
+  .honestbox{ background:var(--bg-2); border:1px solid var(--line); border-left:4px solid var(--accent);
+    border-radius:12px; padding:20px 22px; margin:26px 0; }
+  .honestbox.warn{ border-left-color:#d9a441; background:color-mix(in srgb, #d9a441 7%, var(--bg-2)); }
+  .honestbox h3{ margin:0 0 10px; font-size:1rem; color:var(--ink); }
+  .honestbox p{ font-size:.92rem; color:var(--ink-2); line-height:1.65; margin:0 0 10px; }
+  .honestbox p:last-child{ margin-bottom:0; }
+  .formula{ font-family:var(--mono); font-size:.82rem!important; background:var(--card);
+    border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; }
+
+  /* ============ BARRAS COMPARATIVAS ============ */
+  .vsrow{ margin:24px 0 8px; }
+  .vsbar{ margin-bottom:14px; }
+  .vslabel{ font-size:.88rem; color:var(--ink-2); margin-bottom:6px; font-weight:600; }
+  .vstrack{ background:var(--bg-2); border:1px solid var(--line); border-radius:8px; height:38px; overflow:hidden; }
+  .vsfill{ height:100%; background:var(--green); display:flex; align-items:center; justify-content:flex-end;
+    padding-right:11px; border-radius:7px 0 0 7px; min-width:66px; }
+  .vsfill.loss{ background:var(--ember); }
+  .vsfill span{ color:#fff; font-weight:700; font-size:.95rem; font-family:var(--mono); }
+
+  /* ============ ÁRBOLES PATRIMONIALES ============ */
+  .pmapwrap{ margin:24px 0; }
+  #pmap{ height:460px; border-radius:14px; border:1px solid var(--line); margin-top:14px; z-index:0; background:var(--bg-2); }
+  @media (max-width:640px){ #pmap{ height:360px; } }
+  .statrow.small .v{ font-size:1.8rem; }
+  .fichaguia{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin-top:26px; }
+  .fichaguia h3{ margin:0 0 10px; font-size:1.05rem; }
+  .fichaguia > p{ font-size:.92rem; color:var(--ink-2); line-height:1.65; }
+  .fichalist{ margin:14px 0 18px; padding-left:20px; }
+  .fichalist li{ font-size:.9rem; color:var(--ink-2); margin-bottom:8px; line-height:1.55; }
+  .pficha{ font-size:.9rem; min-width:200px; }
+  .pficha .pesp{ display:inline-block; background:var(--canopy); color:#eaf3e2; font-size:.7rem;
+    padding:3px 9px; border-radius:20px; font-family:var(--mono); margin-bottom:6px; }
+  .pficha .pmeta{ color:var(--ink-3); font-size:.78rem; margin-top:7px; border-top:1px solid var(--line); padding-top:6px; }
+
+  /* ============ EDUCACIÓN AMBIENTAL ============ */
+  .eduwrap{ margin-top:24px; display:flex; flex-direction:column; gap:12px; }
+  details.edu{ background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  details.edu > summary{ cursor:pointer; padding:17px 20px; font-weight:600; font-size:1rem; color:var(--ink);
+    list-style:none; display:flex; align-items:center; gap:10px; }
+  details.edu > summary::-webkit-details-marker{ display:none; }
+  details.edu > summary::after{ content:'▾'; margin-left:auto; color:var(--ink-3); transition:transform .2s; }
+  details.edu[open] > summary::after{ transform:rotate(180deg); }
+  details.edu > summary:hover{ color:var(--accent); }
+  .edubody{ padding:0 20px 20px; }
+  .edubody > p{ font-size:.93rem; color:var(--ink-2); line-height:1.7; }
+  .edunote{ background:var(--bg-2); border-radius:10px; padding:13px 15px; font-size:.88rem!important; color:var(--ink-2); }
+  .dosdont{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+  @media (max-width:700px){ .dosdont{ grid-template-columns:1fr; } }
+  .dosdont > div{ border-radius:12px; padding:15px 17px; border:1px solid var(--line); }
+  .dosdont .do{ background:color-mix(in srgb, var(--green) 9%, var(--card)); border-color:color-mix(in srgb, var(--green) 35%, var(--line)); }
+  .dosdont .dont{ background:color-mix(in srgb, var(--ember) 8%, var(--card)); border-color:color-mix(in srgb, var(--ember) 32%, var(--line)); }
+  .dosdont h4{ margin:0 0 9px; font-size:.94rem; }
+  .dosdont ul{ margin:0; padding-left:19px; }
+  .dosdont li{ font-size:.87rem; color:var(--ink-2); margin-bottom:7px; line-height:1.55; }
+  .pasos{ margin:14px 0; padding-left:20px; }
+  .pasos li{ font-size:.92rem; color:var(--ink-2); margin-bottom:11px; line-height:1.6; }
+  .benef{ display:grid; grid-template-columns:repeat(3,1fr); gap:13px; }
+  @media (max-width:800px){ .benef{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .benef{ grid-template-columns:1fr; } }
+  .ben{ background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:15px 16px; }
+  .ben .bico{ font-size:1.5rem; display:block; margin-bottom:5px; }
+  .ben h4{ margin:0 0 6px; font-size:.94rem; }
+  .ben p{ margin:0; font-size:.85rem; color:var(--ink-2); line-height:1.55; }
+  .mito{ border-top:1px solid var(--line); padding-top:14px; margin-top:14px; }
+  .mito:first-child{ border-top:none; padding-top:0; margin-top:0; }
+  .mito .m{ font-family:var(--serif); font-size:1.05rem; color:var(--ink); margin:0 0 7px; font-style:italic; }
+  .mito .v{ font-size:.9rem; color:var(--ink-2); margin:0; line-height:1.65; }
+
+  /* ============ TABLA DE EQUIDAD ============ */
+  .tablewrap{ overflow-x:auto; margin:24px 0; border:1px solid var(--line); border-radius:14px; background:var(--card); }
+  .equitab{ width:100%; border-collapse:collapse; font-size:.9rem; min-width:520px; }
+  .equitab caption{ text-align:left; padding:16px 18px 6px; font-weight:600; color:var(--ink); font-size:.95rem; }
+  .equitab th,.equitab td{ padding:11px 14px; text-align:left; border-top:1px solid var(--line); }
+  .equitab thead th{ background:var(--bg-2); color:var(--ink-2); font-size:.8rem; font-weight:600; }
+  .equitab thead th span{ font-weight:400; color:var(--ink-3); font-size:.72rem; }
+  .equitab td{ color:var(--ink-2); }
+  .equitab tbody tr:hover{ background:var(--bg-2); }
+  .pri{ display:inline-block; min-width:34px; text-align:center; padding:3px 8px; border-radius:20px;
+    font-family:var(--mono); font-weight:700; font-size:.85rem; color:#fff;
+    background:color-mix(in srgb, var(--ember) calc(var(--p) * 1%), var(--cement)); }
+
+  /* ============ GENERADOR PARA REDES ============ */
+  .genwrap{ margin-top:24px; }
+  .gencontrols{ display:flex; gap:12px; align-items:flex-end; flex-wrap:wrap; margin-bottom:16px; }
+  .gencontrols label{ display:block; font-size:.82rem; font-weight:600; color:var(--ink-2); margin-bottom:5px; }
+  .gencontrols select{ font:inherit; padding:9px 12px; border-radius:9px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); min-width:250px; }
+  .genout{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:20px; align-items:start; }
+  @media (max-width:820px){ .genout{ grid-template-columns:1fr; } }
+  #genCanvas{ width:100%; height:auto; border-radius:14px; border:1px solid var(--line); background:var(--card); display:block; }
+  .gentexto label{ display:block; font-size:.82rem; font-weight:600; color:var(--ink-2); margin-bottom:5px; }
+  .gentexto textarea{ width:100%; font:inherit; font-size:.9rem; line-height:1.6; padding:13px 15px; border-radius:11px;
+    border:1px solid var(--line); background:var(--card); color:var(--ink); resize:vertical; }
+  .genacts{ display:flex; gap:10px; margin-top:11px; flex-wrap:wrap; }
+  .genbtn{ font:inherit; font-size:.88rem; font-weight:600; padding:10px 16px; border-radius:9px; cursor:pointer;
+    border:1px solid var(--line); background:var(--card); color:var(--ink); }
+  .genbtn:hover{ border-color:var(--accent); color:var(--accent); }
+  .genbtn.primary{ background:var(--canopy); border-color:var(--canopy); color:#eaf3e2; }
+  .genbtn.primary:hover{ background:#0c241d; color:#eaf3e2; }
+  .gennote{ font-size:.82rem; color:var(--ink-3); line-height:1.6; margin-top:12px; }
+
+  /* ============ HUELLA: BLOQUE DE ENERGÍA Y CO2 ============ */
+  .hbloque{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 24px; margin:22px 0; }
+  .hbloque h3{ margin:0 0 10px; font-size:1.05rem; }
+  .hbloque > p{ font-size:.92rem; color:var(--ink-2); line-height:1.65; }
+  .hcomparo{ background:var(--bg-2); border-radius:10px; padding:14px 16px; font-size:.9rem!important;
+    color:var(--ink-2); line-height:1.7; }
+  .hcompara{ border-top:1px solid var(--line); margin-top:18px; padding-top:16px; }
+  .hcompara h4{ margin:0 0 9px; font-size:.98rem; color:var(--ink); }
+  .hcompara p{ font-size:.9rem; color:var(--ink-2); line-height:1.7; margin:0 0 10px; }
+  .hcaveat{ font-size:.84rem!important; color:var(--ink-3)!important; }
+
+  /* ============ TARJETAS DE PARTICIPACIÓN ============ */
+  .badge{ display:inline-block; font-size:.66rem; font-family:var(--mono); padding:3px 8px;
+    border-radius:20px; vertical-align:middle; margin-left:6px; font-weight:600; }
+  .badge.on{ background:color-mix(in srgb, var(--green) 22%, var(--card)); color:var(--canopy);
+    border:1px solid color-mix(in srgb, var(--green) 45%, var(--line)); }
+  .badge.off{ background:var(--bg-2); color:var(--ink-3); border:1px solid var(--line); }
+  .cardlink{ display:inline-block; margin-top:10px; font-size:.87rem; font-weight:600;
+    color:var(--accent); text-decoration:none; }
+  .cardlink:hover{ text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -524,7 +679,20 @@
   </div>
 </div>
 
-<!-- PROBLEMA -->
+<nav class="storynav" id="storyNav" aria-label="Secciones del observatorio">
+  <div class="wrap storynav-in">
+    <a href="#perdida"><span class="n">1</span> Cuánto se perdió</a>
+    <a href="#calor"><span class="n">2</span> El costo en calor</a>
+    <a href="#causas"><span class="n">3</span> Por qué se pierde</a>
+    <a href="#patrimoniales"><span class="n">4</span> Patrimoniales</a>
+    <a href="#educacion"><span class="n">5</span> Educación</a>
+    <a href="#justicia"><span class="n">6</span> Justicia ambiental</a>
+    <a href="#huella"><span class="n">7</span> Nuestra huella</a>
+    <a href="#participa"><span class="n">8</span> Participa</a>
+    <a href="#redes"><span class="n">9</span> Difundir</a>
+  </div>
+</nav>
+
 <section class="problem" id="problema">
   <div class="wrap">
     <span class="eyebrow">La necesidad</span>
@@ -536,304 +704,145 @@
   </div>
 </section>
 
-<!-- OBJETIVOS -->
-<section class="goals" id="objetivos">
+<section class="tech" id="perdida">
   <div class="wrap">
-    <span class="eyebrow">Objetivos</span>
-    <h2 class="sec-h">Qué queremos lograr.</h2>
-    <div class="goal-general">
-      <span class="lbl">Objetivo general</span>
-      <p>Monitorear, medir y visibilizar la pérdida del arbolado y su impacto en Temuco, integrando herramientas satelitales de análisis histórico con la participación ciudadana activa para <strong>proteger y gestionar el patrimonio natural urbano</strong>.</p>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <span class="num">ESP · 01</span>
-        <h3>Automatizar la cuantificación</h3>
-        <p>Aplicar teledetección (índices de vegetación) para calcular la cobertura de dosel perdida en intervalos de cinco años, pasando del conteo manual "árbol por árbol" a una medición automatizada de todo el territorio urbano.</p>
-      </div>
-      <div class="card">
-        <span class="num">ESP · 02</span>
-        <h3>Correlacionar urbanización y deforestación</h3>
-        <p>Identificar los sectores de mayor cambio con mapas de "antes y después", demostrando la relación entre las obras de conectividad vial, el auge inmobiliario y la eliminación de áreas verdes consolidadas.</p>
-      </div>
-      <div class="card">
-        <span class="num">ESP · 03</span>
-        <h3>Estructurar la ciencia ciudadana</h3>
-        <p>Centralizar el material fotográfico, las denuncias por podas y talas, y las mediciones de los vecinos a través de la plataforma del Observatorio.</p>
-      </div>
-      <div class="card">
-        <span class="num">ESP · 04</span>
-        <h3>Evaluar servicios ecosistémicos</h3>
-        <p>Traducir los datos técnicos en impactos cotidianos: pérdida de sombra, efecto en la temperatura de los barrios, e identificación y protección del arbolado patrimonial restante.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <span class="eyebrow">1 · La pregunta de fondo</span>
+    <h2 class="sec-h">¿Cuánto arbolado urbano ha perdido Temuco?</h2>
+    <p class="sec-lead">La respuesta honesta tiene dos partes, y conviene decir las dos: <strong>dentro de la ciudad construida el dosel baja</strong>; en el conjunto del área urbana oficial —que incluye periferia agrícola y forestal— el balance sube. Mezclar ambas cifras es la forma más fácil de mentir con datos ciertos.</p>
 
-<!-- METODOLOGIA -->
-<section class="method" id="metodologia">
-  <div class="wrap">
-    <span class="eyebrow">Dimensiones de acción</span>
-    <h2 class="sec-h">Dos escalas que se retroalimentan.</h2>
-    <p class="sec-lead">La tecnología entrega las métricas; la comunidad aporta el contexto. El proyecto vive en el cruce de ambas.</p>
-    <div class="scales">
-      <div class="scale macro">
-        <span class="kicker">01 · Escala macro</span>
-        <h3>El mapeo satelital</h3>
-        <p>Observar la ciudad desde arriba. Analizando 20 años de imágenes, algoritmos detectan automáticamente el follaje y generan "mapas de calor" que muestran dónde estaba el verde y dónde hoy hay cemento.</p>
-        <ul>
-          <li>Cortes 2005 · 2010 · 2015 · 2020 · 2025</li>
-          <li>Evidencia visual de bandejones y calles vaciadas</li>
-          <li>Medición de todo el territorio, no muestras</li>
-        </ul>
+    <div class="bigstat">
+      <div class="bigstat-v loss">−7,9%</div>
+      <div class="bigstat-k">de dosel en el <strong>casco urbano construido</strong><br>entre 2005 y 2025</div>
+    </div>
+    <p class="bigstat-note">De <strong>252,5 ha</strong> de copa arbórea en 2005 a <strong>232,6 ha</strong> en 2025, sobre las ≈4.308 ha edificadas de Temuco. Son unas 20 hectáreas netas de sombra menos: alrededor de 28 canchas de fútbol.</p>
+
+    <div class="flowrow">
+      <div class="flowcard loss">
+        <div class="flowv">139 ha</div>
+        <div class="flowk">se <strong>perdieron</strong></div>
+        <p>Superficie que en 2005 tenía copa arbórea y en 2025 ya no.</p>
       </div>
-      <div class="scale human">
-        <span class="kicker">02 · Escala humana</span>
-        <h3>El Observatorio Ciudadano</h3>
-        <p>Un repositorio vivo impulsado por los vecinos: fotografías, denuncias en tiempo real de talas injustificadas y trabajo de campo —como las mediciones de tronco y copa en Caupolicán.</p>
-        <ul>
-          <li>Denuncias georreferenciadas con foto y fecha</li>
-          <li>Catálogo del arbolado patrimonial en riesgo</li>
-          <li>Mediciones que validan el dato satelital</li>
-        </ul>
+      <div class="flowcard gain">
+        <div class="flowv">119 ha</div>
+        <div class="flowk">se <strong>ganaron</strong></div>
+        <p>Superficie que se arboló en el mismo período: plantaciones, crecimiento, sitios que se cerraron.</p>
+      </div>
+      <div class="flowcard stable">
+        <div class="flowv">114 ha</div>
+        <div class="flowk">se <strong>mantuvieron</strong></div>
+        <p>Dosel estable las dos décadas. Es el arbolado maduro que queda por defender.</p>
       </div>
     </div>
-    <div class="integration">
-      <span class="plus">✕</span>
-      <p><strong>La integración de los datos.</strong> Cuando el Observatorio recibe una alerta —por ejemplo, los árboles eliminados por la carretera en Av. Imperial— el equipo técnico va al registro satelital y extrae <strong>cuántos metros cuadrados de sombra se perdieron</strong> en esa obra. Así, la indignación ciudadana se convierte en evidencia técnica concreta.</p>
-    </div>
-  </div>
-</section>
+    <p class="flownote">La pérdida y la ganancia <strong>no se cancelan</strong>: un árbol maduro talado no equivale a un árbol nuevo plantado. La copa que da sombra hoy tarda entre 15 y 30 años en reponerse, y en ese intervalo la calle está al sol.</p>
 
-<!-- TIMELINE -->
-<section class="timeline">
-  <div class="wrap">
-    <span class="eyebrow" style="color:var(--green-soft)">Cortes temporales</span>
-    <h2 class="sec-h">Veinte años en cinco fotografías.</h2>
-    <p class="sec-lead">Cada corte usa el mejor sensor disponible manteniendo comparabilidad, siempre en ventana de verano austral para captar el dosel pleno.</p>
-    <div class="tl">
-      <div class="tl-item"><div class="yr">2005</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Línea base histórica.</div><div class="tl-bar"></div></div>
-      <div class="tl-item"><div class="yr">2010</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Serie consistente.</div><div class="tl-bar"></div></div>
-      <div class="tl-item"><div class="yr">2015</div><div class="sensor">L8 + Sentinel-2</div><div class="desc">Entra el detalle de 10 m.</div><div class="tl-bar"></div></div>
-      <div class="tl-item"><div class="yr">2020</div><div class="sensor">Sentinel-2 · 10 m</div><div class="desc">Dosel urbano fino.</div><div class="tl-bar"></div></div>
-      <div class="tl-item"><div class="yr">2025</div><div class="sensor">Sentinel-2 / L9</div><div class="desc">Estado actual.</div><div class="tl-bar"></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- TECNICA -->
-<section class="tech" id="tecnica">
-  <div class="wrap">
-    <span class="eyebrow">Resumen técnico</span>
-    <h2 class="sec-h">Cómo el satélite detecta un árbol.</h2>
-    <p class="sec-lead">El método completo está en el plan técnico; esto es lo esencial.</p>
-    <div class="tech-grid">
-      <div class="tblock">
-        <h3><span class="dot"></span>Índice de vegetación (NDVI)</h3>
-        <p>Cada píxel se evalúa por cuánta luz infrarroja refleja la vegetación sana frente a la luz roja que absorbe:</p>
-        <span class="formula">NDVI = (NIR − Rojo) / (NIR + Rojo)</span>
-        <div class="scale-legend" aria-hidden="true">
-          <div style="background:#8f897a">Cemento &lt;0.1</div>
-          <div style="background:#b9a86a">Suelo 0.2</div>
-          <div style="background:#8fb56a">Pasto 0.4</div>
-          <div style="background:#3f7241">Dosel &gt;0.6</div>
-        </div>
-      </div>
-      <div class="tblock">
-        <h3><span class="dot"></span>Separar árbol de pasto</h3>
-        <p>El NDVI no distingue un árbol de un césped. Se combina umbral alto + persistencia estacional (el pasto se agosta, el árbol no), textura del dosel y, donde exista, <strong>altura de copa (LiDAR / GEDI)</strong>. Las mediciones ciudadanas calibran y validan.</p>
-      </div>
-      <div class="tblock">
-        <h3><span class="dot"></span>Detección de cambio</h3>
-        <p>Restando rásteres se obtiene el ΔNDVI: el mapa de calor de pérdida. Una matriz de transición cuantifica en hectáreas cuánto dosel pasó a superficie construida, barrio por barrio.</p>
-        <span class="formula">ΔNDVI = NDVI₂₀₂₅ − NDVI₂₀₀₅</span>
-      </div>
-      <div class="tblock">
-        <h3><span class="dot"></span>Plataforma &amp; herramientas</h3>
-        <p>Procesamiento en la nube sobre el archivo histórico completo, con compuestos mediana para vencer la nubosidad de Temuco.</p>
-        <div class="chips">
-          <span class="chip">Google Earth Engine</span>
-          <span class="chip">Landsat 5/8/9</span>
-          <span class="chip">Sentinel-2</span>
-          <span class="chip">Python · geemap</span>
-          <span class="chip">rasterio</span>
-          <span class="chip">geopandas</span>
-          <span class="chip">QGIS</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ECOSISTEMICOS -->
-<section class="eco">
-  <div class="wrap">
-    <span class="eyebrow">Del píxel al barrio</span>
-    <h2 class="sec-h">Qué perdemos cuando cae un árbol.</h2>
-    <div class="eco-grid">
-      <div class="eco-card">
-        <div class="ic">☂️</div>
-        <h3>Sombra perdida</h3>
-        <p>El área de dosel eliminada (m²) es una medida directa de la sombra que desaparece de veredas y bandejones al mediodía.</p>
-      </div>
-      <div class="eco-card">
-        <div class="ic">🌡️</div>
-        <h3>Islas de calor</h3>
-        <p>La banda térmica de Landsat (temperatura superficial) compara barrios que perdieron árboles con los que los conservan: cuántos grados sube la calle.</p>
-      </div>
-      <div class="eco-card">
-        <div class="ic">🪶</div>
-        <h3>Patrimonio en riesgo</h3>
-        <p>El arbolado patrimonial restante se cataloga y monitorea con las imágenes más recientes para alertar cambios y exigir su protección.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MARCO NORMATIVO -->
-<section class="goals" id="marco">
-  <div class="wrap">
-    <span class="eyebrow">Marco legal</span>
-    <h2 class="sec-h">El proyecto ya tiene respaldo en la ordenanza.</h2>
-    <p class="sec-lead">La <strong>Ordenanza Municipal N°004/2021 de Temuco</strong> ("árboles urbanos y áreas verdes en bien nacional de uso público") no solo prohíbe la tala no autorizada: obliga al municipio a mantener una plataforma pública de arbolado. El Observatorio se ancla ahí.</p>
-    <div class="goal-general">
-      <span class="lbl">Art. 28°</span>
-      <p>El municipio debe mantener un <strong>catastro forestal</strong> y una <strong>plataforma de acceso público</strong> que cuantifique especies mediante sistemas digitales y <strong>reciba comentarios y recomendaciones de los vecinos</strong>. Es el mandato legal exacto de una herramienta como este Observatorio.</p>
-    </div>
-    <div class="cards">
-      <div class="card">
-        <span class="num">ART · 09</span>
-        <h3>Registro patrimonial vecinal</h3>
-        <p>Un grupo de vecinos puede solicitar declarar un árbol patrimonial presentando un informe con especie, ubicación, criterio y firmas. El Observatorio prepara justo esa evidencia.</p>
-      </div>
-      <div class="card">
-        <span class="num">ART · 19</span>
-        <h3>Monitoreo periódico obligatorio</h3>
-        <p>Es responsabilidad municipal monitorear el estado del arbolado. El análisis satelital + terreno es el instrumento que la ordenanza exige.</p>
-      </div>
-      <div class="card">
-        <span class="num">ART · 25 · 31</span>
-        <h3>Denuncia con valor probatorio</h3>
-        <p>Los habitantes deben denunciar destrozos a la DMAO, Carabineros o Juzgado de Policía Local. Las fotos georreferenciadas del Observatorio son ese medio de prueba. Multa: 1 a 5 UTM por evento.</p>
-      </div>
-      <div class="card">
-        <span class="num">ART · 11</span>
-        <h3>Las obras reparan lo destruido</h3>
-        <p>Toda obra pública que afecte áreas verdes debe reconstruir a su cargo lo destruido. Base para exigir reposición en aperturas viales como Imperial y Caupolicán.</p>
-      </div>
-    </div>
-
-    <div class="integration" style="margin-top:26px">
-      <span class="plus">$</span>
-      <div>
-        <p style="margin-bottom:.5em"><strong>Art. 32° — cuánto vale un árbol talado.</strong> La ordenanza fija una fórmula para el cobro por daño. Cruzándola con los polígonos de pérdida de dosel, el Observatorio puede expresar la deforestación en dinero, no solo en m².</p>
-        <span class="formula">Vt = Vb · f<sub>sanidad</sub> · f<sub>ubicación</sub> · f<sub>singularidad</sub></span>
-        <div class="chips" style="margin-top:12px">
-          <span class="chip">Ubicación: plaza 200% · calle 150%</span>
-          <span class="chip">Singularidad: patrimonial 500% · monumento 700%</span>
-          <span class="chip">Nativas (Araucaria, Nothofagus) = Grupo 3</span>
-        </div>
-      </div>
-    </div>
-
-    <p class="sec-lead" style="margin-top:22px; font-size:.98rem">
-      Se complementa con el <strong>Plan Regulador (2010/2015, en modificación)</strong>, el <strong>PLADECO</strong> (actualizándose a 2027-2032), el <strong>SECAP 2020</strong>, la Ley 18.695 (áreas verdes = función municipal) y el estándar <strong>SIEDU de 10 m²/hab</strong>. El proyecto interopera con el IDE Municipal de Temuco y el Catastro INE de Áreas Verdes 2024.
-    </p>
-  </div>
-</section>
-
-<!-- PARTICIPA -->
-<section class="eco" id="participa">
-  <div class="wrap">
-    <span class="eyebrow">Participa</span>
-    <h2 class="sec-h">La vigilancia vecinal, convertida en evidencia.</h2>
-    <p class="sec-lead">¿Viste una tala, una poda severa o conoces un árbol que merece protección patrimonial? Registrarlo toma dos minutos y queda georreferenciado. <span id="dLead">Cada denuncia se <strong>revisa antes de publicarse</strong>: solo las verificadas aparecen en el mapa.</span></p>
-    <div class="ctarow">
-      <a class="bigcta" href="denuncia.html">Registrar una denuncia →</a>
-      <span class="ctahint">No publicamos tu nombre ni tu contacto.</span>
-    </div>
-  </div>
-</section>
-
-<!-- REGISTRO CIUDADANO (mapa de denuncias) -->
-<section class="tech" id="registro">
-  <div class="wrap">
-    <span class="eyebrow">Registro ciudadano</span>
-    <h2 class="sec-h">Las denuncias, en el mapa.</h2>
-    <p class="sec-lead">Cada punto es un registro vecinal verificado por el equipo del Observatorio. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
-
-    <div class="statrow" id="denunciaStats">
-      <div class="stat"><div class="v" id="dTotal">0</div><div class="k">Denuncias verificadas en el mapa</div></div>
-      <div class="stat"><div class="v loss" id="dTalas">0</div><div class="k">Talas y podas severas</div></div>
-      <div class="stat"><div class="v" id="dPatri">0</div><div class="k">Propuestas de árbol patrimonial</div></div>
-    </div>
-
-    <div class="lmapctrl">
-      <label>Mostrar
-        <select id="dFiltro">
-          <option value="">Todas las situaciones</option>
-          <option value="Tala">Solo talas</option>
-          <option value="Poda">Solo podas severas</option>
-          <option value="dañado">Solo árboles dañados</option>
-          <option value="patrimonial">Solo árboles patrimoniales</option>
-          <option value="Área verde">Solo áreas verdes eliminadas</option>
-        </select>
-      </label>
-      <span class="ctahint" id="dActualizado"></span>
-    </div>
-    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada 10 segundos. Más adelante se activará la aprobación manual.</p>
-    <p class="avisoprueba" id="dPend" style="display:none"></p>
-    <div id="dmap"></div>
-    <div class="dleyenda" id="dLeyenda"></div>
-    <div class="dempty" id="dEmpty">
-      <p id="dEmptyTxt"><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales y el equipo los verifique, aparecerán aquí automáticamente. <a href="denuncia.html">Sé la primera persona en registrar una →</a></p>
-    </div>
-    <p class="yv-legend">Los puntos se actualizan solos desde el registro verificado del Observatorio. Por privacidad, nunca se publican los datos de contacto de quien denuncia. Base cartográfica © OpenStreetMap.</p>
-  </div>
-</section>
-
-<!-- MAPAS -->
-<section class="tech" id="mapas">
-  <div class="wrap">
-    <span class="eyebrow">Evidencia satelital</span>
-    <h2 class="sec-h">El dosel urbano y sus causas, 2005–2024.</h2>
-    <p class="sec-lead">Análisis del <strong>casco urbano construido</strong> de Temuco (≈4.308 ha, zonas edificadas GHSL), año a año, con Landsat homogeneizado (Roy et&nbsp;al. 2016), altura de dosel y Google Dynamic World para separar árbol de pasto.</p>
-
-    <div class="statrow">
-      <div class="stat"><div class="v loss">4,2×</div><div class="k">Más pérdida de verde <strong>dentro</strong> de loteos nuevos (44,9%) que fuera (10,7%)</div></div>
-      <div class="stat"><div class="v loss">+1,4 °C</div><div class="k">Más caliente donde se <strong>perdió</strong> el arbolado que donde se mantuvo</div></div>
-      <div class="stat"><div class="v loss">139 ha</div><div class="k">Dosel urbano perdido (bruto) 2005→2025; supera a lo ganado (119 ha)</div></div>
-    </div>
-
-    <div class="tempblock">
-      <h3>Menos árboles, más calor — medido</h3>
-      <div class="tempstrip">
-        <div class="tstep"><span class="tv">29,3&nbsp;°C</span><span class="tk">🌳 Mantuvo su dosel</span></div>
-        <div class="tstep"><span class="tv">30,8&nbsp;°C</span><span class="tk">🍂 Perdió su dosel</span></div>
-        <div class="tstep"><span class="tv">31,6&nbsp;°C</span><span class="tk">🧱 Nunca tuvo árboles</span></div>
-      </div>
-      <p>Temperatura de superficie (Landsat, veranos 2020–2024) en el casco urbano, según lo que pasó con el dosel entre 2005 y 2025. La progresión es directa: <strong>cada paso de pérdida de arbolado suma calor</strong>. Perder el árbol cuesta <strong>+1,4&nbsp;°C</strong>; quedarse sin dosel, hasta <strong>+2,3&nbsp;°C</strong> frente a conservarlo.</p>
-      <p class="tempscale">Ojo con la escala: esta es la temperatura <strong>promedio de la superficie a nivel de barrio</strong> (satélite, 30&nbsp;m). A ras de piso, la <strong>sombra de un árbol enfría bastante más</strong> de lo que refleja este promedio —esa diferencia vivida, al sol vs. bajo la copa, se medirá en terreno (escala ciudadana).</p>
+    <div class="honestbox">
+      <h3>⚠️ La cifra que no vas a leer acá</h3>
+      <p>Si en vez del casco urbano se mide <strong>todo el límite urbano oficial</strong>, el dosel pasa de 3.749 ha (2005) a 4.548 ha (2025): <strong>un aumento del 21%</strong>. No es que la ciudad se haya llenado de árboles — es que ese perímetro incluye periferia rural y forestal que reverdece y tapa la señal urbana.</p>
+      <p><strong>Por eso nunca presentamos un “% de pérdida neta comunal” como si fuera deforestación urbana.</strong> Sería inflar el dato en la dirección que nos conviene, y este observatorio no está para eso.</p>
     </div>
 
     <div class="mapduo">
       <figure class="mapcard">
         <img src="mapas/urbano_perdida.png" alt="Focos de pérdida de dosel en el casco urbano de Temuco" loading="lazy">
-        <figcaption><strong>Focos de pérdida (casco urbano)</strong><span>Rojo = dosel perdido 2005→2025 · Verde = estable.</span></figcaption>
+        <figcaption><strong>Dónde se perdió</strong><span>Rojo = dosel perdido 2005→2025 · Verde = estable.</span></figcaption>
       </figure>
       <figure class="mapcard">
         <img src="mapas/anual/tendencia_anual.png" alt="Dosel urbano por año 2005-2024" loading="lazy">
-        <figcaption><strong>Dosel urbano, año a año</strong><span>Serie ruidosa a 30&nbsp;m; 2012–2013 sin dato Landsat.</span></figcaption>
+        <figcaption><strong>Año a año</strong><span>Serie ruidosa a 30&nbsp;m; 2012–2013 sin dato Landsat.</span></figcaption>
       </figure>
     </div>
+    <p class="yv-legend">Compara los años tú misma con el <strong>deslizador del inicio</strong> (serie anual 2005–2024) o entra al <a href="#explora">mapa interactivo</a>, donde puedes superponer cada capa sobre las calles reales.</p>
+  </div>
+</section>
 
-    <div class="mapnote">
-      <p><strong>Cómo leer esto — con rigor.</strong> La señal más fuerte es la <strong>causa</strong>: dentro de los <strong>loteos aprobados desde 2005</strong> se perdió <strong>4,2 veces más verde</strong> que en el resto de la ciudad — evidencia directa de que la expansión inmobiliaria explica buena parte de la pérdida. El calor lo confirma de forma directa: las zonas que <strong>perdieron</strong> su arbolado están hoy <strong>1,4&nbsp;°C más calientes</strong> que las que lo conservaron, y hasta 2,3&nbsp;°C donde nunca hubo árboles (la correlación pixel a pixel es débil, r≈−0,14, algo esperable en clima húmedo). En el conteo de hectáreas, el casco urbano pierde dosel neto (~20 ha), aunque la serie es <strong>ruidosa</strong> a 30&nbsp;m y no cuenta el árbol de calle individual. La medición fina —árbol por árbol y el patrimonio— la aporta la <strong>escala ciudadana</strong>. El satélite localiza y explica; la comunidad cuenta.</p>
+<section class="tech alt" id="calor">
+  <div class="wrap">
+    <span class="eyebrow">2 · Lo que se siente en la calle</span>
+    <h2 class="sec-h">El costo en calor.</h2>
+    <p class="sec-lead">Un árbol no es un adorno: es infraestructura climática. Comparamos la temperatura de superficie (Landsat, veranos 2020–2024) según lo que le pasó al dosel de cada lugar entre 2005 y 2025.</p>
+
+    <div class="tempblock">
+      <h3>Menos árboles, más calor — medido en Temuco</h3>
+      <div class="tempstrip">
+        <div class="tstep"><span class="tv">29,3&nbsp;°C</span><span class="tk">🌳 Mantuvo su dosel</span></div>
+        <div class="tstep"><span class="tv">30,8&nbsp;°C</span><span class="tk">🍂 Perdió su dosel</span></div>
+        <div class="tstep"><span class="tv">31,6&nbsp;°C</span><span class="tk">🧱 Nunca tuvo árboles</span></div>
+      </div>
+      <p>La progresión es directa: <strong>cada paso de pérdida de arbolado suma calor</strong>. Perder el árbol cuesta <strong>+1,4&nbsp;°C</strong> respecto de conservarlo; no haberlo tenido nunca, <strong>+2,3&nbsp;°C</strong>.</p>
+      <p class="tempscale">Ojo con la escala: esta es la temperatura <strong>promedio de la superficie a nivel de barrio</strong> (satélite, 30&nbsp;m). A ras de piso, la <strong>sombra de un árbol enfría bastante más</strong> de lo que refleja este promedio —esa diferencia vivida, al sol vs. bajo la copa, se medirá en terreno.</p>
+    </div>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="ic">☂️</div>
+        <h3>Sombra que desaparece</h3>
+        <p>Cada hectárea de copa eliminada son 10.000 m² de vereda, patio y bandejón que quedan al sol del mediodía en enero.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🌡️</div>
+        <h3>Isla de calor urbana</h3>
+        <p>Separando por tipo de cobertura con Google Dynamic World, el dosel denso marca <strong>28,7&nbsp;°C</strong> y las zonas sin verde <strong>31,7&nbsp;°C</strong>: <strong>3&nbsp;°C</strong> de diferencia dentro de la misma ciudad, el mismo día.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🫀</div>
+        <h3>Y no afecta a todos igual</h3>
+        <p>El calor golpea más fuerte a la infancia, a las personas mayores y a quien tiene enfermedades crónicas o trabaja a la intemperie. Quién vive en la zona caliente no es casualidad: eso lo vemos en <a href="#justicia">justicia ambiental</a>.</p>
+      </div>
+    </div>
+
+    <div class="honestbox">
+      <h3>Una debilidad que preferimos declarar</h3>
+      <p>La correlación píxel a píxel entre vegetación y temperatura en nuestro análisis es <strong>débil: r ≈ −0,14</strong>. Otros observatorios reportan valores mucho más fuertes (−0,6 y más). En un clima húmedo y nublado como el de La Araucanía, con pasto que se mantiene verde y fresco buena parte del año, esa señal se diluye.</p>
+      <p>Por eso <strong>no nos apoyamos en la correlación</strong>, sino en la comparación directa por grupos —perdió / mantuvo / nunca tuvo—, que sí muestra una diferencia clara y consistente. Decimos el número débil en vez de esconderlo: es el que un evaluador técnico va a buscar primero.</p>
     </div>
   </div>
 </section>
 
-<!-- EXPLORA (mapa interactivo con calles) -->
+<section class="tech" id="causas">
+  <div class="wrap">
+    <span class="eyebrow">3 · La causa, con datos oficiales</span>
+    <h2 class="sec-h">¿Por qué se está perdiendo el arbolado?</h2>
+    <p class="sec-lead">No es un misterio ni una impresión. Cruzamos los <strong>344 loteos aprobados entre 2005 y 2024</strong> —polígonos oficiales de la Municipalidad— con el mapa satelital de pérdida de verde.</p>
+
+    <div class="bigstat">
+      <div class="bigstat-v loss">4,2×</div>
+      <div class="bigstat-k">más pérdida de verde <strong>dentro</strong> de los loteos nuevos<br>que en el resto de la ciudad</div>
+    </div>
+
+    <div class="vsrow">
+      <div class="vsbar">
+        <div class="vslabel">Dentro de loteos aprobados 2005–2024</div>
+        <div class="vstrack"><div class="vsfill loss" style="width:44.9%"><span>44,9%</span></div></div>
+      </div>
+      <div class="vsbar">
+        <div class="vslabel">Resto de la ciudad</div>
+        <div class="vstrack"><div class="vsfill" style="width:10.7%"><span>10,7%</span></div></div>
+      </div>
+      <p class="flownote">Porcentaje de superficie que perdió cobertura verde en cada zona. La urbanización no es la única causa —también hay talas puntuales, obras viales y podas que matan el árbol— pero es <strong>la más fuerte, y ahora está medida</strong> contra el catastro oficial de loteos, no supuesta.</p>
+    </div>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="ic">🏗️</div>
+        <h3>Expansión inmobiliaria</h3>
+        <p>El paño se despeja completo antes de construir. El arbolado preexistente casi nunca se incorpora al diseño del loteo, aunque la Ordenanza obligue a reponer.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🪚</div>
+        <h3>Poda severa que mata</h3>
+        <p>El desmoche —cortar el árbol “a garrote”— no aparece como tala en el satélite, pero condena al ejemplar a pudrirse en pocos años. Es la pérdida invisible.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">📄</div>
+        <h3>Sin catastro, sin control</h3>
+        <p>El Art. 28 de la Ordenanza obliga al municipio a mantener un catastro forestal público. Sin él, nadie puede probar cuántos árboles había antes de una obra.</p>
+      </div>
+    </div>
+
+    <p class="yv-legend">En el <a href="#explora">mapa interactivo</a> puedes activar la capa <strong>Loteos</strong> sobre el mapa de pérdida y ver cómo los polígonos naranjos caen justo encima de las zonas rojas.</p>
+  </div>
+</section>
+
 <section class="tech" id="explora">
   <div class="wrap">
     <span class="eyebrow">Mapa interactivo</span>
@@ -862,7 +871,192 @@
   </div>
 </section>
 
-<!-- HUELLA HÍDRICA DE LA IA -->
+<section class="tech alt" id="patrimoniales">
+  <div class="wrap">
+    <span class="eyebrow">4 · Los que hay que proteger</span>
+    <h2 class="sec-h">Árboles patrimoniales.</h2>
+    <p class="sec-lead">La Ordenanza 004/2021 (Art. 9) permite que <strong>un grupo de vecinos proponga</strong> declarar patrimonial un árbol, presentando un informe a la DMAO. Este mapa reúne las propuestas ciudadanas que han llegado al Observatorio.</p>
+
+    <div class="honestbox warn">
+      <h3>Lo que todavía no tenemos, dicho claro</h3>
+      <p><strong>El catastro municipal de árboles patrimoniales no está publicado</strong>, y no lo hemos obtenido. Existe un estudio del Dr. Rodrigo Vargas (UFRO) con 98 ejemplares caracterizados, y una solicitud por Ley de Transparencia es el camino para acceder al registro oficial. Mientras eso no ocurra, <strong>este mapa no es el catastro de Temuco</strong>: es el registro ciudadano que estamos construyendo, y parte de cero.</p>
+      <p>Preferimos un mapa honesto con pocos puntos antes que uno impresionante con datos inventados.</p>
+    </div>
+
+    <div class="pmapwrap">
+      <div class="statrow small">
+        <div class="stat"><div class="v" id="pTotal">0</div><div class="k">Propuestas ciudadanas registradas</div></div>
+        <div class="stat"><div class="v">98</div><div class="k">Ejemplares en el estudio UFRO (aún no publicado como catastro)</div></div>
+        <div class="stat"><div class="v">Art. 9</div><div class="k">La vía legal para proponer un árbol patrimonial</div></div>
+      </div>
+      <div id="pmap"></div>
+      <div class="dempty" id="pEmpty">
+        <p><strong>Todavía no hay propuestas de árbol patrimonial en el mapa.</strong> Si conoces un árbol con historia, tamaño excepcional o valor para el barrio, propónlo: cada ficha que se suma es un argumento más ante el municipio. <a href="denuncia.html">Proponer un árbol patrimonial →</a></p>
+      </div>
+      <p class="yv-legend">Cada punto es una propuesta vecinal, con su ficha: especie, ubicación, descripción y fecha del registro. Por privacidad, nunca se publica quién la envió.</p>
+    </div>
+
+    <div class="fichaguia">
+      <h3>Qué necesita la ficha para que sirva ante el municipio</h3>
+      <p>El Art. 9 pide un informe con <strong>caracterización de la especie, ubicación, criterio fundamentado y firma de los vecinos patrocinantes</strong>. Los criterios que la Ordenanza reconoce son: histórico, cultural, ornamental, taxonómico, ambiental u otra singularidad.</p>
+      <ul class="fichalist">
+        <li><strong>Especie y tamaño.</strong> Nombre común basta; si puedes, perímetro del tronco a la altura del pecho y altura aproximada.</li>
+        <li><strong>Ubicación exacta.</strong> El formulario la toma con GPS o marcándola en el mapa.</li>
+        <li><strong>Por qué es singular.</strong> Una historia del barrio, su edad, su rareza, quién lo plantó. Esto es lo que más pesa y lo que solo los vecinos saben.</li>
+        <li><strong>Fotos.</strong> Del árbol completo y del tronco. Se envían por el formulario y llegan al equipo.</li>
+      </ul>
+      <a class="bigcta" href="denuncia.html">Proponer un árbol patrimonial →</a>
+    </div>
+  </div>
+</section>
+
+<section class="tech" id="educacion">
+  <div class="wrap">
+    <span class="eyebrow">5 · Educación ambiental</span>
+    <h2 class="sec-h">Lo que conviene saber antes de tomar la motosierra.</h2>
+    <p class="sec-lead">La mayor parte del daño al arbolado urbano no lo hace la maldad, sino la buena intención mal informada: el vecino que “despeja” su vereda, la empresa que poda para liberar cables, el municipio que corta antes del invierno.</p>
+
+    <div class="eduwrap">
+      <details class="edu" open>
+        <summary>🪚 Cómo se poda bien (y cómo se mata un árbol podándolo)</summary>
+        <div class="edubody">
+          <p>Podar no es cortar donde alcanza la escalera. Una poda correcta retira <strong>ramas puntuales</strong> por razones concretas —ramas secas, enfermas, quebradas, o que rozan un cable o un techo— y respeta la estructura del árbol.</p>
+          <div class="dosdont">
+            <div class="do">
+              <h4>✔ Poda correcta</h4>
+              <ul>
+                <li>Se corta <strong>rama por rama</strong>, en su punto de inserción, respetando el collar (el engrosamiento en la base de la rama): ahí el árbol sabe cicatrizar.</li>
+                <li>Se retira como máximo <strong>un cuarto de la copa</strong> en una temporada.</li>
+                <li>Se hace en el <strong>período de reposo</strong> (fines de otoño a fines de invierno) para la mayoría de las especies caducas.</li>
+                <li>Herramienta limpia y afilada; corte liso, sin desgarrar la corteza.</li>
+              </ul>
+            </div>
+            <div class="dont">
+              <h4>✘ Desmoche (“poda a garrote”)</h4>
+              <ul>
+                <li>Se corta el tronco y las ramas gruesas <strong>por la mitad</strong>, dejando muñones.</li>
+                <li>El muñón <strong>no cicatriza</strong>: entra agua, se pudre, y la pudrición avanza hacia el centro del árbol.</li>
+                <li>Los rebrotes que salen son <strong>débiles y mal anclados</strong>: años después se caen solos, justo lo que se quería evitar.</li>
+                <li>El árbol pierde su capacidad de producir alimento y entra en decaimiento. <strong>No es una poda: es una muerte lenta.</strong></li>
+              </ul>
+            </div>
+          </div>
+          <p class="edunote">El desmoche es el enemigo silencioso de este observatorio: <strong>el satélite no lo detecta como pérdida</strong> —la copa rebrota— pero el árbol ya está condenado. Solo se ve desde la vereda, y por eso importa que lo denuncies.</p>
+        </div>
+      </details>
+
+      <details class="edu">
+        <summary>⚖️ Qué hacer si podan o talan un árbol de la vía pública</summary>
+        <div class="edubody">
+          <p>Los árboles de veredas, bandejones, plazas y parques son <strong>bienes nacionales de uso público</strong>. No pertenecen al vecino frente a cuya casa están, ni a la empresa que instala cables. Intervenirlos <strong>requiere autorización municipal</strong>.</p>
+          <ol class="pasos">
+            <li><strong>Registra antes de que desaparezca.</strong> Fotos del árbol y del corte, fecha y hora, y la ubicación. Sin evidencia, después es la palabra de uno contra otro.</li>
+            <li><strong>Pregunta si hay autorización.</strong> Quien interviene legalmente puede mostrar el permiso de la Dirección de Medio Ambiente, Aseo y Ornato (DMAO).</li>
+            <li><strong>Denuncia.</strong> El Art. 25 de la Ordenanza establece que los habitantes <strong>deberán denunciar</strong> cualquier destrozo a la DMAO, Carabineros o el Juzgado de Policía Local.</li>
+            <li><strong>Regístralo también acá.</strong> Tu registro en el Observatorio queda georreferenciado y con fecha, y suma a la evidencia colectiva. <strong>No reemplaza la denuncia formal</strong>: la complementa.</li>
+          </ol>
+          <p class="edunote">La infracción se sanciona con <strong>multa de 1 a 5 UTM por evento</strong> (Art. 31), y además existe un <strong>cobro de derechos por el daño</strong> según especie, tamaño y singularidad del ejemplar (Art. 32), que es independiente de la multa. La denuncia ante el Juzgado debe ser <strong>fundada y con medios probatorios</strong>: por eso tu foto con fecha y coordenadas vale.</p>
+          <a class="bigcta" href="denuncia.html">Registrar una tala o poda severa →</a>
+        </div>
+      </details>
+
+      <details class="edu">
+        <summary>🌳 Para qué sirve un árbol urbano (además de verse bien)</summary>
+        <div class="edubody">
+          <div class="benef">
+            <div class="ben"><span class="bico">🌡️</span><h4>Enfría</h4><p>En Temuco medimos <strong>1,4&nbsp;°C</strong> menos donde el dosel se mantuvo, y hasta <strong>3&nbsp;°C</strong> entre zona de dosel denso y zona sin verde. La sombra directa, a ras de piso, se siente bastante más.</p></div>
+            <div class="ben"><span class="bico">🌧️</span><h4>Frena el agua</h4><p>La copa intercepta la lluvia y las raíces la infiltran: menos agua corriendo por la calzada, menos anegamiento en las lluvias fuertes de la Araucanía.</p></div>
+            <div class="ben"><span class="bico">💨</span><h4>Limpia el aire</h4><p>Las hojas retienen material particulado. En una ciudad con episodios críticos de contaminación por leña en invierno, no es un detalle menor.</p></div>
+            <div class="ben"><span class="bico">🐦</span><h4>Da casa</h4><p>Aves, insectos polinizadores y fauna urbana dependen de la continuidad del arbolado: un árbol aislado sirve mucho menos que un corredor.</p></div>
+            <div class="ben"><span class="bico">🧠</span><h4>Hace bien</h4><p>La literatura en salud pública asocia el acceso a áreas verdes con menos estrés y mejor salud mental. El efecto es consistente entre estudios, aunque su tamaño varía según el contexto.</p></div>
+            <div class="ben"><span class="bico">💰</span><h4>Vale plata</h4><p>La propia Ordenanza pone precio al árbol: el Art. 32 calcula los derechos por daño según especie, tamaño y singularidad. Talar sale caro porque el árbol vale.</p></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="edu">
+        <summary>🧭 Mitos y verdades sobre los árboles urbanos</summary>
+        <div class="edubody">
+          <div class="mito">
+            <p class="m">“Las raíces me van a levantar la vereda, mejor lo saco.”</p>
+            <p class="v"><strong>A medias.</strong> El conflicto es real, pero suele nacer de <strong>elegir mal la especie</strong> para un espacio angosto, no del árbol en sí. Hoy se resuelve con vereda flotante, cambio de trazado o poda de raíces técnica. Cortar el árbol es la solución más cara para la ciudad y la más barata para quien reclama.</p>
+          </div>
+          <div class="mito">
+            <p class="m">“Está muy grande, se va a caer con el viento.”</p>
+            <p class="v"><strong>Falso como regla general.</strong> Un árbol sano bien anclado resiste temporales; los que caen suelen estar <strong>podridos por dentro tras un desmoche previo</strong> o con raíces cortadas por una obra. Paradójicamente, la poda severa que se hace “por seguridad” es una de las principales causas de caída años después. Si hay duda real, corresponde una evaluación de riesgo, no una motosierra.</p>
+          </div>
+          <div class="mito">
+            <p class="m">“Es mi vereda, el árbol es mío.”</p>
+            <p class="v"><strong>Falso.</strong> El arbolado de la vía pública es un bien nacional de uso público. Intervenirlo sin autorización municipal es una infracción (Art. 25 y 31 de la Ordenanza 004/2021).</p>
+          </div>
+          <div class="mito">
+            <p class="m">“Plantamos mil árboles, así que compensamos la tala.”</p>
+            <p class="v"><strong>No es equivalente.</strong> Un árbol recién plantado tiene una fracción mínima de la copa, la sombra y la captura de un ejemplar maduro, y una parte no sobrevive los primeros veranos. Reponer la sombra de un árbol adulto toma <strong>entre 15 y 30 años</strong>. Por eso este observatorio informa pérdida y ganancia <a href="#perdida">por separado</a>, y no solo el neto.</p>
+          </div>
+          <div class="mito">
+            <p class="m">“Los árboles ensucian con hojas.”</p>
+            <p class="v"><strong>Cierto, y es lo mejor que hacen.</strong> La hoja caída es materia orgánica que devuelve nutrientes al suelo. El costo de barrer es real y hay que asumirlo; el punto es compararlo con lo que entrega el árbol —sombra, agua, aire, temperatura— antes de decidir que sobra.</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="tech alt" id="justicia">
+  <div class="wrap">
+    <span class="eyebrow">6 · Justicia ambiental</span>
+    <h2 class="sec-h">La sombra no está repartida por igual.</h2>
+    <p class="sec-lead">Cruzamos, para las <strong>36 unidades vecinales</strong> de Temuco, cuánto dosel tiene cada una, cuánto calor acumula, cuánta área verde por habitante y qué tan vulnerable es su población (Censo 2024). El resultado es un índice de <strong>prioridad de plantación</strong>.</p>
+
+    <div class="tablewrap">
+      <table class="equitab">
+        <caption>Las 8 unidades vecinales con mayor prioridad de plantación</caption>
+        <thead>
+          <tr><th>Unidad vecinal</th><th>Dosel</th><th>Calor</th><th>Área verde<br><span>m²/hab</span></th><th>Prioridad</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Tromen Mollulco</td><td>18,0%</td><td>30,8 °C</td><td>0,0</td><td><span class="pri" style="--p:82">82</span></td></tr>
+          <tr><td>Estación</td><td>3,0%</td><td>32,6 °C</td><td>13,3</td><td><span class="pri" style="--p:81.7">82</span></td></tr>
+          <tr><td>Javiera Carrera Oriente</td><td>3,1%</td><td>31,1 °C</td><td>5,5</td><td><span class="pri" style="--p:80">80</span></td></tr>
+          <tr><td>Alemania</td><td>3,6%</td><td>32,4 °C</td><td>5,7</td><td><span class="pri" style="--p:80">80</span></td></tr>
+          <tr><td>Prieto Sur</td><td>3,1%</td><td>32,4 °C</td><td>5,1</td><td><span class="pri" style="--p:79.8">80</span></td></tr>
+          <tr><td>Museo Ferroviario</td><td>3,2%</td><td>31,7 °C</td><td>8,7</td><td><span class="pri" style="--p:79.8">80</span></td></tr>
+          <tr><td>Aquelarre</td><td>3,5%</td><td>31,7 °C</td><td>6,9</td><td><span class="pri" style="--p:79.6">80</span></td></tr>
+          <tr><td>Estadio</td><td>4,2%</td><td>32,2 °C</td><td>23,0</td><td><span class="pri" style="--p:79.4">79</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="ic">🥵</div>
+        <h3>Barrios con 3% de dosel</h3>
+        <p>Varias unidades vecinales apenas superan el <strong>3% de cobertura arbórea</strong> y marcan sobre <strong>32&nbsp;°C</strong> de superficie. Son los mismos sectores donde el verano se hace insoportable y no hay dónde refugiarse a media cuadra.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🚸</div>
+        <h3>Cero metros de área verde</h3>
+        <p>Tromen Mollulco encabeza la lista con <strong>0,0 m² de área verde por habitante</strong>. La referencia que suele citarse (OMS, 9 m²/hab) es discutida como estándar formal, pero la distancia entre 0 y cualquier cifra razonable habla sola.</p>
+      </div>
+      <div class="eco-card">
+        <div class="ic">⚖️</div>
+        <h3>Para qué sirve este índice</h3>
+        <p>Para que plantar deje de decidirse por quién reclama más fuerte. Es un insumo objetivo para el PLADECO, el Plan Regulador y cualquier programa municipal de arbolado.</p>
+      </div>
+    </div>
+
+    <div class="honestbox">
+      <h3>Cómo se calcula, y qué pesa cada cosa</h3>
+      <p class="formula">prioridad = 100 × (0,35 × déficit de dosel + 0,25 × calor + 0,20 × déficit de área verde + 0,20 × vulnerabilidad social)</p>
+      <p>Los pesos son <strong>una decisión nuestra, no un resultado del dato</strong>: le dimos más peso al déficit de dosel porque es lo que este observatorio mide mejor. Otra combinación razonable daría otro orden en los primeros lugares. Lo publicamos para que se pueda discutir y recalcular, no para que se acepte.</p>
+      <p>La vulnerabilidad social viene del Censo 2024 a nivel de unidad vecinal; el dosel y el calor, de nuestro análisis satelital. Un índice a escala de barrio <strong>no dice nada sobre una manzana en particular</strong>.</p>
+    </div>
+
+    <p class="yv-legend">Puedes ver el índice completo, barrio por barrio, activando la capa <strong>Prioridad de plantación</strong> en el <a href="#explora">mapa interactivo</a>.</p>
+  </div>
+</section>
+
 <section class="huella" id="huella">
   <div class="wrap">
     <span class="eyebrow agua">Transparencia</span>
@@ -919,6 +1113,41 @@
       </ul>
     </div>
 
+    <div class="hbloque">
+      <h3>Y también consume energía: cuánta, y cuánto CO₂</h3>
+      <p>Bajo el mismo supuesto de <strong>~300 intercambios</strong> con el asistente, y con la misma honestidad de rango que usamos para el agua:</p>
+
+      <div class="flowrow">
+        <div class="flowcard">
+          <div class="flowv">0,07 – 1 kWh</div>
+          <div class="flowk">energía para <strong>desarrollar este sitio</strong></div>
+          <p>Piso: 0,24 Wh por consulta (medición de Google, ago. 2025). Techo: ~3 Wh por intercambio, porque este trabajo usó contextos largos y muchas herramientas, no preguntas breves.</p>
+        </div>
+        <div class="flowcard">
+          <div class="flowv">9 g – 0,4 kg</div>
+          <div class="flowk">de <strong>CO₂ equivalente</strong></div>
+          <p>Piso: 0,03 gCO₂e por consulta (Google). Techo: el consumo del rango alto por un factor de red de ~0,4 kgCO₂e/kWh. Depende mucho de qué central alimenta ese centro de datos.</p>
+        </div>
+        <div class="flowcard stable">
+          <div class="flowv">1 – 12 h</div>
+          <div class="flowk">de <strong>streaming de video</strong> equivalen a lo mismo</div>
+          <p>Una hora de video en streaming consume del orden de 0,077 kWh (IEA, corrección de 2020). Todo el desarrollo de este sitio cabe en una tarde de series.</p>
+        </div>
+      </div>
+
+      <p class="hcomparo">Puesto en cosas cotidianas, el rango completo de este proyecto equivale aproximadamente a:
+        <strong>entre 6 y 80 cargas de celular</strong> · <strong>entre 0,05 y 2 km</strong> en un auto a bencina ·
+        y lo compensaría <strong>un solo árbol urbano adulto trabajando entre unas horas y una semana</strong>
+        (un ejemplar maduro captura del orden de 10 a 25 kg de CO₂ al año, con mucha variación según especie y tamaño).</p>
+
+      <div class="hcompara">
+        <h4>La comparación que importa: el agregado</h4>
+        <p>Un video de un minuto que alcanza <strong>un millón de reproducciones</strong> mueve del orden de <strong>1.000 kWh</strong> —unas mil veces el techo de todo este proyecto— entre centros de datos, red y los propios teléfonos. Una campaña de influencers, un lanzamiento viral o una temporada completa en streaming juegan en esa liga; un observatorio ciudadano no.</p>
+        <p><strong>Esto no es una excusa.</strong> Es exactamente el punto: el problema ambiental de lo digital no se resuelve con culpa individual por consulta, sino mirando el agregado y quién lo mueve. Publicamos nuestra cifra —pequeña— porque quien exige transparencia debe empezar por la propia.</p>
+        <p class="hcaveat">Todas estas equivalencias son <strong>de orden de magnitud</strong>. El consumo real varía enormemente según el dispositivo, la red (fibra vs. móvil), la resolución del video y la matriz eléctrica de cada país. Sirven para dimensionar, no para contabilizar.</p>
+      </div>
+    </div>
+
     <div class="hcierre">
       <p><strong>¿Por qué publicamos esto?</strong> Por coherencia: quien mide la pérdida de árboles debería medirse también a sí mismo. El punto no es que esta plataforma sea grave por sí sola —no lo es—, sino que <strong>el agregado sí importa</strong>: se proyecta que la demanda global de IA implique entre <strong>4,2 y 6,6 mil millones de m³</strong> de extracción de agua al año hacia 2027, más que el consumo anual de varios países. Preferimos decirlo con cifras imperfectas y explicadas, antes que no decirlo.</p>
     </div>
@@ -930,7 +1159,307 @@
   </div>
 </section>
 
-<!-- DESCARGAS -->
+<section class="eco" id="participa">
+  <div class="wrap">
+    <span class="eyebrow">Participa</span>
+    <h2 class="sec-h">La vigilancia vecinal, convertida en evidencia.</h2>
+    <p class="sec-lead">¿Viste una tala, una poda severa o conoces un árbol que merece protección patrimonial? Registrarlo toma dos minutos y queda georreferenciado. <span id="dLead">Cada denuncia se <strong>revisa antes de publicarse</strong>: solo las verificadas aparecen en el mapa.</span></p>
+    <div class="ctarow">
+      <a class="bigcta" href="denuncia.html">Registrar una denuncia →</a>
+      <span class="ctahint">No publicamos tu nombre ni tu contacto.</span>
+    </div>
+  </div>
+</section>
+
+<section class="tech" id="registro">
+  <div class="wrap">
+    <span class="eyebrow">Registro ciudadano</span>
+    <h2 class="sec-h">Las denuncias, en el mapa.</h2>
+    <p class="sec-lead">Cada punto es un registro vecinal verificado por el equipo del Observatorio. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
+
+    <div class="statrow" id="denunciaStats">
+      <div class="stat"><div class="v" id="dTotal">0</div><div class="k">Denuncias verificadas en el mapa</div></div>
+      <div class="stat"><div class="v loss" id="dTalas">0</div><div class="k">Talas y podas severas</div></div>
+      <div class="stat"><div class="v" id="dPatri">0</div><div class="k">Propuestas de árbol patrimonial</div></div>
+    </div>
+
+    <div class="lmapctrl">
+      <label>Mostrar
+        <select id="dFiltro">
+          <option value="">Todas las situaciones</option>
+          <option value="Tala">Solo talas</option>
+          <option value="Poda">Solo podas severas</option>
+          <option value="dañado">Solo árboles dañados</option>
+          <option value="patrimonial">Solo árboles patrimoniales</option>
+          <option value="Área verde">Solo áreas verdes eliminadas</option>
+        </select>
+      </label>
+      <span class="ctahint" id="dActualizado"></span>
+    </div>
+    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada 10 segundos. Más adelante se activará la aprobación manual.</p>
+    <p class="avisoprueba" id="dPend" style="display:none"></p>
+    <div id="dmap"></div>
+    <div class="dleyenda" id="dLeyenda"></div>
+    <div class="dempty" id="dEmpty">
+      <p id="dEmptyTxt"><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales y el equipo los verifique, aparecerán aquí automáticamente. <a href="denuncia.html">Sé la primera persona en registrar una →</a></p>
+    </div>
+    <p class="yv-legend">Los puntos se actualizan solos desde el registro verificado del Observatorio. Por privacidad, nunca se publican los datos de contacto de quien denuncia. Base cartográfica © OpenStreetMap.</p>
+  </div>
+</section>
+
+<section class="tech" id="adopta">
+  <div class="wrap">
+    <span class="eyebrow">8 · Participación ciudadana</span>
+    <h2 class="sec-h">Tres formas de meter las manos.</h2>
+    <p class="sec-lead">Un observatorio sin gente es una planilla. Estas son las vías abiertas hoy —y decimos con claridad cuál está funcionando y cuál todavía no.</p>
+
+    <div class="eco-grid">
+      <div class="eco-card">
+        <div class="ic">📍</div>
+        <h3>Registro ciudadano de árboles <span class="badge on">activo</span></h3>
+        <p>Cualquier vecino puede registrar un árbol con foto, especie y ubicación GPS. Cada ficha alimenta el catastro que el municipio debería tener y no tiene (Art. 28).</p>
+        <a class="cardlink" href="denuncia.html">Registrar un árbol →</a>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🚨</div>
+        <h3>Denuncias de talas y podas <span class="badge on">activo</span></h3>
+        <p>Talas sin autorización, podas severas, árboles dañados por obras. Queda georreferenciado y con fecha: eso es lo que sirve como medio probatorio ante el Juzgado de Policía Local.</p>
+        <a class="cardlink" href="denuncia.html">Registrar una denuncia →</a>
+      </div>
+      <div class="eco-card">
+        <div class="ic">🤝</div>
+        <h3>Adopta un árbol <span class="badge off">en preparación</span></h3>
+        <p>La Ordenanza contempla la adopción de árboles en el marco de la educación ambiental municipal. <strong>Todavía no existe un programa formal al que inscribirse</strong>, y no vamos a simular uno. Lo que sí puedes hacer desde ya: registrar el árbol de tu vereda, cuidarlo y avisar si lo intervienen.</p>
+      </div>
+    </div>
+
+    <div class="honestbox">
+      <h3>Qué pasa con lo que registras</h3>
+      <p>Tu registro llega a una planilla privada del Observatorio. <strong>Tu nombre y tu contacto nunca se publican</strong>: una fórmula los excluye de los datos que alimentan el mapa público. Si dejas tu correo, recibes un <strong>número de folio</strong> para hacerle seguimiento.</p>
+      <p>Y algo que conviene repetir: <strong>este registro no reemplaza la denuncia formal</strong> ante la DMAO, Carabineros o el Juzgado de Policía Local. La complementa, dejando evidencia pública y georreferenciada.</p>
+    </div>
+  </div>
+</section>
+
+<section class="tech" id="redes">
+  <div class="wrap">
+    <span class="eyebrow">9 · Difusión</span>
+    <h2 class="sec-h">Contenido para redes, generado con los datos reales.</h2>
+    <p class="sec-lead">Un dato que no sale del sitio no cambia nada. Este generador arma la publicación —texto e imagen cuadrada— a partir de las cifras del observatorio, lista para Instagram, Bluesky o WhatsApp.</p>
+
+    <div class="honestbox warn">
+      <h3>Por qué no publica solo (y qué haría falta)</h3>
+      <p>Este sitio es <strong>estático</strong>: son archivos servidos por GitHub Pages, sin servidor propio. Publicar automáticamente en Instagram exige la API de Meta, una cuenta de empresa vinculada y un <strong>token secreto</strong> que <strong>jamás</strong> puede vivir en una página pública: cualquiera podría leerlo y publicar en tu nombre.</p>
+      <p>Así que el generador <strong>prepara</strong> y tú publicas con un clic. Si más adelante quieres publicación realmente automática, el camino honesto es una <strong>GitHub Action</strong> programada que guarde el token como secreto del repositorio — se puede montar, y queda anotado como pendiente.</p>
+    </div>
+
+    <div class="genwrap">
+      <div class="gencontrols">
+        <label for="genTipo">Tipo de publicación</label>
+        <select id="genTipo">
+          <option value="cobertura">📉 Cambio en cobertura arbórea</option>
+          <option value="calor">🌡️ El costo en calor</option>
+          <option value="causa">🏗️ Por qué se pierde</option>
+          <option value="justicia">⚖️ Barrio con menos sombra</option>
+          <option value="curioso">💡 Dato curioso</option>
+          <option value="alerta">🚨 Alerta ciudadana</option>
+          <option value="arbol">🌳 Árbol de la semana</option>
+        </select>
+        <button type="button" class="genbtn" id="genOtro">↻ Otra variante</button>
+      </div>
+
+      <div class="genout">
+        <canvas id="genCanvas" width="1080" height="1080" aria-label="Imagen generada para redes sociales"></canvas>
+        <div class="gentexto">
+          <label for="genCopy">Texto de la publicación</label>
+          <textarea id="genCopy" rows="12" spellcheck="false"></textarea>
+          <div class="genacts">
+            <button type="button" class="genbtn primary" id="genCopiar">📋 Copiar texto</button>
+            <button type="button" class="genbtn" id="genBajar">⬇ Descargar imagen</button>
+          </div>
+          <p class="gennote">Revisa siempre el texto antes de publicar. Las cifras salen de los datos del observatorio, pero el contexto lo pones tú — y una cifra sin contexto es exactamente lo que este proyecto trata de evitar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="method" id="metodologia">
+  <div class="wrap">
+    <span class="eyebrow">Dimensiones de acción</span>
+    <h2 class="sec-h">Dos escalas que se retroalimentan.</h2>
+    <p class="sec-lead">La tecnología entrega las métricas; la comunidad aporta el contexto. El proyecto vive en el cruce de ambas.</p>
+    <div class="scales">
+      <div class="scale macro">
+        <span class="kicker">01 · Escala macro</span>
+        <h3>El mapeo satelital</h3>
+        <p>Observar la ciudad desde arriba. Analizando 20 años de imágenes, algoritmos detectan automáticamente el follaje y generan "mapas de calor" que muestran dónde estaba el verde y dónde hoy hay cemento.</p>
+        <ul>
+          <li>Cortes 2005 · 2010 · 2015 · 2020 · 2025</li>
+          <li>Evidencia visual de bandejones y calles vaciadas</li>
+          <li>Medición de todo el territorio, no muestras</li>
+        </ul>
+      </div>
+      <div class="scale human">
+        <span class="kicker">02 · Escala humana</span>
+        <h3>El Observatorio Ciudadano</h3>
+        <p>Un repositorio vivo impulsado por los vecinos: fotografías, denuncias en tiempo real de talas injustificadas y trabajo de campo —como las mediciones de tronco y copa en Caupolicán.</p>
+        <ul>
+          <li>Denuncias georreferenciadas con foto y fecha</li>
+          <li>Catálogo del arbolado patrimonial en riesgo</li>
+          <li>Mediciones que validan el dato satelital</li>
+        </ul>
+      </div>
+    </div>
+    <div class="integration">
+      <span class="plus">✕</span>
+      <p><strong>La integración de los datos.</strong> Cuando el Observatorio recibe una alerta —por ejemplo, los árboles eliminados por la carretera en Av. Imperial— el equipo técnico va al registro satelital y extrae <strong>cuántos metros cuadrados de sombra se perdieron</strong> en esa obra. Así, la indignación ciudadana se convierte en evidencia técnica concreta.</p>
+    </div>
+  </div>
+</section>
+
+<section class="timeline">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--green-soft)">Cortes temporales</span>
+    <h2 class="sec-h">Veinte años en cinco fotografías.</h2>
+    <p class="sec-lead">Cada corte usa el mejor sensor disponible manteniendo comparabilidad, siempre en ventana de verano austral para captar el dosel pleno.</p>
+    <div class="tl">
+      <div class="tl-item"><div class="yr">2005</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Línea base histórica.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2010</div><div class="sensor">Landsat 5 TM · 30 m</div><div class="desc">Serie consistente.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2015</div><div class="sensor">L8 + Sentinel-2</div><div class="desc">Entra el detalle de 10 m.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2020</div><div class="sensor">Sentinel-2 · 10 m</div><div class="desc">Dosel urbano fino.</div><div class="tl-bar"></div></div>
+      <div class="tl-item"><div class="yr">2025</div><div class="sensor">Sentinel-2 / L9</div><div class="desc">Estado actual.</div><div class="tl-bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="tech" id="tecnica">
+  <div class="wrap">
+    <span class="eyebrow">Resumen técnico</span>
+    <h2 class="sec-h">Cómo el satélite detecta un árbol.</h2>
+    <p class="sec-lead">El método completo está en el plan técnico; esto es lo esencial.</p>
+    <div class="tech-grid">
+      <div class="tblock">
+        <h3><span class="dot"></span>Índice de vegetación (NDVI)</h3>
+        <p>Cada píxel se evalúa por cuánta luz infrarroja refleja la vegetación sana frente a la luz roja que absorbe:</p>
+        <span class="formula">NDVI = (NIR − Rojo) / (NIR + Rojo)</span>
+        <div class="scale-legend" aria-hidden="true">
+          <div style="background:#8f897a">Cemento &lt;0.1</div>
+          <div style="background:#b9a86a">Suelo 0.2</div>
+          <div style="background:#8fb56a">Pasto 0.4</div>
+          <div style="background:#3f7241">Dosel &gt;0.6</div>
+        </div>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Separar árbol de pasto</h3>
+        <p>El NDVI no distingue un árbol de un césped. Se combina umbral alto + persistencia estacional (el pasto se agosta, el árbol no), textura del dosel y, donde exista, <strong>altura de copa (LiDAR / GEDI)</strong>. Las mediciones ciudadanas calibran y validan.</p>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Detección de cambio</h3>
+        <p>Restando rásteres se obtiene el ΔNDVI: el mapa de calor de pérdida. Una matriz de transición cuantifica en hectáreas cuánto dosel pasó a superficie construida, barrio por barrio.</p>
+        <span class="formula">ΔNDVI = NDVI₂₀₂₅ − NDVI₂₀₀₅</span>
+      </div>
+      <div class="tblock">
+        <h3><span class="dot"></span>Plataforma &amp; herramientas</h3>
+        <p>Procesamiento en la nube sobre el archivo histórico completo, con compuestos mediana para vencer la nubosidad de Temuco.</p>
+        <div class="chips">
+          <span class="chip">Google Earth Engine</span>
+          <span class="chip">Landsat 5/8/9</span>
+          <span class="chip">Sentinel-2</span>
+          <span class="chip">Python · geemap</span>
+          <span class="chip">rasterio</span>
+          <span class="chip">geopandas</span>
+          <span class="chip">QGIS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="goals" id="objetivos">
+  <div class="wrap">
+    <span class="eyebrow">Objetivos</span>
+    <h2 class="sec-h">Qué queremos lograr.</h2>
+    <div class="goal-general">
+      <span class="lbl">Objetivo general</span>
+      <p>Monitorear, medir y visibilizar la pérdida del arbolado y su impacto en Temuco, integrando herramientas satelitales de análisis histórico con la participación ciudadana activa para <strong>proteger y gestionar el patrimonio natural urbano</strong>.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="num">ESP · 01</span>
+        <h3>Automatizar la cuantificación</h3>
+        <p>Aplicar teledetección (índices de vegetación) para calcular la cobertura de dosel perdida en intervalos de cinco años, pasando del conteo manual "árbol por árbol" a una medición automatizada de todo el territorio urbano.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 02</span>
+        <h3>Correlacionar urbanización y deforestación</h3>
+        <p>Identificar los sectores de mayor cambio con mapas de "antes y después", demostrando la relación entre las obras de conectividad vial, el auge inmobiliario y la eliminación de áreas verdes consolidadas.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 03</span>
+        <h3>Estructurar la ciencia ciudadana</h3>
+        <p>Centralizar el material fotográfico, las denuncias por podas y talas, y las mediciones de los vecinos a través de la plataforma del Observatorio.</p>
+      </div>
+      <div class="card">
+        <span class="num">ESP · 04</span>
+        <h3>Evaluar servicios ecosistémicos</h3>
+        <p>Traducir los datos técnicos en impactos cotidianos: pérdida de sombra, efecto en la temperatura de los barrios, e identificación y protección del arbolado patrimonial restante.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="goals" id="marco">
+  <div class="wrap">
+    <span class="eyebrow">Marco legal</span>
+    <h2 class="sec-h">El proyecto ya tiene respaldo en la ordenanza.</h2>
+    <p class="sec-lead">La <strong>Ordenanza Municipal N°004/2021 de Temuco</strong> ("árboles urbanos y áreas verdes en bien nacional de uso público") no solo prohíbe la tala no autorizada: obliga al municipio a mantener una plataforma pública de arbolado. El Observatorio se ancla ahí.</p>
+    <div class="goal-general">
+      <span class="lbl">Art. 28°</span>
+      <p>El municipio debe mantener un <strong>catastro forestal</strong> y una <strong>plataforma de acceso público</strong> que cuantifique especies mediante sistemas digitales y <strong>reciba comentarios y recomendaciones de los vecinos</strong>. Es el mandato legal exacto de una herramienta como este Observatorio.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="num">ART · 09</span>
+        <h3>Registro patrimonial vecinal</h3>
+        <p>Un grupo de vecinos puede solicitar declarar un árbol patrimonial presentando un informe con especie, ubicación, criterio y firmas. El Observatorio prepara justo esa evidencia.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 19</span>
+        <h3>Monitoreo periódico obligatorio</h3>
+        <p>Es responsabilidad municipal monitorear el estado del arbolado. El análisis satelital + terreno es el instrumento que la ordenanza exige.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 25 · 31</span>
+        <h3>Denuncia con valor probatorio</h3>
+        <p>Los habitantes deben denunciar destrozos a la DMAO, Carabineros o Juzgado de Policía Local. Las fotos georreferenciadas del Observatorio son ese medio de prueba. Multa: 1 a 5 UTM por evento.</p>
+      </div>
+      <div class="card">
+        <span class="num">ART · 11</span>
+        <h3>Las obras reparan lo destruido</h3>
+        <p>Toda obra pública que afecte áreas verdes debe reconstruir a su cargo lo destruido. Base para exigir reposición en aperturas viales como Imperial y Caupolicán.</p>
+      </div>
+    </div>
+
+    <div class="integration" style="margin-top:26px">
+      <span class="plus">$</span>
+      <div>
+        <p style="margin-bottom:.5em"><strong>Art. 32° — cuánto vale un árbol talado.</strong> La ordenanza fija una fórmula para el cobro por daño. Cruzándola con los polígonos de pérdida de dosel, el Observatorio puede expresar la deforestación en dinero, no solo en m².</p>
+        <span class="formula">Vt = Vb · f<sub>sanidad</sub> · f<sub>ubicación</sub> · f<sub>singularidad</sub></span>
+        <div class="chips" style="margin-top:12px">
+          <span class="chip">Ubicación: plaza 200% · calle 150%</span>
+          <span class="chip">Singularidad: patrimonial 500% · monumento 700%</span>
+          <span class="chip">Nativas (Araucaria, Nothofagus) = Grupo 3</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="sec-lead" style="margin-top:22px; font-size:.98rem">
+      Se complementa con el <strong>Plan Regulador (2010/2015, en modificación)</strong>, el <strong>PLADECO</strong> (actualizándose a 2027-2032), el <strong>SECAP 2020</strong>, la Ley 18.695 (áreas verdes = función municipal) y el estándar <strong>SIEDU de 10 m²/hab</strong>. El proyecto interopera con el IDE Municipal de Temuco y el Catastro INE de Áreas Verdes 2024.
+    </p>
+  </div>
+</section>
+
 <section class="eco" id="descargas">
   <div class="wrap">
     <span class="eyebrow">Recursos</span>
@@ -1287,6 +1816,291 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(cfg); });
     document.getElementById('dFiltro').addEventListener('change', e => pintar(e.target.value));
   });
+})();
+</script>
+<script>
+/* ══════════════════════════════════════════════════════════════
+   NAVEGACIÓN DE LA HISTORIA — marca la sección que se está leyendo
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const nav = document.getElementById('storyNav');
+  if (!nav) return;
+  const enlaces = [...nav.querySelectorAll('a')];
+  const secciones = enlaces.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (!secciones.length) return;
+
+  const marcar = () => {
+    const y = window.scrollY + 90;
+    let actual = -1;
+    secciones.forEach((s, i) => { if (s.offsetTop <= y) actual = i; });
+    enlaces.forEach((a, i) => a.classList.toggle('activo', i === actual));
+    // mantiene visible la pestaña activa en pantallas angostas
+    if (actual >= 0 && nav.scrollWidth > nav.clientWidth){
+      const a = enlaces[actual], caja = nav.querySelector('.storynav-in');
+      if (caja && (a.offsetLeft < caja.scrollLeft || a.offsetLeft + a.offsetWidth > caja.scrollLeft + caja.clientWidth)){
+        caja.scrollTo({ left: a.offsetLeft - 12, behavior:'smooth' });
+      }
+    }
+  };
+  // Throttle por temporizador y no por requestAnimationFrame: rAF no corre en
+  // pestañas ocultas, y así el resaltado tampoco depende de que la pestaña esté al frente.
+  let pendiente = false;
+  window.addEventListener('scroll', () => {
+    if (pendiente) return;
+    pendiente = true;
+    setTimeout(() => { try { marcar(); } finally { pendiente = false; } }, 120);
+  }, { passive:true });
+  marcar();
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   MAPA DE ÁRBOLES PATRIMONIALES
+   Se alimenta de las propuestas ciudadanas (mismo registro que las
+   denuncias, filtrando las de tipo 'patrimonial'). No es el catastro
+   municipal: ese todavía no es público.
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const cont = document.getElementById('pmap');
+  if (!cont || typeof L === 'undefined') return;
+
+  const map = L.map('pmap', { scrollWheelZoom:false }).setView([-38.7359, -72.5904], 13);
+  capasBase(map, 'satelite');
+  let capa = null, modo = 'manual';
+
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const norm = s => String(s || '').normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]','g'),'').trim().toUpperCase();
+
+  function parseCSV(txt){
+    const filas = []; let f = [], c = '', comillas = false;
+    for (let i = 0; i < txt.length; i++){
+      const ch = txt[i];
+      if (comillas){
+        if (ch === '"' && txt[i+1] === '"'){ c += '"'; i++; }
+        else if (ch === '"') comillas = false;
+        else c += ch;
+      } else if (ch === '"') comillas = true;
+      else if (ch === ','){ f.push(c); c = ''; }
+      else if (ch === '\n'){ f.push(c); filas.push(f); f = []; c = ''; }
+      else if (ch !== '\r') c += ch;
+    }
+    if (c !== '' || f.length) { f.push(c); filas.push(f); }
+    return filas;
+  }
+  const buscaCol = (enc, ...claves) => {
+    for (const k of claves){
+      const i = enc.findIndex(h => norm(h).toLowerCase().includes(k));
+      if (i >= 0) return i;
+    }
+    return -1;
+  };
+  const coords = t => {
+    const n = String(t || '').match(/-?\d+[.,]\d+/g);
+    if (!n || n.length < 2) return null;
+    const lat = parseFloat(n[0].replace(',', '.')), lon = parseFloat(n[1].replace(',', '.'));
+    return (lat > -56 && lat < -17 && lon > -76 && lon < -66) ? [lat, lon] : null;
+  };
+
+  const icono = L.divIcon({
+    className: 'pmarker',
+    html: '<div style="width:30px;height:30px;border-radius:50%;background:#2f6b3a;border:3px solid #fff;'
+        + 'box-shadow:0 2px 7px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:15px">🌳</div>',
+    iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15]
+  });
+
+  function pintar(lista){
+    if (capa) map.removeLayer(capa);
+    document.getElementById('pTotal').textContent = lista.length;
+    document.getElementById('pEmpty').style.display = lista.length ? 'none' : 'block';
+    if (!lista.length) return;
+    capa = L.layerGroup(lista.map(d => {
+      let h = '<div class="pficha"><span class="pesp">🌳 ' + esc(d.especie || 'Especie por identificar') + '</span>';
+      if (d.direccion)   h += '<br><strong>' + esc(d.direccion) + '</strong>';
+      if (d.descripcion) h += '<br>' + esc(d.descripcion);
+      h += '<div class="pmeta">Propuesta vecinal' + (d.fecha ? ' · registrada el ' + esc(d.fecha) : '')
+         + '<br>Art. 9 Ordenanza 004/2021</div></div>';
+      return L.marker([d.lat, d.lon], { icon:icono, title:'Árbol patrimonial propuesto' }).bindPopup(h);
+    })).addTo(map);
+    try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.3), { maxZoom:16 }); } catch(e){}
+  }
+
+  function cargar(cfg){
+    if (!cfg || !cfg.csv_url){ pintar([]); return; }
+    fetch(cfg.csv_url + '&t=' + Date.now(), { cache:'no-store' }).then(r => r.text()).then(txt => {
+      const filas = parseCSV(txt).filter(f => f.some(c => (c || '').trim() !== ''));
+      if (filas.length < 2){ pintar([]); return; }
+      const enc = filas[0];
+      const iEstado = buscaCol(enc, 'estado'), iTipo = buscaCol(enc, 'tipo'), iEsp = buscaCol(enc, 'especie'),
+            iDir = buscaCol(enc, 'direccion'), iCoord = buscaCol(enc, 'coordenada'),
+            iDesc = buscaCol(enc, 'descripcion'), iFecha = buscaCol(enc, 'fechadelhecho', 'fecha');
+      const out = [];
+      for (let i = 1; i < filas.length; i++){
+        const f = filas[i];
+        const tipo = norm(iTipo >= 0 ? f[iTipo] : '');
+        if (!tipo.includes('PATRIMONIAL')) continue;          // solo propuestas patrimoniales
+        const estado = norm(iEstado >= 0 ? f[iEstado] : '');
+        if (estado.indexOf('RECHAZAD') === 0) continue;
+        const verificada = ['VERIFICADA','VERIFICADO','APROBADA','APROBADO','SI','PUBLICAR'].includes(estado);
+        if (modo !== 'auto' && !verificada) continue;
+        const c = iCoord >= 0 ? coords(f[iCoord]) : null;
+        if (!c) continue;
+        out.push({ lat:c[0], lon:c[1],
+          especie: iEsp >= 0 ? f[iEsp] : '', direccion: iDir >= 0 ? f[iDir] : '',
+          descripcion: iDesc >= 0 ? f[iDesc] : '', fecha: iFecha >= 0 ? f[iFecha] : '' });
+      }
+      pintar(out);
+    }).catch(() => pintar([]));
+  }
+
+  fetch('data/config.json?t=' + Date.now()).then(r => r.json()).catch(() => ({})).then(cfg => {
+    modo = (cfg && cfg.modo_denuncias) || 'manual';
+    cargar(cfg);
+    setInterval(() => { if (!document.hidden) cargar(cfg); }, 30000);
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   GENERADOR DE CONTENIDO PARA REDES
+   Arma texto + imagen cuadrada con las cifras reales del observatorio.
+   No publica solo: un sitio estático no puede guardar un token secreto.
+   Las cifras salen de docs/mapas/stats_*.json.
+   ══════════════════════════════════════════════════════════════ */
+(function(){
+  const sel = document.getElementById('genTipo');
+  if (!sel) return;
+  const lienzo = document.getElementById('genCanvas');
+  const cajaTexto = document.getElementById('genCopy');
+  const ctx = lienzo.getContext('2d');
+  const SITIO = 'daniaros18-glitch.github.io/arboles';
+  const ETIQUETAS = '#Temuco #ArboladoUrbano #LaAraucanía #CienciaCiudadana #JusticiaAmbiental #Árboles';
+
+  // Cada tipo tiene varias variantes para que las publicaciones no se repitan.
+  const PLANTILLAS = {
+    cobertura: [
+      { cifra:'−7,9%', pie:'de dosel en el casco urbano · 2005–2025',
+        titulo:'Temuco tiene menos sombra que hace 20 años',
+        texto:'El casco urbano construido de Temuco pasó de 252,5 a 232,6 hectáreas de copa arbórea entre 2005 y 2025: un 7,9% menos.\n\nSon unas 20 hectáreas netas de sombra que ya no están — cerca de 28 canchas de fútbol.\n\nMedido con imágenes Landsat (NASA/USGS) procesadas en Google Earth Engine, sobre las 4.308 ha edificadas de la ciudad.' },
+      { cifra:'139 ha', pie:'de dosel perdido, contra 119 ha ganadas',
+        titulo:'Perder y plantar no es lo mismo',
+        texto:'Entre 2005 y 2025, el casco urbano de Temuco perdió 139 hectáreas de copa arbórea y ganó 119.\n\nPero un árbol maduro talado no se compensa con uno recién plantado: reponer esa sombra toma entre 15 y 30 años. En ese intervalo, la calle está al sol.\n\nPor eso publicamos pérdida y ganancia por separado, y no solo el saldo.' }
+    ],
+    calor: [
+      { cifra:'+1,4 °C', pie:'donde se perdió el arbolado, verano 2020–2024',
+        titulo:'Cada árbol que cae deja calor',
+        texto:'En Temuco medimos la temperatura de superficie según lo que le pasó al dosel:\n\n🌳 Mantuvo sus árboles: 29,3 °C\n🍂 Los perdió: 30,8 °C\n🧱 Nunca los tuvo: 31,6 °C\n\nLa progresión es directa: cada paso de pérdida de arbolado suma calor. Un árbol no es un adorno, es infraestructura climática.' },
+      { cifra:'3 °C', pie:'entre dosel denso y zonas sin verde',
+        titulo:'Dos barrios, el mismo día, tres grados de diferencia',
+        texto:'Separando la ciudad por tipo de cobertura, las zonas de dosel denso marcan 28,7 °C de superficie y las zonas sin verde 31,7 °C.\n\nEs la misma ciudad, el mismo día. La diferencia la hacen los árboles.\n\nY a ras de piso, bajo la copa, la diferencia que se siente es todavía mayor que este promedio satelital.' }
+    ],
+    causa: [
+      { cifra:'4,2×', pie:'más pérdida de verde dentro de loteos nuevos',
+        titulo:'¿Por qué se está perdiendo el arbolado?',
+        texto:'Cruzamos los 344 loteos aprobados entre 2005 y 2024 —polígonos oficiales de la Municipalidad— con el mapa satelital de pérdida de verde.\n\nDentro de esos loteos, el 44,9% de la superficie perdió cobertura. Fuera, el 10,7%.\n\n4,2 veces más. No es una impresión: está medido contra el catastro oficial.' }
+    ],
+    justicia: [
+      { cifra:'3%', pie:'de dosel en las unidades vecinales más postergadas',
+        titulo:'La sombra no está repartida por igual',
+        texto:'Hay unidades vecinales de Temuco con apenas 3% de cobertura arbórea y más de 32 °C de temperatura de superficie en verano.\n\nTromen Mollulco encabeza la lista de prioridad con 0,0 m² de área verde por habitante.\n\nEl calor no golpea a todos igual: golpea más fuerte a la infancia, a las personas mayores y a quien trabaja a la intemperie.' }
+    ],
+    curioso: [
+      { cifra:'5 UTM', pie:'es la multa máxima por dañar un árbol · Art. 31',
+        titulo:'Lo que cuesta talar un árbol en Temuco',
+        texto:'La Ordenanza 004/2021 sanciona con multa de 1 a 5 UTM por evento… pero eso no es todo.\n\nAdemás existe un cobro de derechos por el daño (Art. 32) que se calcula según especie, tamaño y singularidad del ejemplar, y que es independiente de la multa.\n\nDato aparte: los millones que a veces circulan en prensa vienen de ese cobro, no de la multa.' },
+      { cifra:'Art. 28', pie:'la plataforma pública que la Ordenanza ordena',
+        titulo:'El municipio debe tener esto… y no lo tiene',
+        texto:'El Art. 28 de la Ordenanza 004/2021 obliga a la Municipalidad de Temuco a mantener un catastro forestal de acceso público y una plataforma que reciba comentarios de los vecinos.\n\nEsa plataforma no se ha implementado.\n\nEste observatorio ciudadano es un esfuerzo por materializarla mientras tanto.' }
+    ],
+    alerta: [
+      { cifra:'⚠️', pie:'el desmoche no se ve desde el satélite',
+        titulo:'La poda que mata el árbol',
+        texto:'Cortar un árbol "a garrote" —dejando muñones— no cicatriza: entra agua, se pudre desde adentro y los rebrotes quedan mal anclados. Años después, se cae solo.\n\nLo peor: el satélite no lo detecta, porque la copa rebrota. Solo se ve desde la vereda.\n\nSi ves una poda así en la vía pública, regístrala. Sin denuncia, no queda registro.' }
+    ],
+    arbol: [
+      { cifra:'🌳', pie:'propuesta vecinal · Art. 9 Ordenanza 004/2021',
+        titulo:'Árbol de la semana',
+        texto:'¿Conoces un árbol con historia en tu barrio?\n\nLa Ordenanza 004/2021 permite que un grupo de vecinos proponga declararlo patrimonial, presentando un informe con especie, ubicación y el criterio que lo hace singular.\n\nEsa última parte —por qué importa este árbol— solo la saben los vecinos. Regístralo en el observatorio y lo preparamos.' }
+    ]
+  };
+
+  let variante = 0;
+
+  function ajustarTexto(txt, maxAncho, tam, peso, alto){
+    ctx.font = peso + ' ' + tam + 'px Georgia, serif';
+    const palabras = txt.split(' ');
+    const lineas = []; let linea = '';
+    palabras.forEach(p => {
+      const prueba = linea ? linea + ' ' + p : p;
+      if (ctx.measureText(prueba).width > maxAncho && linea){ lineas.push(linea); linea = p; }
+      else linea = prueba;
+    });
+    if (linea) lineas.push(linea);
+    return lineas;
+  }
+
+  function dibujar(p){
+    const W = 1080;
+    ctx.fillStyle = '#0f2b22'; ctx.fillRect(0, 0, W, W);
+    // textura sutil de fondo
+    ctx.fillStyle = 'rgba(255,255,255,.03)';
+    for (let i = 0; i < W; i += 54) ctx.fillRect(i, 0, 1, W);
+
+    ctx.fillStyle = '#8fc79a';
+    ctx.font = '600 26px ui-monospace, monospace';
+    ctx.fillText('OBSERVATORIO CIUDADANO DEL ARBOLADO · TEMUCO', 80, 110);
+
+    // cifra protagonista
+    ctx.fillStyle = '#eaf3e2';
+    const tam = p.cifra.length > 5 ? 150 : 210;
+    ctx.font = '700 ' + tam + 'px Georgia, serif';
+    ctx.fillText(p.cifra, 80, 330);
+
+    ctx.fillStyle = '#b9cdb2';
+    ctx.font = '400 30px system-ui, sans-serif';
+    ajustarTexto(p.pie, W - 160, 30, '400').forEach((l, i) => ctx.fillText(l, 80, 390 + i * 40));
+
+    // línea divisoria
+    ctx.strokeStyle = 'rgba(143,199,154,.35)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(80, 470); ctx.lineTo(W - 80, 470); ctx.stroke();
+
+    // titular
+    ctx.fillStyle = '#ffffff';
+    const lineas = ajustarTexto(p.titulo, W - 160, 62, '700');
+    ctx.font = '700 62px Georgia, serif';
+    lineas.slice(0, 4).forEach((l, i) => ctx.fillText(l, 80, 570 + i * 76));
+
+    // pie del sitio
+    ctx.fillStyle = '#8fc79a';
+    ctx.font = '400 27px ui-monospace, monospace';
+    ctx.fillText(SITIO, 80, W - 80);
+    ctx.font = '400 24px system-ui, sans-serif';
+    ctx.fillStyle = 'rgba(185,205,178,.75)';
+    ctx.fillText('Datos: Landsat (NASA/USGS) · Google Earth Engine', 80, W - 130);
+  }
+
+  function generar(){
+    const lista = PLANTILLAS[sel.value] || PLANTILLAS.cobertura;
+    const p = lista[variante % lista.length];
+    dibujar(p);
+    cajaTexto.value = p.titulo.toUpperCase() + '\n\n' + p.texto
+      + '\n\n🔎 Los datos, los mapas y el método completo: ' + SITIO
+      + '\n\n' + ETIQUETAS;
+  }
+
+  sel.addEventListener('change', () => { variante = 0; generar(); });
+  document.getElementById('genOtro').addEventListener('click', () => { variante++; generar(); });
+  document.getElementById('genCopiar').addEventListener('click', function(){
+    cajaTexto.select();
+    const ok = () => { this.textContent = '✓ Copiado'; setTimeout(() => { this.textContent = '📋 Copiar texto'; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(cajaTexto.value).then(ok).catch(ok);
+    else { try { document.execCommand('copy'); } catch(e){} ok(); }
+  });
+  document.getElementById('genBajar').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.download = 'observatorio-arbolado-temuco-' + sel.value + '.png';
+    a.href = lienzo.toDataURL('image/png');
+    a.click();
+  });
+
+  generar();
 })();
 </script>
 </body>

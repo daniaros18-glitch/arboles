@@ -132,6 +132,35 @@ corregido: el correo sale siempre, con o sin foto.
 2. ✅ Contador de pendientes en el mapa: muestra «N denuncias en revisión» (solo el número, ni ubicación ni detalle). Solo se ve en modo `manual`.
 3. ⬜ **Compromiso de plazo de moderación**: definir cada cuánto se revisa la planilla (p. ej. 48 h hábiles) y decirlo en `denuncia.html`. Sin plazo declarado, «en revisión» puede durar para siempre.
 
+## 3.bis Estructura del sitio (rediseño del 28/07/2026)
+
+`docs/index.html` pasó de ser una presentación del proyecto a **contar una historia en 9 pasos**,
+con una barra de navegación pegajosa. El orden es deliberado: primero el hecho, después su costo,
+después la causa, y solo entonces qué hacer.
+
+| # | Sección | Estado |
+|---|---|---|
+| 1 | `#perdida` ¿Cuánto se ha perdido? | ✅ con datos propios |
+| 2 | `#calor` El costo en calor | ✅ con datos propios |
+| 3 | `#causas` ¿Por qué se pierde? | ✅ cruce con loteos oficiales |
+| — | `#explora` Mapa interactivo | ✅ (ya existía) |
+| 4 | `#patrimoniales` Árboles patrimoniales | ⚠️ mapa de **propuestas vecinales**, no catastro municipal |
+| 5 | `#educacion` Educación ambiental | ✅ podas, qué hacer, beneficios, mitos |
+| 6 | `#justicia` Justicia ambiental | ✅ índice por unidad vecinal |
+| 7 | `#huella` Huella digital | ✅ agua + **energía y CO₂** (nuevo) |
+| 8 | `#participa`/`#adopta` Participación | ⚠️ «Adopta un árbol» declarado *en preparación* |
+| 9 | `#redes` Contenido para redes | ⚠️ **genera**, no publica |
+
+**Pendientes que dejó el rediseño:**
+
+- ⬜ **Catastro patrimonial.** El mapa parte de cero con propuestas ciudadanas. Conseguir el registro
+  oficial (Ley de Transparencia / estudio Vargas UFRO, 98 ejemplares) es lo que le da masa a esa sección.
+- ⬜ **Publicación automática en redes.** Un sitio estático **no puede** guardar el token de la API de
+  Meta: sería público y cualquiera podría publicar en nombre del Observatorio. El generador prepara
+  texto e imagen; publicar es un clic manual. La vía real para automatizar es una **GitHub Action**
+  programada con el token en los secretos del repositorio.
+- ⬜ **«Adopta un árbol»** necesita un programa real (municipio o junta de vecinos) antes de ofrecerse.
+
 ## 4. Resultados científicos (y cómo deben citarse)
 
 - **La cifra más fuerte:** dentro de los **344 loteos aprobados entre 2005 y 2024** se perdió **4,2 veces más verde** (44,9%) que en el resto de la ciudad (10,7%). Es evidencia directa de la relación entre expansión inmobiliaria y pérdida de arbolado.
