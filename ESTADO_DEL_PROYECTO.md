@@ -66,6 +66,15 @@ publicidad)» y «Propuesta de árbol patrimonial (Art. 9)», y el Form solo ace
 Las opciones válidas hoy son: `Tala` · `Poda severa / mala poda` · `Árbol dañado` ·
 `Propuesta de árbol patrimonial` · `Área verde eliminada por obra` · `Otro`.
 
+**Confirmado en la práctica:** una denuncia enviada el 28/07/2026 con el valor viejo
+(*Propuesta de árbol patrimonial (Art. 9)* — Pudú Helados, Av. Pablo Neruda 01725) **llegó por
+correo pero nunca entró a la planilla**. El correo sale de `formsubmit.co`, que acepta cualquier
+cosa; la planilla depende del Google Form, que valida. Por eso el aviso puede llegar y el registro
+perderse igual: **el correo no es prueba de que la denuncia quedó guardada.**
+
+Para no repetirlo hay un verificador: `python scripts/verificar_opciones.py` compara las opciones
+del sitio con las del Google Form y falla si alguna no calza. Correrlo cada vez que se toque la lista.
+
 ### Folio y acuse de recibo (pendiente de instalar)
 
 Escrito y probado, **falta que lo instales en la planilla** (5 minutos):
