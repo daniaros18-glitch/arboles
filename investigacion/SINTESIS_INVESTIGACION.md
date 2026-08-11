@@ -91,6 +91,23 @@ Del IDE Municipal de Temuco (ArcGIS: `services5.arcgis.com/eRZzgPfrzSdIBqJq`), e
 - **Zhu & Woodcock (2014)** — *CCDC — Continuous Change Detection and Classification.* RSE. `10.1016/j.rse.2014.01.011`.
 - **Mugiraneza et al. (2020)** — *Urban land cover change trajectories with LandTrendr–GEE.* Remote Sensing. `10.3390/rs12182883` — **OA, aplicación urbana directa.**
 
+### B.3bis Servicios ecosistémicos e índice de habitabilidad ⭐ (informe dedicado)
+
+Ver **[`SERVICIOS_ECOSISTEMICOS_E_INDICE.md`](SERVICIOS_ECOSISTEMICOS_E_INDICE.md)** (10-08-2026):
+factibilidad de estimar carbono, contaminantes, agua y biodiversidad; qué variables registrar por
+árbol; y diseño crítico de un Índice de Habitabilidad Ecológica por unidad vecinal.
+
+Hallazgos que condicionan el resto del proyecto:
+- **i-Tree Eco** exige solo especie + DAP, pero rellena por defecto las 8 variables recomendadas.
+  Si no se registra el **estado sanitario**, asume 87% de condición y **sobreestima el secuestro**.
+- **Dobbs, Hernández & Escobedo (2011)**, *Bosque* 32(3) — ecuaciones alométricas no destructivas
+  para 11 especies urbanas de Santiago (8 exóticas comunes también en Temuco). DOI verificado.
+- **El oxígeno se descarta como argumento**: Nowak, Hoehn & Crane (2007) lo declaran
+  "relativamente insignificante". Es el secuestro de carbono × 2,67, sin información nueva.
+- **La remoción de contaminantes NO se publica**: en cañón de calle el arbolado puede *aumentar*
+  la concentración al reducir la ventilación (*green paradox*).
+- **Chile no está entre los países adaptados de i-Tree**: requiere cargar datos horarios propios.
+
 ### B.4 Expansión urbana, LST/isla de calor, servicios ecosistémicos
 - **Weng (2009)** — *Thermal infrared RS for urban climate.* ISPRS J. `10.1016/j.isprsjprs.2009.03.007` — guía LST Landsat.
 - **He et al. (2024)** — *Quantifying the impact of urban trees on land surface temperature in global cities.* ISPRS J. `10.1016/j.isprsjprs.2024.03.007` — enfriamiento del dosel vía LST.
