@@ -184,6 +184,15 @@ después la causa, y solo entonces qué hacer.
 4. **Capa 2:** conteo manual de copas en un corredor piloto (guía en `docs/recursos/GUIA_CAPA2_CONTEO_MANUAL.md`). Da la cifra "había N árboles, quedan M".
 5. **Postular a fondos**: FPA del Ministerio del Medio Ambiente (~$6M, convocatoria ~agosto), FNDR 8% del GORE Araucanía, ANID Ciencia Pública, fondos municipales.
    ⚠️ Casi todos exigen **personalidad jurídica sin fines de lucro con 2 años de antigüedad** → postular a través de una junta de vecinos, la ONG Verde Urbano o la UFRO.
+
+   🔴 **Fondo FMA 2026-2027 — cierra el 24 de agosto de 2026.** Análisis completo en
+   [`postulaciones/FMA_2026_ESTRUCTURA_CONCEPTUAL.md`](postulaciones/FMA_2026_ESTRUCTURA_CONCEPTUAL.md);
+   bases oficiales archivadas en `postulaciones/bases/`.
+   **Admite personas naturales mayores de 21 años**: no requiere personalidad jurídica.
+   Hasta $6.000.000, ejecución dic-2026 a ago-2027.
+   Requiere un giro conceptual: de *medir árboles* a *medir la biodiversidad que los árboles sostienen*,
+   con escuelas públicas como nodos de muestreo. Excluye campañas comunicacionales
+   (→ el generador de redes queda fuera) y proyectos en etapa de idea (→ la trayectoria del sitio es la validación).
 6. **Pedir el catastro de árboles patrimoniales** por Ley de Transparencia (portaltransparencia.cl) o a la DMAO (aseo@temuco.cl). Existe un estudio del Dr. Rodrigo Vargas (UFRO) con 98 ejemplares caracterizados.
 7. **Contactar el proyecto hermano**: github.com/MendozaVolcanic/observatorio-arbolado-temuco — misma iniciativa, más madura técnicamente. Fusionar esfuerzos sería lo más inteligente.
 8. **Verificar** la cita "Smith & Romero 2022" (no se localizó) y la cifra de m²/hab de Temuco contra el catastro oficial del INE.
