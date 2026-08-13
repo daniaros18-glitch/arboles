@@ -27,7 +27,14 @@ Ante la pregunta de si pueden postular colegios con talleres, el coordinador res
 
 > *"Si son talleres que quieren crear en un colegio, pero **que no se evidencia que realmente quieren proyectarlo hacia un escalamiento o una proyección un poco más significativa**, y que solamente están pensando en generar ese taller y el próximo año ojalá ser el mismo taller si es que consiguen financiamiento, y así perpetuamente… **vemos que hay poca proyección a largo plazo** para que ese tipo de impacto a través de los talleres se pueda perpetuar."* (≈1:06)
 
-**Esta es la trampa en la que nuestro proyecto puede caer y hay que diseñar contra ella.** Un proyecto de talleres escolares que se repite cada año con financiamiento nuevo es explícitamente lo que **no** buscan.
+> ⚠️ **Matización del 12-08-2026.** Al escribir esto apliqué mal la advertencia. Lo que el fondo
+> describe es un proyecto **cuyo único producto es el taller** y que necesita financiamiento nuevo
+> cada año para repetirse. **Este proyecto no es eso:** los talleres son el **método de muestreo**, y
+> lo que producen entra al Observatorio, que es infraestructura permanente y de costo cero.
+> La arquitectura correcta —talleres (método) → observatorio (infraestructura) → política pública
+> (destino)— está en [`FMA_2026_ARQUITECTURA_CONTINUIDAD.md`](FMA_2026_ARQUITECTURA_CONTINUIDAD.md).
+> **Lo que sí sigue siendo válido de esta sección** es el riesgo de **lectura rápida**: un evaluador
+> apurado puede clasificarnos en la categoría equivocada si no dejamos la distinción explícita.
 
 **Qué hacer con esto:** el argumento de continuidad no puede ser "seguiremos haciendo talleres". Tiene que ser que el proyecto deja algo que funciona **sin nosotros y sin fondos nuevos**:
 - el **protocolo** en manos de docentes formados,
