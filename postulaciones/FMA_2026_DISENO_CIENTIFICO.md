@@ -197,6 +197,16 @@ Estrato de cobertura arbórea  (2 niveles: baja / alta — del índice de equida
 
 **Decisión: líquenes (núcleo) + aves (secundario) + artrópodos como morfoespecies (terciario).** Hongos y epífitas, oportunistas.
 
+> **Actualización del 12-08-2026 tras la Jornada de Orientación:**
+> **(a) Las aves suben de prioridad.** La **Q32** valida explícitamente un proyecto de *conservación de
+> aves urbanas* dentro de la temática 1. Dejan de ser un componente prescindible y pasan a ser un
+> anclaje temático útil — siempre que haya quién las identifique de oído.
+> **(b) Restricción estacional que hay que respetar.** La ventana de ejecución es dic-2026 a ago-2027
+> (**Q11/Q12**), y al cruzarla con el calendario escolar chileno la única franja con **clases y clima
+> favorable** es **marzo-abril de 2027**: unas seis semanas para todo el terreno de artrópodos y aves.
+> **Los líquenes son el único grupo observable todo el año**, lo que confirma su rol de núcleo.
+> Detalle en [`FMA_2026_REVISION_TRAS_JORNADA.md`](FMA_2026_REVISION_TRAS_JORNADA.md) §13.
+
 **El concepto clave que hay que instalar: morfoespecie.** Los estudiantes **no necesitan saber el nombre**. Registran "tipo A: liquen gris en costra", lo fotografían, y la identificación la resuelve después la comunidad de iNaturalist y el especialista del equipo. Esto convierte una limitación en método válido: la riqueza de morfoespecies es una métrica aceptada cuando la determinación taxonómica no es viable — **siempre que se declare como tal**.
 
 **Por qué los líquenes son la mejor apuesta:** conectan biodiversidad con calidad del aire —el problema ambiental número uno de Temuco en invierno— **sin caer en la afirmación falsa de que los árboles limpian el aire**. El liquen no limpia: *registra*. Es un bioindicador, y esa distinción es exactamente el tipo de precisión que buscamos.

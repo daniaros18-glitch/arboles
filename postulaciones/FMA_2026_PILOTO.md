@@ -14,7 +14,15 @@ Tener tres escuelas ya vinculadas por Ekuwün **no es un detalle logístico: es 
 
 Las bases del Fondo FMA excluyen "proyectos en etapa de ideas" y exigen "trayectoria previa en el territorio **y/o** con comunidades locales". Hasta ayer nuestra respuesta era trayectoria territorial (el análisis satelital) y **cero** trayectoria con comunidades escolares. Con Ekuwün, la respuesta pasa a ser **ambas**, que es lo que el evaluador quiere leer.
 
-Y si además ejecutamos el piloto antes del 24 de agosto, deja de ser un vínculo declarado para convertirse en **trabajo conjunto documentado con fotos, datos y una ficha probada**.
+> ⚠️ **Corrección del 12-08-2026, tras la Jornada de Orientación.**
+> Escribí más abajo que ejecutar el piloto antes del 24 de agosto era casi condición para acreditar
+> trayectoria. **No es así.** La **Q4** define "etapa de ideas" como un proyecto *sin ningún grado de
+> desarrollo o validación previa —sin piloto, sin trabajo previo con la comunidad, sin antecedentes de
+> factibilidad—*, y la **Q9** aclara que **no se exige que el proyecto esté en ejecución**. Los criterios
+> son **alternativos**, y ya cumplimos dos por vías independientes.
+> **El piloto sigue siendo necesario metodológicamente** (sin el tiempo por árbol no sabemos si el
+> proyecto cabe en 240 árboles), pero puede ejecutarse como primera actividad del proyecto adjudicado,
+> en diciembre de 2026. Ver [`FMA_2026_REVISION_TRAS_JORNADA.md`](FMA_2026_REVISION_TRAS_JORNADA.md) §4.
 
 ---
 

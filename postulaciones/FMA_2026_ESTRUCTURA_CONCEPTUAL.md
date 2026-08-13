@@ -60,7 +60,7 @@ Ese giro hace tres cosas a la vez:
 | 3 | Ecosistemas de montaña | ❌ |
 | 4 | Agua y cuencas cordillera–mar, zonas áridas | ❌ |
 | 5 | Socioecosistemas de **Chile mediterráneo** | ❌ **Excluido explícitamente por geografía**: las bases definen la zona mediterránea como el área **entre el río Limarí y el Bío-Bío**. Temuco está al sur del Bío-Bío. No postular por acá |
-| 6 | Colecciones biológicas o geológicas | 🟡 **Posible y subestimado.** Un **herbario escolar** del arbolado urbano de Temuco, con muestras, fichas e identificación, *es* una colección biológica. Puede ser un componente, no el eje |
+| 6 | Colecciones biológicas o geológicas | ✅ **Vía declarable** (confirmado 12-08-2026). **Q21** de la Jornada precisa que la temática cubre *"creación, mantención, sistematización, rescate y capacitación para su gestión"* — el **herbario escolar ilustrado** y una **colección de referencia de líquenes y cortezas** calzan en "creación" y "capacitación para su gestión" |
 | 7 | Áreas protegidas / autogestión comunitaria | 🟡 Solo si se usa la figura de **"espacios de cuidado"**, que las bases definen ampliamente como sitios de alto valor socioecológico gestionados por resguardo comunitario **aunque no tengan protección oficial**. Un corredor arbolado adoptado por escuelas podría calzar. Es un argumento a usar con cuidado, no a forzar |
 
 **Recomendación: postular por la Temática 1, declarando explícitamente el vínculo con la 2.**
@@ -246,8 +246,12 @@ No se puede catastrar Temuco entero, y proponerlo se lee como ingenuidad. Propue
 
 Ordenadas por gravedad. Las tres primeras pueden hundir la postulación.
 
-**1. "Esto es un proyecto urbano en un fondo de conservación de naturaleza."**
-Es la objeción principal. Mitigación: la Temática 1 habla de **ecosistemas subrepresentados**, y hay que argumentar de frente que la biodiversidad urbana del sur de Chile lo está. Pero hay que **ganarse** ese argumento, no asumirlo.
+**1. ~~"Esto es un proyecto urbano en un fondo de conservación de naturaleza."~~ — RESUELTO por la organización (12-08-2026)**
+Era la objeción principal. La Jornada de Orientación del 11 de agosto la respondió dos veces:
+**Q32** (aves urbanas) y **Q24** (proyecto urbano de flora nativa) confirman que *"lo urbano no está
+excluido ni acotado a zonas rurales o naturales"* y que encaja en la temática 1.
+Lo que **sí** sigue siendo nuestra carga: demostrar la **subrepresentación** con datos, y que el
+proyecto se lea como conservación y monitoreo. Ver [`FMA_2026_REVISION_TRAS_JORNADA.md`](FMA_2026_REVISION_TRAS_JORNADA.md) §1-2.
 
 **2. "El equipo no tiene competencias en biodiversidad ni en educación."**
 El Observatorio hoy acredita teledetección y análisis de datos. **No acredita** taxonomía, ecología ni pedagogía. Mitigación: incorporar al equipo —con nombre y CV— a alguien de biología y a un/a docente. Si no, la propuesta promete lo que no puede ejecutar.
