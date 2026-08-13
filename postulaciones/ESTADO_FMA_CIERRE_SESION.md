@@ -23,7 +23,9 @@ Estudiantes de tres escuelas de Temuco caracterizan los árboles de su propio ba
 | **Temática 1** (monitoreo de ecosistemas subrepresentados), con vínculo a la 2 y la 6 | La Q24 y la Q32 confirmaron que lo urbano no está excluido |
 | **Pregunta central**: qué atributos del arbolado explican la biodiversidad que sostiene | Es falsable; la anterior no lo era |
 | **Cada escuela estudia su propio sector**, sin sitio de referencia externo | El gradiente se busca **dentro** de cada barrio: es mejor estadísticamente y no rompe el principio del proyecto |
-| **Fuera**: CO₂ secuestrado, oxígeno, remoción de contaminantes | Físicamente imposibles en 9 meses, o científicamente indefendibles |
+| **Dentro como estimación**: carbono almacenado, secuestro anual y **valor económico según Art. 32 de la Ordenanza** | Corregido el 13-08: i-Tree estima secuestro desde un solo inventario. Lo imposible es *medirlo* en 9 meses |
+| **Fuera de indicadores**: oxígeno (queda como contenido educativo) y remoción de contaminantes (se aborda vía líquenes como bioindicadores) | Ver `FMA_2026_SERVICIOS_LINEA_BASE_Y_MONITOREO.md` |
+| **Dos productos**: línea base + sistema de monitoreo | La continuidad deja de ser intención y pasa a ser consecuencia metodológica |
 | **Fuera**: el generador de contenido para redes | Las bases excluyen campañas comunicacionales |
 | Postula **Ekuwün como organización** | Decisión de Claudia |
 | **Líquenes a nivel de morfotipo · hongos como co-núcleo** | Por el perfil del equipo (ver §4) |
@@ -115,6 +117,7 @@ Todo en `postulaciones/`, en `.md` y `.docx`:
 | `FMA_2026_EQUIPO` | Roles y forma de contratación |
 | `FMA_2026_ESCUELAS_E_INCLUSION` | Las tres escuelas, modelo inclusivo y perfil de Paula |
 | `FMA_2026_DECISION_SITIOS` | Por qué cada escuela estudia su sector |
+| `FMA_2026_SERVICIOS_LINEA_BASE_Y_MONITOREO` | **Qué se mide, qué se estima y qué requiere monitoreo** · fórmula del Art. 32 |
 | `FMA_2026_PLANTILLAS_Y_SITIOS` | Estructura de las planillas oficiales |
 | `FMA_2026_MAPA_FORMULARIO` | Los 8 pasos del formulario y sus límites |
 | `FMA_2026_REVISION_TRAS_JORNADA` · `_JORNADA_VIDEO_HALLAZGOS` · `_ARQUITECTURA_CONTINUIDAD` | Referencia |

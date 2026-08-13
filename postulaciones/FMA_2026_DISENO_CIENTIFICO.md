@@ -291,6 +291,14 @@ Un técnico remide, **a ciegas**, el **15% de los árboles** (30-50 ejemplares r
 
 ---
 
+> ⚠️ **CORREGIDO el 13-08-2026.** Esta sección afirmaba que el secuestro anual de CO₂ era
+> imposible de obtener en 9 meses. **Eso es falso como estaba dicho:** es cierto para el crecimiento
+> *medido*, y falso para el secuestro *estimado* — i-Tree Eco lo calcula desde un solo inventario,
+> ajustando tasas de crecimiento por especie según estado sanitario, exposición a la luz y uso de
+> suelo. El carbono vuelve al proyecto como **estimación con incertidumbre declarada**.
+> Además aparece un indicador mejor y local: el **valor económico del árbol según el Art. 32 de la
+> Ordenanza 004/2021**. Ver [`FMA_2026_SERVICIOS_LINEA_BASE_Y_MONITOREO.md`](FMA_2026_SERVICIOS_LINEA_BASE_Y_MONITOREO.md).
+
 ## 9. Carbono y oxígeno: análisis crítico
 
 Los tres por separado, con veredicto.
