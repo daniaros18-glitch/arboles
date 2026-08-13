@@ -53,6 +53,49 @@ Con todo eso armamos, por primera vez, un **catastro ciudadano del arbolado de T
 
 ---
 
+## Y con esas mismas medidas se puede calcular bastante más
+
+Acá hay algo que conviene explicar bien, porque es donde más se confunde la gente —y donde nosotros mismos nos habíamos confundido.
+
+**Una cosa es medir y otra es estimar.** Los estudiantes miden el tronco con una huincha. Eso es medir. Pero a partir de ese diámetro, la especie y el estado del árbol, **modelos científicos ya existentes permiten estimar** cosas que nadie puede medir directamente con una huincha:
+
+- **Cuánto carbono tiene acumulado ese árbol** en su madera, después de toda su vida.
+- **Cuánto carbono captura aproximadamente cada año**, según su especie, su tamaño y qué tan sano está.
+- **Cuánta sombra proyecta**, que sale de la geometría de la copa.
+- **Y cuánto vale ese árbol en pesos**, según una fórmula que ya existe.
+
+Esa última es, probablemente, la más potente de todas.
+
+### El árbol tiene un precio, y lo puso la propia Municipalidad
+
+La **Ordenanza 004/2021 de Temuco** —la misma que obliga al municipio a tener un catastro de árboles que no tiene— trae en su Artículo 32 una fórmula para calcular **cuánto debe pagar quien daña o destruye un árbol** en un espacio público.
+
+La fórmula toma un valor base según la **especie** y la **edad** del árbol, y lo multiplica por tres factores:
+
+- **Qué tan sano está**: un árbol sano vale el 100%; uno muerto, cero.
+- **Dónde está**: en una plaza o parque vale el doble; en una calle poco visible, la mitad.
+- **Qué tan singular es**: un árbol declarado patrimonial vale **cinco veces más**; un monumento natural, **siete veces más**.
+
+**Y todas esas variables son exactamente las que los estudiantes van a registrar.**
+
+Eso significa que al terminar podríamos decir, árbol por árbol: *"este ejemplar vale tantas UTM según la ordenanza de tu propia municipalidad"*. No es una opinión ni un dato importado de otro país: **es el precio que el municipio fijó por escrito.** Y cuando alguien tale uno de esos árboles, ese número es lo que corresponde cobrar.
+
+Para una comunidad que quiere defender los árboles de su barrio, eso es una herramienta mucho más útil que cualquier cifra ambiental abstracta.
+
+---
+
+## El proyecto tiene dos productos, no uno
+
+Esto es importante para entender por qué nueve meses alcanzan y por qué el proyecto no termina ahí.
+
+**Producto 1: la línea base.** ¿Qué árboles tenemos hoy, cómo son, qué vida sostienen y cuánto valen? Es la fotografía del punto de partida, y no existe hoy para Temuco.
+
+**Producto 2: el sistema para volver a medir.** Cada árbol queda con su código, sus coordenadas y sus fotos, y el protocolo queda en manos de los docentes. Eso permite que dentro de tres o cinco años alguien vuelva a medir **los mismos árboles** y sepa cuánto crecieron, cuántos se perdieron, si cambió la vida que sostienen.
+
+Lo segundo es lo que convierte esto en un **observatorio** y no en un estudio que se archiva. Y hay algo que solo se puede saber así: hoy en Chile **no existen ecuaciones de crecimiento para muchos árboles urbanos del sur**. Midiendo los mismos ejemplares en el tiempo, este proyecto podría ayudar a construirlas. Pero para eso hay que empezar ahora.
+
+---
+
 ## Por qué esto no es "un taller más"
 
 Es la pregunta que más nos van a hacer, y conviene tener clara la respuesta.
@@ -136,12 +179,12 @@ El fondo entrega hasta **$6.000.000** y se adjudican **entre cuatro y siete proy
 
 Por criterio del proyecto, preferimos decir esto de entrada:
 
-- **No vamos a decir cuánto CO₂ capturan los árboles.** Medir eso requiere volver a medir los mismos árboles varios años después. En nueve meses es físicamente imposible, y prometerlo sería mentir.
-- **No vamos a decir que los árboles limpian el aire.** En calles con tráfico las copas pueden incluso atrapar la contaminación. Es un tema interesante para enseñar, no una cifra para publicar.
-- **No vamos a hablar del oxígeno que producen.** Es una cifra que suena bien y que no significa nada; hasta quienes inventaron el método lo descartan.
-- **Lo que sí vamos a poder decir** es cuánta sombra dan, cuánto más fresco es un lugar con árboles —eso ya lo medimos por satélite— y, sobre todo, **cuánta vida sostienen**.
+- **No vamos a decir que "medimos" el CO₂ que capturaron los árboles.** Lo vamos a **estimar** con modelos científicos, y esas dos palabras no son lo mismo. Comprobar si la estimación fue correcta exige volver a medir los mismos árboles años después — para eso queda instalado el sistema de monitoreo. Cada cifra irá acompañada de cómo se calculó y de cuánto puede equivocarse.
+- **No vamos a decir que los árboles limpian el aire.** El efecto real es pequeño, y en calles con tráfico las copas pueden incluso atrapar la contaminación. Pero el tema no lo abandonamos: **los líquenes de la corteza son indicadores de la calidad del aire** —no la limpian, la registran—, y eso sí lo pueden medir los estudiantes con una grilla y algo de paciencia.
+- **No vamos a hablar del oxígeno que producen.** Es una cifra que suena impresionante y no aporta información nueva: se obtiene multiplicando la del carbono. Hasta quienes crearon el método la descartan. **Sí la vamos a usar en clases**, justamente para enseñar a preguntarle a un número de dónde salió.
+- **Lo que sí vamos a poder decir** es cuánta sombra dan, cuánto más fresco es un lugar con árboles —eso ya está medido por satélite—, cuánto carbono tienen acumulado, **cuánto vale cada árbol según la ordenanza municipal**, y sobre todo **cuánta vida sostienen**.
 
-Preferimos entregar tres cosas ciertas que diez que suenan bien.
+Preferimos entregar cinco cosas ciertas que veinte que suenan bien.
 
 ---
 
