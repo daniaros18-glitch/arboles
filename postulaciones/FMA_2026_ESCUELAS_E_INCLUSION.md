@@ -235,4 +235,70 @@ Pediste revisar si puede asumir el rol de especialista. **Sin ver su experiencia
 
 **Mi lectura previa:** un/a Ingeniero/a en Recursos Naturales cubre con holgura la **medición dendrométrica, la identificación de árboles y el control de calidad**. Lo que típicamente **no** cubre es la **taxonomía de líquenes**, que es una especialidad angosta.
 
+---
+
+## 8-bis. Perfil evaluado: Paula Pérez Riveros (13-08-2026)
+
+**Fuente:** perfil público en [iNaturalist Chile](https://inaturalist.mma.gob.cl/people/pa_pauu) —el nodo oficial del Ministerio del Medio Ambiente— consultado además vía la API pública de iNaturalist. **Todos los números son verificables por cualquiera**, incluido el comité evaluador.
+
+| Dato | Valor |
+|---|---|
+| Título declarado | **Ingeniera en Recursos Naturales** |
+| Ubicación declarada | **Región de La Araucanía** |
+| En la plataforma desde | 22 de noviembre de 2020 |
+| Última actividad | **12 de agosto de 2026** (activa) |
+| Observaciones propias | **1.031** · 334 especies |
+| **Identificaciones realizadas** | **2.893** |
+
+🔑 **El dato que más importa: identifica casi tres veces más de lo que publica.** 2.893 identificaciones contra 1.031 observaciones es el patrón de quien **valida material de otras personas** — exactamente la función que el proyecto necesita.
+
+### Identificaciones por grupo (consulta directa a la API)
+
+| Grupo | Identificaciones | Obs. propias | Lectura |
+|---|---|---|---|
+| **Aves** | **1.602** | 411 | ✅ Muy fuerte |
+| **Hongos** (total) | **1.449** | 382 | ✅ Muy fuerte |
+| · Basidiomycota (setas) | 1.253 | 320 | ✅ Su especialidad de hecho |
+| · Ascomycota | 185 | 61 | 🟡 Moderado |
+| · **Líquenes** (Lecanoromycetes) | **40** | 14 | ⚠️ Existe, no es especialidad |
+| **Plantas** | 559 | 164 | ✅ Sólido |
+| · Magnoliopsida (árboles y afines) | 468 | 117 | ✅ Suficiente para H1 |
+| Insectos | 40 | 10 | ⚠️ Bajo — confirma tratarlos como morfoespecies |
+
+### Qué cubre y qué no
+
+✅ **Identificación de árboles (H1)** · ✅ **Aves** — deja de ser "opcional si aparece quién" · ✅ **Hongos** — ver abajo
+⚠️ **Líquenes (H3)** — 40 identificaciones, el 1,4% de su actividad. Conoce el grupo, pero **no alcanza como única fuente para determinación a nivel de especie**.
+❌ **Insectos** — confirma que el plan de morfoespecies fotografiadas era el correcto.
+
+⚠️ **Lo que iNaturalist no muestra y hay que preguntarle:** si ha hecho **inventarios dendrométricos** (parcelas, DAP, altura) —identificar y medir son destrezas distintas—, si tiene experiencia **con estudiantes o comunidades**, y su **disponibilidad** entre diciembre y agosto.
+
+### 🔑 Un hallazgo que mejora el diseño: los hongos
+
+Yo tenía los hongos como grupo **oportunista**, por estacionales y efímeros. Con este perfil hay que reconsiderarlo, por tres razones que se refuerzan:
+
+1. **Hay quién los identifique**, con solvencia: 1.253 identificaciones de Basidiomycota.
+2. **Los hongos sí se asocian a un árbol individual** —los de pudrición del fuste, los de la base, los de corteza—, **a diferencia de las aves, que se mueven y solo admiten análisis a nivel de sitio**. Son compatibles con el vínculo individuo-a-individuo que es la novedad del proyecto.
+3. **La ventana de terreno es marzo-abril**, que en el sur coincide con el inicio de la temporada de fructificación de macrohongos. ⚠️ **Confirmarlo con ella**, que conoce la fenología local mejor que cualquier fuente que yo consulte.
+
+Y algo más: los hongos de pudrición **indican deterioro del árbol**, lo que convierte a **H4** —*los árboles en mal estado no tienen menos vida, tienen vida distinta*— en la hipótesis **mejor cubierta** del proyecto, cuando era la más frágil y estaba destinada a quedar como exploratoria.
+
+### Recomendación: sí sirve, y reordena el diseño a mejor
+
+| Grupo | Antes | Ahora |
+|---|---|---|
+| **Líquenes** | núcleo | **co-núcleo, a nivel de morfotipo** (riqueza y cobertura en grilla, sin nombre de especie). Siguen siendo el único grupo observable todo el año |
+| **Hongos** | oportunista | **co-núcleo**, asociados al árbol individual |
+| **Aves** | secundario | **secundario, ahora viable** (1.602 IDs + la Q32 valida aves urbanas) |
+| **Artrópodos** | terciario | sin cambios: morfoespecies |
+
+**H1, H2 y H4 quedan cubiertas por el equipo.** H3 queda en **versión de morfotipos**: se mide riqueza y cobertura de líquenes y se contrasta entre sectores, pero **sin atribuir sensibilidad por especie**. Es una hipótesis más modesta y honesta — y no requiere contratar a nadie más.
+
+### Lo que aporta a la postulación más allá de lo técnico
+
+- **Cubre la disciplina 1** (Ciencias naturales) con título pertinente y trayectoria verificable.
+- **Es de La Araucanía**: refuerza el arraigo territorial.
+- **Ya usa iNaturalist, en el nodo del MMA.** El proyecto no tiene que enseñarle la herramienta central de su propio protocolo. Eso elimina un riesgo real de implementación.
+- Su trayectoria **acredita experiencia del equipo** (Q29) y es **pública y comprobable** sin que tengamos que adjuntar nada.
+
 → Si es así, la decisión no es "sirve o no sirve": es **cubrir tres de las cuatro funciones con esta persona y decidir qué hacer con H3**. Las opciones son buscar apoyo puntual de un especialista, o trabajar líquenes como **morfotipos sin determinación taxonómica** —que es válido, ya está escrito en el diseño, y permite medir riqueza y cobertura sin nombrar especies—. **Esa segunda opción es perfectamente defendible y no requiere contratar a nadie más.**
