@@ -84,12 +84,23 @@ Los árboles en mal estado sanitario no tienen menor riqueza total, sino **compo
 | **Área de copa** | continua | dos diámetros perpendicularmente → elipse | árbol |
 | **Estado sanitario** | ordinal (3 clases) | protocolo visual | árbol |
 | **Tipo de emplazamiento** | categórica | vereda / bandejón / plaza / patio escolar | árbol |
-| **Cobertura arbórea 100 m** | continua | **de nuestra capa satelital existente** | entorno |
+| **Cobertura vegetal 100 m** ⚠️ | continua | **de nuestra capa satelital existente** | entorno |
 | **Temperatura de superficie** | continua | **de nuestra capa Landsat existente** | entorno |
 | **Distancia a calzada con tráfico** | continua | medida o SIG | entorno |
 | **Estrato de cobertura del barrio** | categórica | del índice de equidad propio | barrio |
 
 Las tres variables de entorno **no las miden los estudiantes**: las aporta el Observatorio desde el análisis satelital ya operativo. Ese es el aporte diferencial de tener trayectoria previa.
+
+> ⚠️ **Corrección del 13-08-2026.** El predictor de entorno de H2 se llamaba "cobertura arbórea a 100 m".
+> **Es cobertura *vegetal*, no arbórea.** A 10-30 m de resolución el satélite no separa árbol de
+> arbusto ni de pasto alto. H2 se enuncia entonces así: *la riqueza asociada a un árbol aumenta con la
+> **cobertura vegetal** del entorno inmediato*. Es una hipótesis igual de contrastable y honesta con el
+> dato que tenemos.
+> 🔑 **Y hay un beneficio inesperado:** el proyecto mide en terreno, árbol por árbol, dentro de esos
+> mismos radios de 100 m. O sea que **los datos de terreno permiten estimar qué fracción de la
+> "cobertura vegetal" satelital es realmente arbórea** en los sectores muestreados. Eso es una
+> **validación en tierra de nuestra propia capa satelital**, no estaba previsto, y no cuesta una sola
+> salida adicional. Conviene declararlo como resultado metodológico del proyecto.
 
 ### 3.2 Dependientes (respuesta)
 
@@ -394,6 +405,35 @@ Esto es **muestreo estratificado con reemplazo por no respuesta**: no es aleator
 - **Transectos por eje de calle**, y dentro de cada transecto **selección sistemática**: se mide **cada n-ésimo árbol** (p. ej. cada tercero), sea cual sea su estado.
 - **Regla explícita e innegociable: los árboles feos, chicos y enfermos entran igual.** Conviene enseñarla como parte del taller — es una lección de método que se entiende bien.
 - Cuota mínima por clase diamétrica para asegurar rango en el predictor: al menos 25% de árboles con DAP < 15 cm.
+- 🔑 **Cuota mínima por origen, agregada el 23-08-2026.** Ver abajo.
+
+> ### ⚠️ El riesgo que limita H1 no es el tamaño de la muestra
+>
+> Con 180-210 árboles y cinco o seis predictores hay unas 30 observaciones por predictor, que es
+> holgado para detectar un efecto moderado del DAP. **El n no es la restricción.** Las restricciones
+> son otras tres, y ninguna se resuelve midiendo más árboles:
+>
+> 1. 🔴 **Cuántos nativos aparezcan.** Si el muestreo sistemático arroja pocos, el efecto del origen
+>    queda con un intervalo demasiado ancho. Y peor: en calle las nativas suelen ser plantaciones más
+>    recientes, o sea de menor diámetro. **Si todas las nativas son delgadas, origen y DAP quedan
+>    confundidos y H1 se vuelve incontestable**, con 180 árboles o con 500.
+> 2. **El rango de cobertura vegetal del entorno**, que en tres sectores de baja cobertura es angosto.
+>    Más árboles en los mismos barrios solo agregan puntos en la parte baja de la curva.
+> 3. **Los tres sitios de H3**, donde el n es 3 y no 200.
+>
+> **Regla de decisión, tomada ahora y no en terreno.** El piloto de diciembre mide 20 árboles de un
+> tramo real y entrega la proporción nativo/exótico de la calle. Con ese dato:
+>
+> | Si el piloto muestra | Qué se hace |
+> |---|---|
+> | Proporción de nativas suficiente para estimar el efecto | Se mantiene H1 como está |
+> | Pocas nativas | Se agrega un **grupo complementario de nativas como estrato declarado**, analizado por separado del sistemático |
+> | Muy pocas nativas, o todas de diámetro bajo | **H1 se recorta a "efecto del tamaño"** y el origen se reporta de forma descriptiva. Es mejor responder una pregunta bien que dos mal |
+>
+> 💡 Y la consecuencia para la postulación: **no conviene subir el número de árboles.** Subir a 300 no
+> arregla ninguna de las tres restricciones, rompe el presupuesto de tiempo (20 min por árbol, 8
+> semanas, 3 cursos) y agrega precisión donde no hace falta. **Mejor 180 bien repartidos que 300 mal
+> repartidos.**
 
 ### 11.3 Cobertura y esfuerzo
 

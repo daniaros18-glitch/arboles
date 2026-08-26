@@ -6,3 +6,13 @@ Desktop.ini
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# ─── Datos administrativos: el repositorio es PÚBLICO ───────────────────
+# La carpeta de entrega contiene el presupuesto firmado, con la dirección
+# registrada de Ekuwün y el nombre de su representante legal. No debe
+# publicarse. Si alguien la necesita, se comparte directamente.
+postulaciones/entrega/
+
+# ─── Respaldos locales de trabajo ───────────────────────────────────────
+*.bak
+docs/index.html.antes-limpieza

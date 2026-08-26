@@ -1,0 +1,182 @@
+[
+{
+"id": "1.1",
+"a": 1,
+"b": 3,
+"d": "Instalación del proyecto y acuerdos operativos con las tres escuelas"
+},
+{
+"id": "1.2",
+"a": 2,
+"b": 4,
+"d": "Piloto metodológico con un curso"
+},
+{
+"id": "1.3",
+"a": 5,
+"b": 8,
+"d": "Sistema de fichas de ciencia ciudadana"
+},
+{
+"id": "1.4",
+"a": 5,
+"b": 6,
+"d": "Circuito de datos"
+},
+{
+"id": "1.5",
+"a": 7,
+"b": 10,
+"d": "Fabricación y montaje de los kits de ciencia ciudadana"
+},
+{
+"id": "1.6",
+"a": 5,
+"b": 11,
+"d": "Secuencia didáctica y cuadernillo docente v1"
+},
+{
+"id": "1.7",
+"a": 11,
+"b": 12,
+"d": "Jornada de formación docente"
+},
+{
+"id": "2.1",
+"a": 13,
+"b": 15,
+"d": "Trazado de transectos y selección sistemática de árboles"
+},
+{
+"id": "2.2",
+"a": 13,
+"b": 14,
+"d": "Talleres de aula y práctica en el patio"
+},
+{
+"id": "2.3",
+"a": 14,
+"b": 19,
+"d": "Salidas de medición dendrométrica y codificación"
+},
+{
+"id": "2.4",
+"a": 14,
+"b": 19,
+"d": "Registro de biodiversidad asociada"
+},
+{
+"id": "2.5",
+"a": 15,
+"b": 19,
+"d": "Puntos de conteo de aves (componente complementario)"
+},
+{
+"id": "2.6",
+"a": 16,
+"b": 20,
+"d": "Submuestra de control a ciegas"
+},
+{
+"id": "2.7",
+"a": 17,
+"b": 18,
+"d": "Salida al corredor ribereño y al Humedal Urbano Antumalén con la comunidad de Hablaarte"
+},
+{
+"id": "2.8",
+"a": 15,
+"b": 20,
+"d": "Digitación en aula, en la sesión siguiente a cada salida"
+},
+{
+"id": "2.9",
+"a": 13,
+"b": 20,
+"d": "Registro audiovisual del proceso"
+},
+{
+"id": "3.1",
+"a": 19,
+"b": 24,
+"d": "Validación taxonómica"
+},
+{
+"id": "3.2",
+"a": 21,
+"b": 23,
+"d": "Control de calidad de los datos ciudadanos"
+},
+{
+"id": "3.3",
+"a": 21,
+"b": 25,
+"d": "Base de datos y cruce territorial"
+},
+{
+"id": "3.4",
+"a": 24,
+"b": 28,
+"d": "Estimación de servicios ecosistémicos"
+},
+{
+"id": "3.5",
+"a": 25,
+"b": 30,
+"d": "Análisis estadístico"
+},
+{
+"id": "3.6",
+"a": 21,
+"b": 30,
+"d": "Herbario ilustrado, componente artístico"
+},
+{
+"id": "3.7",
+"a": 29,
+"b": 32,
+"d": "Informe científico de línea base"
+},
+{
+"id": "4.1",
+"a": 29,
+"b": 33,
+"d": "Cuadernillo docente, ficha de revisita y kit de ciencia ciudadana"
+},
+{
+"id": "4.2",
+"a": 33,
+"b": 34,
+"d": "Prueba de relocalización a ciegas"
+},
+{
+"id": "4.3",
+"a": 31,
+"b": 34,
+"d": "Publicación de datos abiertos en el observatorio"
+},
+{
+"id": "4.3b",
+"a": 31,
+"b": 33,
+"d": "Preparación de la devolución y convocatoria a las organizaciones del barrio"
+},
+{
+"id": "4.4",
+"a": 33,
+"b": 35,
+"d": "Devoluciones barriales, una en cada sector, con juntas de vecinos y organizaciones"
+},
+{
+"id": "4.5",
+"a": 31,
+"b": 35,
+"d": "Expedientes de árboles patrimoniales, Art. 9 de la Ordenanza 004/2021"
+},
+{
+"id": "4.6",
+"a": 35,
+"b": 36,
+"d": "Encuentro de cierre, entrega institucional y rendición"
+}
+]

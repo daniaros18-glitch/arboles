@@ -163,9 +163,21 @@ después la causa, y solo entonces qué hacer.
 
 ## 4. Resultados científicos (y cómo deben citarse)
 
-- **La cifra más fuerte:** dentro de los **344 loteos aprobados entre 2005 y 2024** se perdió **4,2 veces más verde** (44,9%) que en el resto de la ciudad (10,7%). Es evidencia directa de la relación entre expansión inmobiliaria y pérdida de arbolado.
-- **Calor:** donde se perdió el dosel hay hoy **+1,4 °C** respecto de donde se mantuvo (30,8 vs 29,3 °C); 31,6 °C donde nunca hubo árboles.
-- **Casco urbano:** el dosel baja de ≈252 a ≈233 ha (−8%) entre 2005 y 2025.
+> 🔴 **PRECISIÓN OBLIGATORIA (13-08-2026, tras la revisión de Nicolás Mendoza).**
+> A 10-30 m de resolución **el satélite mide cobertura vegetal, no árboles**. Un seto de arbustos, un
+> sitio eriazo con pasto alto y un liquidámbar de 15 m pueden caer en la misma clase. El problema ya
+> estaba identificado en [`PLAN_TECNICO_SATELITAL.md`](PLAN_TECNICO_SATELITAL.md) §4 y §11, y la
+> salvaguarda propuesta ahí (cruzar NDVI con altura de dosel) **no está aplicada en la serie
+> publicada**. Por lo tanto: **decir "cobertura vegetal" o "verde" siempre que el dato venga del
+> satélite, y reservar "arbolado" para lo medido en terreno.**
+> 💡 Esto no debilita el proyecto: **es su justificación**. El observatorio en terreno existe
+> precisamente porque el satélite no separa un árbol de un matorral.
+> ⬜ Pendiente: revisar los textos de `docs/index.html`, que usan la palabra "arbolado" para datos
+> satelitales.
+
+- **La cifra más fuerte:** dentro de los **344 loteos aprobados entre 2005 y 2024** se perdió **4,2 veces más cobertura vegetal** (44,9%) que en el resto de la ciudad (10,7%). Es evidencia directa de la relación entre expansión inmobiliaria y pérdida de verde urbano. ⬜ Registrar la fuente exacta y la fecha de descarga de la capa de loteos: hoy no está anotada en ninguna parte.
+- **Calor:** donde se perdió la cobertura hay hoy **+1,4 °C de temperatura de superficie** respecto de donde se mantuvo (30,8 vs 29,3 °C); 31,6 °C donde nunca hubo vegetación. **Es temperatura de superficie medida por satélite, no temperatura del aire.**
+- **Casco urbano:** la cobertura vegetal baja de ≈252 a ≈233 ha (−8%) entre 2005 y 2025.
 - ❗ **A escala de toda la comuna el balance neto no baja**, porque la periferia rural reverdece. **Nunca presentar un "% de pérdida neta comunal" como si fuera deforestación urbana.** El satélite localiza y explica el problema; no cuenta árboles individuales a 30 m de resolución.
 - **Equidad:** índice por Unidad Vecinal (Censo 2024). Mayor prioridad de plantación: Estación, Alemania, Prieto Sur, Javiera Carrera Oriente, Tromen Mollulco.
 
