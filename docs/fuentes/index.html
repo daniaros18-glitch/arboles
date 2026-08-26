@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Documento · Observatorio del Arbolado de Temuco</title>
-<meta name="description" content="Documentos técnicos y de investigación del Observatorio Ciudadano del Arbolado Urbano de Temuco.">
+<title>El árbol urbano como hábitat: las fuentes · Observatorio del Arbolado de Temuco</title>
+<meta name="description" content="Las fuentes científicas sobre el árbol urbano como hábitat: 18 referencias con DOI, qué se ha estudiado en Chile y en Temuco, y los límites de esa búsqueda.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>">
 <style>
   :root {
@@ -98,7 +98,7 @@
 </div>
 
 <main>
-  <span class="doc-tag" id="tag">Documento del proyecto</span>
+  <span class="doc-tag" id="tag">Fuentes y evidencia</span>
   <div id="contenido"><p class="cargando">Cargando documento…</p></div>
   <div class="pie">
     Observatorio Ciudadano del Arbolado Urbano de Temuco ·
@@ -116,7 +116,7 @@
 
   // Solo se aceptan nombres de archivo .md de esta misma carpeta: evita que
   // alguien use el visor para cargar contenido de otro origen.
-  const pedido = new URLSearchParams(location.search).get('doc') || '';
+  const pedido = 'BIODIVERSIDAD_ARBOLADO_URBANO.md';
   const nombre = /^[A-Za-z0-9_-]+\.md$/.test(pedido) ? pedido : '';
 
   if (!nombre) {
@@ -124,9 +124,9 @@
       'Vuelve a <a href="../index.html#descargas">la sección de descargas</a> y elige uno.</p>';
     return;
   }
-  document.getElementById('crudo').href = nombre;
+  document.getElementById('crudo').href = '../recursos/' + nombre;
 
-  fetch(nombre)
+  fetch('../recursos/' + nombre)
     .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
     .then(md => {
       marked.setOptions({ gfm:true, breaks:false, headerIds:true, mangle:false });

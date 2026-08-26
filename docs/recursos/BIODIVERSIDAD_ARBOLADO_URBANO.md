@@ -1,5 +1,9 @@
 # El árbol urbano como hábitat: las fuentes
 
+> 📖 **Versión con formato:** https://daniaros18-glitch.github.io/arboles/fuentes/
+> Este archivo es la fuente en texto plano. Si llegaste acá desde un enlace, la
+> versión legible está en la dirección de arriba.
+
 **Observatorio Ciudadano del Arbolado Urbano de Temuco**
 Última revisión: 25 de agosto de 2026
 
