@@ -228,8 +228,10 @@
     background:#eaf3e2; color:#12352a; font-size:.7rem; font-weight:700; letter-spacing:.04em;
     padding:7px 9px; border-radius:20px; white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,.35); }
   .cortina-asa:focus-visible { outline:3px solid var(--green-soft); outline-offset:2px; }
-  .yv-izq, .yv-der { z-index:460; }
-  .yv-der { left:auto; right:12px; }
+  /* Los rotulos y la cortina se posicionan respecto al mapa, no respecto a todo
+     el bloque: si no, caen sobre el buscador que esta encima. */
+  .yv-mapa-wrap { position:relative; }
+  .yv-badge.yv-der { left:auto; right:12px; }
 
   /* ficha del barrio */
   .cb-ficha { margin-top:14px; background:rgba(255,255,255,.06);
@@ -803,6 +805,7 @@
         <p class="cb-estado" id="cbEstado" role="status" aria-live="polite"></p>
         <ul class="cb-sugerencias" id="cbSug" hidden></ul>
 
+        <div class="yv-mapa-wrap">
         <div id="yvMap" role="application" aria-label="Mapa del dosel de Temuco: 2005 a la izquierda de la cortina, 2025 a la derecha"></div>
         <div class="cortina" id="cortina" hidden>
           <div class="cortina-asa" id="cortinaAsa" role="separator" tabindex="0"
@@ -815,6 +818,7 @@
           <span><i style="background:#2f6b3a"></i> más dosel</span>
           <span><i style="background:#cfe0a8"></i> poco</span>
           <span><i style="background:#e8e0cd"></i> suelo construido</span>
+        </div>
         </div>
       </div>
 
