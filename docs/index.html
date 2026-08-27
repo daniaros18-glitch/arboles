@@ -190,6 +190,68 @@
   .problem .body strong { color: var(--ink); font-weight: 600; }
 
 
+  /* ---------- ¿QUE PASO EN TU CUADRA? ---------- */
+  .cuadra-buscar { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .cb-campo { display:flex; flex:1 1 320px; min-width:0; }
+  .cb-campo input { flex:1; min-width:0; font:inherit; font-size:.95rem; padding:12px 15px;
+    border:1px solid rgba(255,255,255,.22); border-right:0; border-radius:10px 0 0 10px;
+    background:rgba(255,255,255,.07); color:#eaf3e2; }
+  .cb-campo input::placeholder { color:#8fa593; }
+  .cb-campo input:focus { outline:2px solid var(--green-soft); outline-offset:-2px; }
+  .cb-campo button { font:inherit; font-size:.92rem; font-weight:600; padding:12px 20px; cursor:pointer;
+    border:0; border-radius:0 10px 10px 0; background:var(--green); color:#0c241d; }
+  .cb-campo button:hover { background:var(--green-soft); }
+  .cb-geo { font:inherit; font-size:.9rem; padding:12px 18px; cursor:pointer; border-radius:10px;
+    border:1px solid rgba(255,255,255,.22); background:transparent; color:#eaf3e2; }
+  .cb-geo:hover { background:rgba(255,255,255,.08); }
+  .cb-estado { font-size:.86rem; color:#a9c19d; margin:0 0 10px; min-height:1.2em; }
+  .cb-estado.error { color:#e08a54; }
+
+  .cb-sugerencias { list-style:none; margin:0 0 12px; padding:0; border-radius:10px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.16); }
+  .cb-sugerencias li { border-bottom:1px solid rgba(255,255,255,.08); }
+  .cb-sugerencias li:last-child { border-bottom:0; }
+  .cb-sugerencias button { display:block; width:100%; text-align:left; font:inherit; font-size:.88rem;
+    padding:11px 15px; cursor:pointer; border:0; background:rgba(255,255,255,.05); color:#dfe9d6; }
+  .cb-sugerencias button:hover { background:rgba(143,181,106,.18); }
+
+  /* cortina antes / despues */
+  .cortina { position:absolute; inset:0; pointer-events:none; z-index:450; }
+  .cortina-asa { position:absolute; top:0; bottom:0; width:3px; margin-left:-1.5px;
+    background:#eaf3e2; pointer-events:auto; cursor:ew-resize; touch-action:none;
+    box-shadow:0 0 0 1px rgba(0,0,0,.35); }
+  /* La linea se ve fina, pero el area para agarrarla con el dedo es de 44 px:
+     con 3 px era imposible de usar en un telefono. */
+  .cortina-asa::before { content:''; position:absolute; top:0; bottom:0;
+    left:-21px; right:-21px; }
+  .cortina-asa span { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:#eaf3e2; color:#12352a; font-size:.7rem; font-weight:700; letter-spacing:.04em;
+    padding:7px 9px; border-radius:20px; white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,.35); }
+  .cortina-asa:focus-visible { outline:3px solid var(--green-soft); outline-offset:2px; }
+  .yv-izq, .yv-der { z-index:460; }
+  .yv-der { left:auto; right:12px; }
+
+  /* ficha del barrio */
+  .cb-ficha { margin-top:14px; background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:18px 20px; }
+  .cb-ficha-cab { margin-bottom:14px; }
+  .cb-lbl { display:block; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--green-soft); font-weight:700; margin-bottom:3px; }
+  .cb-ficha h3 { margin:0; font-family:var(--serif); font-size:1.4rem; color:#eaf3e2; }
+  .cb-datos { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .cb-dato { background:rgba(0,0,0,.18); border-radius:10px; padding:13px 14px; }
+  .cb-dato b { display:block; font-size:1.5rem; font-family:var(--serif); color:#eaf3e2; line-height:1.1; }
+  .cb-dato span { display:block; font-size:.74rem; color:#a9c19d; margin-top:5px; line-height:1.4; }
+  .cb-dato.destaca { background:rgba(200,90,43,.18); border:1px solid rgba(224,138,84,.35); }
+  .cb-lectura { font-size:.88rem; color:#c9d8c3; line-height:1.6; margin:13px 0 0; }
+  @media (max-width:700px){ .cb-datos{ grid-template-columns:repeat(2,1fr); } }
+
+  /* serie anual, ahora plegada */
+  .cb-serie { margin-top:14px; border-top:1px solid rgba(255,255,255,.12); padding-top:12px; }
+  .cb-serie summary { cursor:pointer; font-size:.88rem; color:var(--green-soft); font-weight:600;
+    padding:6px 0; }
+  .cb-serie summary:hover { color:#eaf3e2; }
+
   /* ---------- EL ARBOL COMO HABITAT ---------- */
   .habitat { background: var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
   .habitat .mov { margin:34px 0 14px; font-size:1.12rem; color:var(--ink);
@@ -729,24 +791,62 @@
         <span class="coord">38.74°S 72.60°O</span>
       </div>
       <div class="yv-stage big">
-        <div id="yvMap" role="application" aria-label="Mapa del dosel urbano de Temuco por año"></div>
-        <span class="yv-badge" id="yvBadge">2005 · NDVI</span>
+        <div class="cuadra-buscar">
+          <div class="cb-campo">
+            <input id="cbInput" type="search" autocomplete="off" enterkeyhint="search"
+                   placeholder="Tu calle: Av. Alemania 0250, Los Trigales…"
+                   aria-label="Buscar una calle o dirección de Temuco">
+            <button type="button" id="cbBuscar">Buscar</button>
+          </div>
+          <button type="button" id="cbGeo" class="cb-geo">📍 Usar mi ubicación</button>
+        </div>
+        <p class="cb-estado" id="cbEstado" role="status" aria-live="polite"></p>
+        <ul class="cb-sugerencias" id="cbSug" hidden></ul>
+
+        <div id="yvMap" role="application" aria-label="Mapa del dosel de Temuco: 2005 a la izquierda de la cortina, 2025 a la derecha"></div>
+        <div class="cortina" id="cortina" hidden>
+          <div class="cortina-asa" id="cortinaAsa" role="separator" tabindex="0"
+               aria-label="Arrastra para comparar 2005 con 2025"
+               aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span>◀ ▶</span></div>
+        </div>
+        <span class="yv-badge yv-izq" id="yvIzq">2005</span>
+        <span class="yv-badge yv-der" id="yvDer">2025</span>
         <div class="yv-leyenda">
           <span><i style="background:#2f6b3a"></i> más dosel</span>
           <span><i style="background:#cfe0a8"></i> poco</span>
           <span><i style="background:#e8e0cd"></i> suelo construido</span>
         </div>
       </div>
-      <div class="yv-slider">
-        <input type="range" id="yvRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
-        <div class="yv-scale"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span></div>
+
+      <div class="cb-ficha" id="cbFicha" hidden>
+        <div class="cb-ficha-cab">
+          <span class="cb-lbl">Tu barrio</span>
+          <h3 id="cbNombre">—</h3>
+        </div>
+        <div class="cb-datos">
+          <div class="cb-dato"><b id="cbDosel">—</b><span>de dosel<br>en tu unidad vecinal</span></div>
+          <div class="cb-dato"><b id="cbCalor">—</b><span>de temperatura<br>de superficie</span></div>
+          <div class="cb-dato"><b id="cbVerde">—</b><span>de área verde<br>por habitante</span></div>
+          <div class="cb-dato destaca"><b id="cbPuesto">—</b><span>en prioridad<br>de plantación</span></div>
+        </div>
+        <p class="cb-lectura" id="cbLectura"></p>
       </div>
-      <div class="yv-tools">
-        <label for="yvOpac">Transparencia</label>
-        <input type="range" id="yvOpac" min="20" max="100" value="82" step="1" aria-label="Opacidad de la capa de dosel">
-        <button type="button" id="yvPlay" class="yv-play" aria-label="Reproducir la serie 2005–2024">▶ Reproducir</button>
-      </div>
-      <p class="scan-note">Serie anual real 2005–2024 sobre el callejero de Temuco (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). <strong>Haz clic en el mapa</strong> y ya puedes acercarte con la rueda —o con los botones + / −— hasta encontrar tu calle. Para cruzar capas —calor, loteos, prioridad de plantación— entra al <a href="#explora" style="color:var(--green-soft)">mapa interactivo</a>.</p>
+
+      <details class="cb-serie">
+        <summary>Ver la serie completa, año por año</summary>
+        <div class="yv-slider">
+          <input type="range" id="yvRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
+          <div class="yv-scale"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span></div>
+        </div>
+        <div class="yv-tools">
+          <label for="yvOpac">Transparencia</label>
+          <input type="range" id="yvOpac" min="20" max="100" value="82" step="1" aria-label="Opacidad de la capa de dosel">
+          <button type="button" id="yvPlay" class="yv-play" aria-label="Reproducir la serie 2005–2024">▶ Reproducir</button>
+        </div>
+        <p class="scan-note">Serie anual 2005–2024 (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). Las imágenes de los años se descargan solo al abrir esta sección.</p>
+      </details>
+
+      <p class="scan-note">Buscar una dirección la envía a <a href="https://nominatim.openstreetmap.org" target="_blank" rel="noopener" style="color:var(--green-soft)">Nominatim</a>, el buscador de OpenStreetMap. <strong>Tu ubicación, si la compartes, no sale de tu navegador</strong>: se usa acá mismo para saber en qué unidad vecinal estás y no se guarda ni se envía a ninguna parte.</p>
     </div>
   </div>
 </div>
@@ -1640,60 +1740,270 @@ function capasBase(map, porDefecto){
   return bases;
 }
 
-// Visor grande — deslizador anual (casco urbano)
+// ¿Que paso en tu cuadra? — buscador, ubicacion y cortina 2005 / 2025
 const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
 (function(){
-  const cont  = document.getElementById('yvMap');
-  const badge = document.getElementById('yvBadge');
-  const range = document.getElementById('yvRange');
-  const opac  = document.getElementById('yvOpac');
-  const play  = document.getElementById('yvPlay');
-  if (!cont || !range || typeof L === 'undefined') return;
+  const cont = document.getElementById('yvMap');
+  if (!cont || typeof L === 'undefined') return;
 
-  // Mismos límites que usan las imágenes generadas en Earth Engine.
+  // Mismos limites que usan las imagenes generadas en Earth Engine.
   const B = { lonMin:-72.81968, lonMax:-72.48281, latMin:-38.77713, latMax:-38.64148 };
   const bounds = [[B.latMin, B.lonMin], [B.latMax, B.lonMax]];
 
-  // La rueda no hace zoom hasta que se hace clic: si no, al bajar por la página
+  // La rueda no hace zoom hasta que se hace clic: si no, al bajar por la pagina
   // el mapa se traga el scroll y no se puede pasar de la portada.
-  const map = L.map('yvMap', { scrollWheelZoom:false, minZoom:11, maxZoom:18, zoomControl:true });
+  // zoomSnap:0 permite un ajuste exacto a los limites: sin el, Leaflet redondea el
+  // zoom y la imagen queda con margenes, con lo que la cortina se satura antes de
+  // llegar a los bordes del mapa.
+  const map = L.map('yvMap', { scrollWheelZoom:false, minZoom:11, maxZoom:18, zoomControl:true, zoomSnap:0 });
   map.on('click', () => map.scrollWheelZoom.enable());
   capasBase(map, 'satelite');
-  const capa = L.imageOverlay('mapas/anual/ndvi_' + YV_YEARS[0] + '.png', bounds,
-    { opacity: (+opac.value) / 100, className:'yv-overlay' }).addTo(map);
   map.fitBounds(bounds);
   map.setMaxBounds(L.latLngBounds(bounds).pad(0.6));
 
-  // se precargan para que deslizar el año no parpadee
-  YV_YEARS.forEach(y => { const p = new Image(); p.src = 'mapas/anual/ndvi_' + y + '.png'; });
+  // --- las dos capas de la cortina: 2005 debajo, 2025 encima y recortada ---
+  const capaAntes  = L.imageOverlay('mapas/urbano_ndvi_2005.png', bounds,
+    { opacity:.82, alt:'Dosel urbano de Temuco en 2005' }).addTo(map);
+  const capaDespues = L.imageOverlay('mapas/urbano_ndvi_2025.png', bounds,
+    { opacity:.82, alt:'Dosel urbano de Temuco en 2025' }).addTo(map);
 
-  function mostrar(i){
-    const y = YV_YEARS[i];
-    capa.setUrl('mapas/anual/ndvi_' + y + '.png');
-    capa.getElement() && capa.getElement().setAttribute('alt', 'Dosel urbano de Temuco en ' + y);
-    badge.textContent = y + ' · NDVI';
+  const cortina = document.getElementById('cortina');
+  const asa = document.getElementById('cortinaAsa');
+  let pos = 0.5;   // 0 a 1 sobre el ancho del mapa
+
+  // El recorte se calcula en coordenadas de la imagen, no de la pantalla: asi
+  // la cortina no se desarma al desplazar ni al acercar el mapa.
+  function pintarCortina(){
+    const img = capaDespues.getElement();
+    if (!img) return;
+    const x = pos * cont.clientWidth;
+    const lng = map.containerPointToLatLng([x, 0]).lng;
+    let f = (lng - B.lonMin) / (B.lonMax - B.lonMin);
+    f = Math.max(0, Math.min(1, f));
+    img.style.clipPath = 'inset(0 0 0 ' + (f * 100).toFixed(3) + '%)';
+    asa.style.left = (pos * 100) + '%';
+    asa.setAttribute('aria-valuenow', Math.round(pos * 100));
   }
-  range.addEventListener('input', () => { detener(); mostrar(+range.value); });
-  opac.addEventListener('input', () => capa.setOpacity((+opac.value) / 100));
+  map.on('move zoom zoomend viewreset resize', pintarCortina);
+  capaDespues.on('load', () => {
+    cortina.hidden = false;
+    const [a, b] = limites();
+    pos = (a + b) / 2;
+    pintarCortina();
+  });
 
-  // Reproducir la serie completa: es donde mejor se ve el avance del loteo.
+  // El asa solo se mueve sobre la imagen: fuera de ella arrastrar no cambiaria nada,
+  // porque no hay dosel que comparar en el margen del mapa.
+  function limites(){
+    const img = capaDespues.getElement();
+    const r = cont.getBoundingClientRect();
+    if (!img) return [0, 1];
+    const ir = img.getBoundingClientRect();
+    if (!ir.width) return [0, 1];
+    return [Math.max(0, (ir.left - r.left) / r.width),
+            Math.min(1, (ir.right - r.left) / r.width)];
+  }
+  function moverA(clientX){
+    const r = cont.getBoundingClientRect();
+    const [a, b] = limites();
+    pos = Math.max(a, Math.min(b, (clientX - r.left) / r.width));
+    pintarCortina();
+  }
+  let arrastrando = false;
+  const empezar = e => { arrastrando = true; e.preventDefault(); };
+  asa.addEventListener('pointerdown', empezar);
+  window.addEventListener('pointermove', e => { if (arrastrando) moverA(e.clientX); });
+  window.addEventListener('pointerup', () => { arrastrando = false; });
+  asa.addEventListener('keydown', e => {
+    const paso = e.shiftKey ? .1 : .02;
+    const [a, b] = limites();
+    if (e.key === 'ArrowLeft')  { pos = Math.max(a, pos - paso); pintarCortina(); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { pos = Math.min(b, pos + paso); pintarCortina(); e.preventDefault(); }
+  });
+
+  // ---------------------------------------------------------------- barrios
+  let barrios = null, ranking = null;
+  const fichas = {
+    caja: document.getElementById('cbFicha'),
+    nombre: document.getElementById('cbNombre'),
+    dosel: document.getElementById('cbDosel'),
+    calor: document.getElementById('cbCalor'),
+    verde: document.getElementById('cbVerde'),
+    puesto: document.getElementById('cbPuesto'),
+    lectura: document.getElementById('cbLectura')
+  };
+  const estado = document.getElementById('cbEstado');
+  const sugerencias = document.getElementById('cbSug');
+
+  function decir(txt, esError){
+    estado.textContent = txt || '';
+    estado.classList.toggle('error', !!esError);
+  }
+
+  function cargarBarrios(){
+    if (barrios) return Promise.resolve(barrios);
+    return fetch('data/prioridad_uv.geojson')
+      .then(r => r.json())
+      .then(g => {
+        barrios = g.features;
+        // el puesto se calcula una vez: 1 = la que mas urgencia tiene
+        ranking = barrios.slice().sort((a,b) => b.properties.score - a.properties.score)
+                         .map(f => f.properties.u_vecinal);
+        return barrios;
+      });
+  }
+
+  // Rayo horizontal: cuenta cuantas veces cruza el borde del poligono.
+  function dentro(lat, lon, anillo){
+    let d = false;
+    for (let i = 0, j = anillo.length - 1; i < anillo.length; j = i++){
+      const xi = anillo[i][0], yi = anillo[i][1], xj = anillo[j][0], yj = anillo[j][1];
+      if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) d = !d;
+    }
+    return d;
+  }
+  function buscarBarrio(lat, lon){
+    if (!barrios) return null;
+    for (const f of barrios){
+      const g = f.geometry;
+      const polis = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+      for (const p of polis) if (dentro(lat, lon, p[0])) return f.properties;
+    }
+    return null;
+  }
+
+  function mostrarFicha(p){
+    if (!p){
+      fichas.caja.hidden = true;
+      decir('Ese punto queda fuera de las 36 unidades vecinales que tenemos medidas.', true);
+      return;
+    }
+    const puesto = ranking.indexOf(p.u_vecinal) + 1;
+    fichas.nombre.textContent = p.u_vecinal;
+    fichas.dosel.textContent  = p.canopy_pct.toFixed(1).replace('.', ',') + '%';
+    fichas.calor.textContent  = p.lst.toFixed(1).replace('.', ',') + ' °C';
+    fichas.verde.textContent  = p.green_pc.toFixed(1).replace('.', ',') + ' m²';
+    fichas.puesto.textContent = puesto + '° de 36';
+
+    const partes = [];
+    if (p.canopy_pct < 10) partes.push('Es de los barrios con menos sombra de Temuco');
+    else if (p.canopy_pct > 25) partes.push('Es de los barrios con más dosel de la ciudad');
+    if (p.lst > 31) partes.push('y de los que más calor de superficie acumulan en verano');
+    if (p.green_pc < 3) partes.push('con muy poca área verde por habitante');
+    fichas.lectura.textContent = partes.length
+      ? partes.join(', ') + '. El puesto sale del índice de prioridad de plantación, que cruza dosel, calor, área verde y vulnerabilidad de la población.'
+      : 'El puesto sale del índice de prioridad de plantación, que cruza dosel, calor, área verde y vulnerabilidad de la población.';
+    fichas.caja.hidden = false;
+  }
+
+  let marca = null;
+  function irA(lat, lon, etiqueta){
+    if (marca) map.removeLayer(marca);
+    marca = L.marker([lat, lon]).addTo(map);
+    if (etiqueta) marca.bindPopup(etiqueta).openPopup();
+    map.setView([lat, lon], 16);
+    setTimeout(pintarCortina, 60);
+    cargarBarrios().then(() => mostrarFicha(buscarBarrio(lat, lon)));
+  }
+
+  // ------------------------------------------------------------- buscador
+  const campo = document.getElementById('cbInput');
+
+  function buscar(){
+    const q = campo.value.trim();
+    sugerencias.hidden = true; sugerencias.innerHTML = '';
+    if (q.length < 3) return decir('Escribe al menos tres letras.', true);
+    decir('Buscando…');
+    const url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&countrycodes=cl'
+      + '&bounded=1&viewbox=' + B.lonMin + ',' + B.latMax + ',' + B.lonMax + ',' + B.latMin
+      + '&q=' + encodeURIComponent(q + ', Temuco');
+    fetch(url, { headers:{ 'Accept':'application/json' } })
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(res => {
+        if (!res.length) return decir('No encontramos esa dirección dentro de Temuco. Prueba con el nombre de la calle y el número.', true);
+        if (res.length === 1) { decir(''); return irA(+res[0].lat, +res[0].lon, res[0].display_name.split(',')[0]); }
+        decir('Elige cuál es:');
+        res.forEach(r => {
+          const li = document.createElement('li');
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = r.display_name;
+          b.addEventListener('click', () => {
+            sugerencias.hidden = true; decir('');
+            campo.value = r.display_name.split(',').slice(0,2).join(',');
+            irA(+r.lat, +r.lon, r.display_name.split(',')[0]);
+          });
+          li.appendChild(b); sugerencias.appendChild(li);
+        });
+        sugerencias.hidden = false;
+      })
+      .catch(() => decir('No pudimos consultar el buscador de direcciones. Puedes moverte por el mapa a mano.', true));
+  }
+  document.getElementById('cbBuscar').addEventListener('click', buscar);
+  campo.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); buscar(); } });
+
+  // ------------------------------------------------------------ ubicacion
+  document.getElementById('cbGeo').addEventListener('click', () => {
+    if (!navigator.geolocation) return decir('Tu navegador no permite compartir la ubicación.', true);
+    decir('Pidiendo tu ubicación…');
+    navigator.geolocation.getCurrentPosition(
+      p => {
+        const { latitude:lat, longitude:lon } = p.coords;
+        if (lat < B.latMin - .1 || lat > B.latMax + .1 || lon < B.lonMin - .1 || lon > B.lonMax + .1)
+          return decir('Parece que no estás en Temuco. Igual puedes buscar una calle.', true);
+        decir('');
+        irA(lat, lon, 'Estás aquí');
+      },
+      err => decir(err.code === 1
+        ? 'No diste permiso para la ubicación. Puedes buscar tu calle en el cuadro de arriba.'
+        : 'No pudimos obtener tu ubicación. Prueba buscando tu calle.', true),
+      { enableHighAccuracy:true, timeout:10000, maximumAge:60000 }
+    );
+  });
+
+  // -------------------------------------------- serie anual, solo si se abre
+  const detalle = document.querySelector('.cb-serie');
+  const range = document.getElementById('yvRange');
+  const opac  = document.getElementById('yvOpac');
+  const play  = document.getElementById('yvPlay');
+  let capaAnual = null, precargado = false;
+
+  function activarSerie(){
+    if (capaAnual) return;
+    // al entrar en modo serie la cortina se retira: son dos lecturas distintas
+    cortina.hidden = true;
+    map.removeLayer(capaDespues);
+    map.removeLayer(capaAntes);
+    capaAnual = L.imageOverlay('mapas/anual/ndvi_' + YV_YEARS[+range.value] + '.png', bounds,
+      { opacity:(+opac.value)/100 }).addTo(map);
+    document.getElementById('yvIzq').textContent = YV_YEARS[+range.value];
+    document.getElementById('yvDer').hidden = true;
+    if (!precargado){   // recien aca se bajan las 19 imagenes, no al entrar al sitio
+      precargado = true;
+      YV_YEARS.forEach(y => { const i = new Image(); i.src = 'mapas/anual/ndvi_' + y + '.png'; });
+    }
+  }
+  function mostrarAnio(i){
+    if (!capaAnual) return;
+    capaAnual.setUrl('mapas/anual/ndvi_' + YV_YEARS[i] + '.png');
+    document.getElementById('yvIzq').textContent = YV_YEARS[i];
+  }
+  detalle.addEventListener('toggle', () => { if (detalle.open) activarSerie(); });
+  range.addEventListener('input', () => { detener(); activarSerie(); mostrarAnio(+range.value); });
+  opac.addEventListener('input', () => { if (capaAnual) capaAnual.setOpacity((+opac.value)/100); });
+
   let reloj = null;
-  function detener(){
-    if (!reloj) return;
-    clearInterval(reloj); reloj = null;
-    play.textContent = '▶ Reproducir';
-  }
+  function detener(){ if (reloj){ clearInterval(reloj); reloj = null; play.textContent = '▶ Reproducir'; } }
   play.addEventListener('click', () => {
     if (reloj) return detener();
+    activarSerie();
     play.textContent = '❚❚ Pausar';
     reloj = setInterval(() => {
       const i = (+range.value + 1) % YV_YEARS.length;
-      range.value = i; mostrar(i);
+      range.value = i; mostrarAnio(i);
     }, 900);
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden) detener(); });
-
-  mostrar(0);
 })();
 
 // Mapa interactivo con calles (Leaflet + OpenStreetMap)
