@@ -248,11 +248,6 @@
   .cb-lectura { font-size:.88rem; color:#c9d8c3; line-height:1.6; margin:13px 0 0; }
   @media (max-width:700px){ .cb-datos{ grid-template-columns:repeat(2,1fr); } }
 
-  /* serie anual, ahora plegada */
-  .cb-serie { margin-top:14px; border-top:1px solid rgba(255,255,255,.12); padding-top:12px; }
-  .cb-serie summary { cursor:pointer; font-size:.88rem; color:var(--green-soft); font-weight:600;
-    padding:6px 0; }
-  .cb-serie summary:hover { color:#eaf3e2; }
 
   /* ---------- EL ARBOL COMO HABITAT ---------- */
   .habitat { background: var(--bg-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
@@ -484,12 +479,6 @@
     font-size:.62rem; color:#cfe0c8; letter-spacing:.04em; }
   .yv-leyenda i { width:13px; height:13px; border-radius:3px; display:inline-block; }
   @media (max-width:560px){ .yv-leyenda{ display:none; } }
-  .yv-tools { display:flex; align-items:center; gap:12px; margin-top:11px; flex-wrap:wrap; }
-  .yv-tools label { font-family:var(--mono); font-size:.62rem; color:#7d937a; letter-spacing:.08em; text-transform:uppercase; }
-  .yv-tools input[type=range] { flex:1 1 120px; min-width:110px; accent-color:var(--green-soft); cursor:pointer; }
-  .yv-play { font-family:var(--mono); font-size:.68rem; padding:6px 13px; border-radius:20px; cursor:pointer;
-    border:1px solid rgba(143,181,106,.4); background:rgba(143,181,106,.12); color:#cfe0c8; letter-spacing:.06em; }
-  .yv-play:hover { background:rgba(143,181,106,.24); color:#eaf3e2; }
   .yv-tabs { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
   .yv-btn { font-family:var(--mono); font-size:.92rem; padding:9px 18px; border-radius:9px;
     border:1px solid var(--line); background:var(--card); color:var(--ink-2); cursor:pointer;
@@ -498,10 +487,6 @@
   .yv-btn.active { background:var(--canopy); color:#eaf3e2; border-color:var(--canopy); }
   .yv-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   .yv-legend { font-size:.85rem; color:var(--ink-2); margin-top:11px; }
-  .yv-slider { margin-top:14px; }
-  .yv-slider input[type=range] { width:100%; accent-color:var(--green); cursor:pointer; }
-  .heroscan .yv-slider input[type=range] { accent-color:var(--green-soft); }
-  .yv-scale { display:flex; justify-content:space-between; font-family:var(--mono); font-size:.62rem; color:#7d937a; margin-top:3px; }
   .mapduo { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:20px; }
   @media (max-width:720px){ .mapduo{ grid-template-columns:1fr; } }
   /* mapa interactivo leaflet */
@@ -836,19 +821,6 @@
         <p class="cb-lectura" id="cbLectura"></p>
       </div>
 
-      <details class="cb-serie">
-        <summary>Ver la serie completa, año por año</summary>
-        <div class="yv-slider">
-          <input type="range" id="yvRange" min="0" max="17" value="0" step="1" aria-label="Año 2005 a 2024">
-          <div class="yv-scale"><span>2005</span><span>2010</span><span>2015</span><span>2020</span><span>2024</span></div>
-        </div>
-        <div class="yv-tools">
-          <label for="yvOpac">Transparencia</label>
-          <input type="range" id="yvOpac" min="20" max="100" value="82" step="1" aria-label="Opacidad de la capa de dosel">
-          <button type="button" id="yvPlay" class="yv-play" aria-label="Reproducir la serie 2005–2024">▶ Reproducir</button>
-        </div>
-        <p class="scan-note">Serie anual 2005–2024 (Google Earth Engine, verano austral; 2012–2013 sin dato Landsat). Las imágenes de los años se descargan solo al abrir esta sección.</p>
-      </details>
 
       <p class="scan-note">Buscar una dirección la envía a <a href="https://nominatim.openstreetmap.org" target="_blank" rel="noopener" style="color:var(--green-soft)">Nominatim</a>, el buscador de OpenStreetMap. <strong>Tu ubicación, si la compartes, no sale de tu navegador</strong>: se usa acá mismo para saber en qué unidad vecinal estás y no se guarda ni se envía a ninguna parte.</p>
     </div>
@@ -930,7 +902,7 @@
         <figcaption><strong>Año a año</strong><span>Serie ruidosa a 30&nbsp;m; 2012–2013 sin dato Landsat.</span></figcaption>
       </figure>
     </div>
-    <p class="yv-legend">Compara los años tú misma con el <strong>deslizador del inicio</strong> (serie anual 2005–2024) o entra al <a href="#explora">mapa interactivo</a>, donde puedes superponer cada capa sobre las calles reales.</p>
+    <p class="yv-legend">Compara los años tú misma en el <a href="#explora">mapa interactivo</a>: elige la capa <strong>Dosel por año</strong> y mueve el deslizador, o superpón el calor, los loteos y la prioridad de plantación sobre las calles reales.</p>
   </div>
 </section>
 
@@ -1965,49 +1937,6 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     );
   });
 
-  // -------------------------------------------- serie anual, solo si se abre
-  const detalle = document.querySelector('.cb-serie');
-  const range = document.getElementById('yvRange');
-  const opac  = document.getElementById('yvOpac');
-  const play  = document.getElementById('yvPlay');
-  let capaAnual = null, precargado = false;
-
-  function activarSerie(){
-    if (capaAnual) return;
-    // al entrar en modo serie la cortina se retira: son dos lecturas distintas
-    cortina.hidden = true;
-    map.removeLayer(capaDespues);
-    map.removeLayer(capaAntes);
-    capaAnual = L.imageOverlay('mapas/anual/ndvi_' + YV_YEARS[+range.value] + '.png', bounds,
-      { opacity:(+opac.value)/100 }).addTo(map);
-    document.getElementById('yvIzq').textContent = YV_YEARS[+range.value];
-    document.getElementById('yvDer').hidden = true;
-    if (!precargado){   // recien aca se bajan las 19 imagenes, no al entrar al sitio
-      precargado = true;
-      YV_YEARS.forEach(y => { const i = new Image(); i.src = 'mapas/anual/ndvi_' + y + '.png'; });
-    }
-  }
-  function mostrarAnio(i){
-    if (!capaAnual) return;
-    capaAnual.setUrl('mapas/anual/ndvi_' + YV_YEARS[i] + '.png');
-    document.getElementById('yvIzq').textContent = YV_YEARS[i];
-  }
-  detalle.addEventListener('toggle', () => { if (detalle.open) activarSerie(); });
-  range.addEventListener('input', () => { detener(); activarSerie(); mostrarAnio(+range.value); });
-  opac.addEventListener('input', () => { if (capaAnual) capaAnual.setOpacity((+opac.value)/100); });
-
-  let reloj = null;
-  function detener(){ if (reloj){ clearInterval(reloj); reloj = null; play.textContent = '▶ Reproducir'; } }
-  play.addEventListener('click', () => {
-    if (reloj) return detener();
-    activarSerie();
-    play.textContent = '❚❚ Pausar';
-    reloj = setInterval(() => {
-      const i = (+range.value + 1) % YV_YEARS.length;
-      range.value = i; mostrarAnio(i);
-    }, 900);
-  });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) detener(); });
 })();
 
 // Mapa interactivo con calles (Leaflet + OpenStreetMap)
