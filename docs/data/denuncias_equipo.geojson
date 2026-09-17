@@ -1,0 +1,23 @@
+{
+ "type": "FeatureCollection",
+ "_nota": "Casos documentados directamente por el equipo del Observatorio. No vienen del formulario ni de la planilla: el robot de sincronizacion no toca este archivo. Las fotos van en data/fotos/, recortadas para no mostrar personas, patentes, numeros de casa ni letreros de locales, y sin metadatos.",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [-72.615903, -38.736746]
+   },
+   "properties": {
+    "tipo": "Poda severa / mala poda",
+    "especie": "Roble (sin confirmar si nativo o europeo)",
+    "direccion": "Hochstetter con Holandesa, Temuco",
+    "descripcion": "Desmoche: se cortaron todas las ramas principales y quedó solo el tronco con los muñones. Al momento de la foto los cortes estaban frescos y había aserrín en la base. Según información recibida tendría unos 200 años, dato sin verificar. No se sabe quién realizó la intervención. Ubicación aproximada, en la esquina.",
+    "foto": "data/fotos/hochstetter-holandesa-roble-2026-09.jpg",
+    "fecha": "",
+    "registrada": "2026-09-17",
+    "origen": "equipo"
+   }
+  }
+ ]
+}

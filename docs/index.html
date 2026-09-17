@@ -2080,10 +2080,15 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     return [lat, lon];
   }
 
-  let capa = null, datos = [], modo = 'manual', ultimoConteo = -1, pendientes = 0;
+  let capa = null, datos = [], modo = 'manual', ultimoConteo = -1, pendientes = 0, firma = '';
   function pintar(filtro){
-    if (capa) map.removeLayer(capa);
     const vis = datos.filter(d => !filtro || sinTildes(d.tipo).includes(sinTildes(filtro)));
+    // El mapa se recarga cada 10 s. Si nada cambio, no se redibuja: redibujar cerraba
+    // el globo que la persona estaba leyendo, justo cuando trae foto y texto largo.
+    const nueva = (filtro || '') + '|' + JSON.stringify(vis.map(d => [d.lat, d.lon, d.tipo, d.foto, d.descripcion, d.fecha]));
+    if (capa && nueva === firma) return;
+    firma = nueva;
+    if (capa) map.removeLayer(capa);
     // Dos denuncias en el mismo punto (p. ej. dos árboles de la misma vereda) se dibujan
     // una encima de otra y parecen una sola. Se agrupan en un marcador cuyo globo las lista
     // todas, en vez de moverlas de sitio: la ubicación declarada no se toca.
@@ -2106,8 +2111,14 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
       if (d.direccion)   h += '<br><strong>' + esc(d.direccion) + '</strong>';
       if (d.especie)     h += '<br>Especie: ' + esc(d.especie);
       if (d.descripcion) h += '<br>' + esc(d.descripcion);
-      if (d.foto && /^https?:/.test(d.foto)) h += '<br><img src="' + esc(d.foto) + '" alt="Foto de la denuncia">';
-      h += '<div class="dmeta">' + (d.fecha ? 'Ocurrio: ' + esc(d.fecha) + '  ' : '') + (d.verificada ? 'Verificada' : 'Recien registrada') + '</div>';
+      // Fotos externas por https, o fotos del propio sitio en data/fotos/ (casos del equipo).
+      if (d.foto && /^(https?:|data\/fotos\/)/.test(d.foto))
+        h += '<br><a href="' + esc(d.foto) + '" target="_blank" rel="noopener"><img src="' + esc(d.foto) + '" alt="Foto: ' + esc(d.tipo || 'denuncia') + ' en ' + esc(d.direccion || 'Temuco') + '"></a>';
+      const estadoTxt = d.origen === 'equipo' ? 'Documentada por el equipo del Observatorio'
+                      : (d.verificada ? 'Verificada' : 'Recién registrada');
+      h += '<div class="dmeta">' + (d.fecha ? 'Ocurrió: ' + esc(d.fecha) + ' · ' : '')
+         + (d.registrada && d.origen === 'equipo' ? 'Registrada el ' + esc(d.registrada) + ' · ' : '')
+         + estadoTxt + '</div>';
       return h;
     };
     capa = L.layerGroup(grupos.map(gr => {
@@ -2177,17 +2188,26 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     return out;
   }
 
+  // Casos documentados por el equipo: viven en un archivo propio que el robot de
+  // sincronizacion no toca, y se suman a lo que venga de la planilla en cada recarga.
+  let equipo = [];
+  const equipoListo = fetch('data/denuncias_equipo.geojson', { cache:'no-store' })
+    .then(r => r.ok ? r.json() : { features:[] })
+    .then(gj => { equipo = (gj.features||[]).filter(f => f.geometry).map(f => Object.assign(
+      { lat:f.geometry.coordinates[1], lon:f.geometry.coordinates[0], verificada:true }, f.properties)); })
+    .catch(() => { equipo = []; });
+
   function cargar(cfg){
     const url = (cfg && cfg.csv_url) ? cfg.csv_url + '&t=' + Date.now() : null;
     const alFallar = () => fetch('data/denuncias.geojson').then(r => r.json()).then(gj => {
       pendientes = 0;   // el geojson de respaldo solo trae lo ya verificado
       datos = (gj.features||[]).filter(f => f.geometry).map(f => Object.assign(
-        { lat:f.geometry.coordinates[1], lon:f.geometry.coordinates[0], verificada:true }, f.properties));
+        { lat:f.geometry.coordinates[1], lon:f.geometry.coordinates[0], verificada:true }, f.properties)).concat(equipo);
       refrescarPanel(); pintar(document.getElementById('dFiltro').value || '');
     }).catch(() => { document.getElementById('dEmpty').style.display = 'block'; });
     if (!url) return alFallar();
     fetch(url, { cache:'no-store' }).then(r => r.text()).then(txt => {
-      datos = desdeCSV(txt);
+      datos = desdeCSV(txt).concat(equipo);
       refrescarPanel();
       pintar(document.getElementById('dFiltro').value || '');
       const av = document.getElementById('dActualizado');
@@ -2204,7 +2224,7 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     if (lead && modo === 'auto'){
       lead.innerHTML = 'Mientras el sitio está en construcción, las denuncias aparecen en el mapa <strong>apenas se envían</strong>, sin revisión previa.';
     }
-    cargar(cfg);
+    equipoListo.then(() => cargar(cfg));
     // se actualiza cada 10 s; se pausa si la pestaña no está a la vista
     setInterval(() => { if (!document.hidden) cargar(cfg); }, 10000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(cfg); });
