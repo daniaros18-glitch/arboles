@@ -6,15 +6,18 @@
    "type": "Feature",
    "geometry": {
     "type": "Point",
-    "coordinates": [-72.615903, -38.736746]
+    "coordinates": [
+     -72.616133,
+     -38.737012
+    ]
    },
    "properties": {
     "tipo": "Poda severa / mala poda",
     "especie": "Roble (sin confirmar si nativo o europeo)",
-    "direccion": "Hochstetter con Holandesa, Temuco",
-    "descripcion": "Desmoche: se cortaron todas las ramas principales y quedó solo el tronco con los muñones. Al momento de la foto los cortes estaban frescos y había aserrín en la base. Según información recibida tendría unos 200 años, dato sin verificar. No se sabe quién realizó la intervención. Ubicación aproximada, en la esquina.",
+    "direccion": "Vereda frente a Hochstetter 821, Temuco",
+    "descripcion": "Desmoche: se cortaron todas las ramas principales y quedó solo el tronco con los muñones. Al momento de la foto los cortes estaban frescos y había aserrín en la base. Según información recibida tendría unos 200 años, dato sin verificar. No se sabe quién realizó la intervención.",
     "foto": "data/fotos/hochstetter-holandesa-roble-2026-09.jpg",
-    "fecha": "",
+    "fecha": "septiembre de 2026 (aprox.)",
     "registrada": "2026-09-17",
     "origen": "equipo"
    }
