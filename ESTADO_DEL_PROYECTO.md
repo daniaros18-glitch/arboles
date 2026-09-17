@@ -1,6 +1,12 @@
 # Estado del proyecto — Observatorio del Arbolado Urbano de Temuco
 
 **Última actualización:** 28 de julio de 2026 · Cierre de sesión de trabajo.
+
+> 🔴 **Para retomar, leer primero [`CIERRE_SESION_2026-09-17.md`](CIERRE_SESION_2026-09-17.md).**
+> Este documento sigue siendo válido para el circuito de denuncias, las credenciales, los resultados
+> científicos y el marco legal. **Quedaron desactualizados:** la estructura del sitio (§3.bis, hoy son
+> 15 secciones y ya no existe la de contenido para redes), la sección de transparencia (ya no incluye
+> energía ni CO₂) y parte de los pendientes (§6).
 Este documento resume qué está funcionando, con qué credenciales, qué se aprendió y qué falta. Sirve para retomar el proyecto sin depender de la memoria de nadie.
 
 ---
@@ -190,9 +196,9 @@ después la causa, y solo entonces qué hacer.
 
 ## 6. Pendientes
 
-1. **Borrar la fila de prueba de la planilla** (el modo ya volvió a `"manual"`).
+1. **Borrar las filas de prueba de la planilla.** ⚠️ Corrección al 17-09-2026: el modo **sigue en `"auto"`**, no volvió a `"manual"`, y quedan 5 denuncias de prueba visibles.
 2. Generar un **código QR** del formulario para difusión en terreno.
-3. Agregar estimación de **energía y CO₂** a la sección de transparencia.
+3. ~~Agregar estimación de energía y CO₂ a la sección de transparencia.~~ Se decidió lo contrario el 26-08-2026: la sección declara solo la huella de agua.
 4. **Capa 2:** conteo manual de copas en un corredor piloto (guía en `docs/recursos/GUIA_CAPA2_CONTEO_MANUAL.md`). Da la cifra "había N árboles, quedan M".
 5. **Postular a fondos**: FPA del Ministerio del Medio Ambiente (~$6M, convocatoria ~agosto), FNDR 8% del GORE Araucanía, ANID Ciencia Pública, fondos municipales.
    ⚠️ Casi todos exigen **personalidad jurídica sin fines de lucro con 2 años de antigüedad** → postular a través de una junta de vecinos, la ONG Verde Urbano o la UFRO.
