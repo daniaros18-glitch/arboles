@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Mapa en línea de las denuncias ciudadanas por tala y poda de árboles en Temuco. Cada punto es un registro enviado por vecinas y vecinos.">
-<meta name="author" content="Observatorio del Arbolado de Temuco">
-<meta property="og:title" content="Denuncias por tala y poda — Temuco">
-<meta property="og:description" content="Mapa en línea de las denuncias ciudadanas por tala y poda de árboles en Temuco.">
+<meta name="description" content="Registro ciudadano de talas y podas de árboles urbanos en Temuco, con mapa en línea y una guía para reconocer una mala intervención. Iniciativa de las organizaciones socioambientales de Temuco.">
+<meta name="author" content="Organizaciones socioambientales de Temuco">
+<meta property="og:title" content="Tala y poda de árboles urbanos — Temuco">
+<meta property="og:description" content="Mapa en línea de talas y podas de árboles urbanos en Temuco, y una guía ciudadana para reconocer una mala intervención y saber cómo denunciarla.">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<title>Denuncias por tala y poda — Temuco</title>
+<title>Tala y poda de árboles urbanos — Temuco</title>
 <style>
   :root {
     --canopy:#12352a; --green:#6f9a4a; --ember:#c85a2b;
@@ -34,10 +34,13 @@
   header.top h1 { font-family:var(--serif); font-weight:600; letter-spacing:-.015em;
     font-size:clamp(1.6rem, 4.2vw, 2.3rem); line-height:1.15; margin:0 0 .35em; }
   header.top p { margin:0; font-size:.98rem; color:#c9dcbb; max-width:62ch; }
-  header.top .cta { display:inline-block; margin-top:16px; background:var(--green); color:#0e2419;
+  header.top .ctas { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  header.top .cta { display:inline-block; background:var(--green); color:#0e2419;
     font-weight:600; font-size:.95rem; text-decoration:none; padding:11px 20px; border-radius:9px;
     border:1px solid #8fb56a; transition:background .15s ease; }
   header.top .cta:hover { background:#8fb56a; }
+  header.top .cta.sec { background:transparent; color:#cfe3bc; border-color:#4e7a55; font-weight:500; }
+  header.top .cta.sec:hover { background:rgba(255,255,255,.08); color:#eaf3e2; }
   header.top .cta:focus-visible { outline:3px solid #cfe3bc; outline-offset:2px; }
 
   .ctapie { display:flex; justify-content:center; margin-top:18px; }
@@ -88,7 +91,66 @@
     text-transform:uppercase; color:var(--ink-3); margin-bottom:2px; }
   .ditem { display:flex; align-items:center; gap:8px; font-size:.86rem; color:var(--ink-2); }
 
-  footer.pie { border-top:1px solid var(--line); margin-top:26px; padding:18px 0 34px;
+  /* ---------- GUÍA CIUDADANA ---------- */
+  .guia { background:var(--bg-2); border-top:1px solid var(--line); padding:38px 0 42px; margin-top:30px; }
+  .guia .eyebrow { font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); display:block; margin-bottom:8px; }
+  .guia h2 { font-family:var(--serif); font-weight:600; letter-spacing:-.015em;
+    font-size:clamp(1.45rem, 3.6vw, 2rem); line-height:1.2; margin:0 0 .4em; }
+  .guia .lead { font-size:1rem; color:var(--ink-2); max-width:68ch; margin:0 0 22px; }
+  .guia-nav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+  .guia-nav a { font-size:.84rem; text-decoration:none; color:var(--ink-2); background:var(--card);
+    border:1px solid var(--line); border-radius:20px; padding:6px 14px; }
+  .guia-nav a:hover { border-color:var(--accent); color:var(--accent); }
+
+  .bloque { background:var(--card); border:1px solid var(--line); border-radius:13px;
+    padding:24px 26px; margin-bottom:16px; scroll-margin-top:16px; }
+  .bloque h3 { font-size:1.12rem; font-weight:660; margin:0 0 .6em; letter-spacing:-.01em; }
+  .bloque p { font-size:.94rem; color:var(--ink-2); margin:0 0 .85em; }
+  .bloque p:last-child { margin-bottom:0; }
+  .bloque ul { margin:0 0 .9em; padding-left:1.15em; }
+  .bloque li { font-size:.93rem; color:var(--ink-2); margin:.45em 0; }
+  .bloque strong { color:var(--ink); }
+  .bloque.clave { border-left:5px solid var(--accent); border-radius:0 13px 13px 0;
+    background:color-mix(in srgb, var(--green) 9%, var(--card)); }
+  .bloque.clave h3 { font-size:1.2rem; }
+  .bloque.clave .grande { font-family:var(--serif); font-size:1.07rem; line-height:1.6; color:var(--ink); }
+  .fuente { font-size:.8rem; color:var(--ink-3); font-style:italic; }
+
+  .dosc { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:4px 0 2px; }
+  @media (max-width:760px){ .dosc{ grid-template-columns:1fr; } }
+  .caja { border-radius:11px; padding:16px 18px; border:1px solid var(--line); }
+  .caja.bien { background:color-mix(in srgb, var(--green) 11%, #fff);
+    border-color:color-mix(in srgb, var(--green) 42%, var(--line)); }
+  .caja.mal  { background:color-mix(in srgb, var(--ember) 9%, #fff);
+    border-color:color-mix(in srgb, var(--ember) 38%, var(--line)); }
+  .caja h4 { margin:0 0 .6em; font-size:.95rem; font-weight:660; }
+  .caja.bien h4 { color:#2f6b3a; } .caja.mal h4 { color:#9c3f18; }
+  .caja ul { margin:0; padding-left:1.1em; }
+  .caja li { font-size:.9rem; margin:.45em 0; color:var(--ink-2); }
+
+  .pasos { counter-reset:paso; list-style:none; padding:0; margin:.4em 0 0; }
+  .pasos li { counter-increment:paso; position:relative; padding-left:40px; margin:.75em 0;
+    font-size:.93rem; color:var(--ink-2); }
+  .pasos li::before { content:counter(paso); position:absolute; left:0; top:-1px;
+    width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff;
+    display:grid; place-items:center; font-family:var(--mono); font-size:.82rem; font-weight:600; }
+
+  .tnorma { width:100%; border-collapse:collapse; font-size:.9rem; margin-top:4px; }
+  .tnorma th, .tnorma td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);
+    vertical-align:top; }
+  .tnorma th { font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--ink-3); font-weight:500; }
+  .tnorma td:first-child { white-space:nowrap; font-weight:600; color:var(--ink); padding-right:16px; }
+  .tnorma td { color:var(--ink-2); }
+  @media (max-width:640px){
+    .tnorma td:first-child { white-space:normal; }
+    .tnorma, .tnorma th, .tnorma td { font-size:.85rem; }
+  }
+  .ojo { background:var(--bg-2); border-left:3px solid var(--ember); border-radius:0 9px 9px 0;
+    padding:12px 15px; font-size:.9rem; color:var(--ink-2); margin:.2em 0 0; }
+
+  footer.pie { border-top:1px solid var(--line); background:var(--bg); padding:24px 0 40px;
     font-size:.84rem; color:var(--ink-3); }
   footer.pie p { margin:.45em 0; }
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
@@ -98,11 +160,13 @@
 
 <header class="top">
   <div class="wrap">
-    <span class="eyebrow">Observatorio del Arbolado · Temuco</span>
-    <h1>Denuncias ciudadanas por tala y poda</h1>
+    <span class="eyebrow">Una iniciativa de las organizaciones socioambientales de Temuco</span>
+    <h1>Tala y poda de árboles urbanos: regístralo en el mapa.</h1>
     <p id="dLead">Cada punto es un registro enviado por vecinas y vecinos de Temuco. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
-    <!-- "desde=mapa" hace que el formulario devuelva a esta página y no al sitio principal. -->
-    <a class="cta" href="denuncia.html?desde=mapa">🌳 Registrar una tala o poda</a>
+    <div class="ctas">
+      <a class="cta" href="denuncia.html">🌳 Registrar una tala o poda</a>
+      <a class="cta sec" href="#guia">¿Cómo sé si la poda estuvo mal hecha?</a>
+    </div>
   </div>
 </header>
 
@@ -137,15 +201,144 @@
       <p id="dEmptyTxt"><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales aparecerán aquí automáticamente.</p>
     </div>
 
-    <div class="ctapie"><a href="denuncia.html?desde=mapa">Registrar una tala o poda →</a></div>
-
-    <footer class="pie">
-      <p>Los puntos se actualizan solos desde el registro del Observatorio. <strong>Por privacidad, nunca se publican el nombre ni el contacto de quien denuncia.</strong></p>
-      <p>Este registro ciudadano no reemplaza la denuncia formal ante la DMAO, Carabineros o el Juzgado de Policía Local: la complementa, dejando evidencia pública y georreferenciada.</p>
-      <p>Base cartográfica &copy; OpenStreetMap · Imágenes &copy; Esri, Maxar, Earthstar Geographics.</p>
-    </footer>
+    <div class="ctapie"><a href="denuncia.html">Registrar una tala o poda →</a></div>
   </div>
 </main>
+
+<!-- GUÍA CIUDADANA — para reconocer una mala intervención y saber qué hacer -->
+<section class="guia" id="guia">
+  <div class="wrap">
+    <span class="eyebrow">Guía ciudadana</span>
+    <h2>Cómo reconocer una mala poda o una tala irregular.</h2>
+    <p class="lead">Denunciar sirve más cuando se sabe qué se está mirando. Esta guía reúne lo básico: cuándo se puede intervenir un árbol, cómo se hace bien, qué está prohibido en Temuco y qué pasos seguir.</p>
+
+    <nav class="guia-nav">
+      <a href="#regla">La regla básica</a>
+      <a href="#cuando">Cuándo se poda</a>
+      <a href="#comopodar">Cómo se poda bien</a>
+      <a href="#tala">Tala de árboles</a>
+      <a href="#denunciar">Cómo denunciar</a>
+      <a href="#normativa">Normativa</a>
+    </nav>
+
+    <div class="bloque clave" id="regla">
+      <h3>🌳 La regla básica, y la más desconocida</h3>
+      <p class="grande">En Temuco, los árboles de la <strong>vereda, la plaza o el bandejón</strong> son bien nacional de uso público y están bajo administración municipal. Podarlos, talarlos o extraerlos <strong>solo puede hacerlo la Municipalidad</strong> —a través de la Dirección de Medio Ambiente, Aseo y Ornato (DMAO)— <strong>o quien ella autorice</strong>. Aunque el árbol esté justo frente a tu casa.</p>
+      <p class="fuente">Ordenanza Municipal N°004/2021, Art. 3° y Art. 6° letra d.</p>
+      <p>Esto cambia el punto de partida: si alguien está podando o talando en el espacio público y <strong>no es el municipio ni una empresa con autorización visible</strong>, ya hay algo que denunciar, aunque el corte parezca prolijo.</p>
+    </div>
+
+    <div class="bloque" id="cuando">
+      <h3>📅 Cuándo se poda y cuándo se tala</h3>
+      <p><strong>La temporada habitual de poda es el invierno (junio a agosto).</strong> Las especies de hoja caduca están en receso vegetativo: pierden menos savia, se estresan menos y cierran mejor las heridas cuando rebrotan en primavera.</p>
+      <p>Conviene decirlo con honestidad: <strong>que sea la costumbre no la vuelve necesaria.</strong> Podar todo en invierno es una práctica heredada de los frutales, que se podan para producir fruta, no para vivir muchos años. Especialistas en arboricultura en Chile advierten que buena parte del arbolado urbano se poda sin ninguna necesidad técnica. <strong>Un árbol urbano sano muchas veces no necesita poda.</strong></p>
+      <ul>
+        <li><strong>Mala época — primavera y comienzos del verano:</strong> es temporada de nidificación. La Ley de Caza (N°19.473, Art. 5°) prohíbe <em>en toda época</em> levantar nidos y destruir crías, así que cortar una rama con un nido activo puede infringirla.</li>
+        <li><strong>Mala época — plena brotación:</strong> el árbol está gastando sus reservas en hojas nuevas y podarlo lo deja sin ellas.</li>
+        <li><strong>Mala época — olas de calor:</strong> la corteza que queda expuesta de golpe se quema con el sol.</li>
+        <li><strong>Cualquier época, siempre permitido:</strong> la poda de <strong>emergencia o sanitaria</strong> —rama quebrada, madera muerta, riesgo inminente de caída—. Ahí manda la seguridad.</li>
+      </ul>
+      <p><strong>La tala no tiene temporada</strong>, porque no es una labor de mantención: es una medida de último recurso que requiere fundamento técnico y autorización.</p>
+      <p class="ojo"><strong>Empresas eléctricas:</strong> deben avisar a la Municipalidad <strong>15 días antes</strong> de podar, con un plan por especie e informe técnico que individualice y georreferencie cada árbol. Además, toda faena debe tener <strong>señalética visible</strong> con la empresa responsable y retirar los restos el mismo día. Si no hay aviso ni señalética, es denunciable. <span class="fuente">(Art. 29° y 30°)</span></p>
+    </div>
+
+    <div class="bloque" id="comopodar">
+      <h3>✂️ Cómo se poda bien (y cómo no)</h3>
+      <p>Una poda correcta saca poco, en el lugar exacto, y deja que el árbol se defienda solo. La clave está en <strong>dónde</strong> se hace el corte: junto al <strong>cuello de la rama</strong>, ese engrosamiento donde la rama nace del tronco. Ahí está el tejido capaz de sellar la herida.</p>
+      <div class="dosc">
+        <div class="caja bien">
+          <h4>✓ Buenas prácticas</h4>
+          <ul>
+            <li>Cortar <strong>junto al cuello</strong>: ni al ras del tronco (elimina el tejido que cicatriza) ni dejando un tocón largo (se pudre).</li>
+            <li><strong>Método de los tres cortes</strong> en ramas gruesas: uno por abajo, otro por arriba un poco más afuera hasta que la rama caiga, y recién entonces el corte final junto al cuello. Evita que la rama se desgarre y arranque corteza del tronco.</li>
+            <li>No retirar <strong>más de un cuarto del follaje vivo</strong> en una misma temporada.</li>
+            <li>Herramienta <strong>afilada y limpia</strong>, desinfectada entre árboles si hay enfermedad.</li>
+            <li><strong>No sellar la herida</strong> con pintura ni alquitrán: el árbol lo hace solo y taparla favorece la pudrición.</li>
+            <li>Señalética visible y retiro de restos el mismo día.</li>
+          </ul>
+        </div>
+        <div class="caja mal">
+          <h4>✗ Malas prácticas — esto se denuncia</h4>
+          <ul>
+            <li><strong>Desmoche:</strong> cortar todas las ramas principales y dejar el tronco con muñones. Es la peor de todas. El árbol pierde sus reservas, rebrota con ramas débiles mal ancladas y la madera expuesta se pudre: <strong>queda más peligroso que antes, no menos.</strong></li>
+            <li><strong>Corte al ras</strong> del tronco: sin cuello, la herida no cierra.</li>
+            <li><strong>Tocones largos</strong> que se secan y pudren.</li>
+            <li><strong>Corteza desgarrada</strong> por no hacer los tres cortes.</li>
+            <li>Podar un <strong>árbol sano sin razón técnica</strong>, o "emparejar" por estética.</li>
+            <li>Pintar, clavar, anillar o quemar el árbol (prohibido, Art. 6° letra a).</li>
+            <li>Llevarse la madera <strong>como leña</strong>: está expresamente prohibido (Art. 15°).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloque" id="tala">
+      <h3>🪓 Tala de árboles</h3>
+      <p><strong>Cuándo puede justificarse:</strong> árbol muerto o enfermo sin posibilidad de recuperación, riesgo real de caída, daño estructural grave, peligro inminente para las personas. Siempre con <strong>fundamento técnico</strong>, presentado ante la DMAO (Art. 11°). La extracción autorizada paga derechos municipales (Art. 12°).</p>
+      <p><strong>Lo que por sí solo NO justifica una tala:</strong> que bote hojas, que dé sombra, que levante la vereda (hay soluciones técnicas), que estorbe a una obra, que tape un letrero o una cámara.</p>
+      <p>Cuando una obra afecta áreas verdes, <strong>los responsables deben reparar y reconstruir lo destruido a su costa</strong> (Art. 11°).</p>
+      <p class="ojo"><strong>Qué arriesga quien tala sin autorización:</strong> una multa de <strong>1 a 5 UTM por evento</strong> (Art. 31°) y, además, el <strong>cobro de derechos por daño</strong> (Art. 32°), que se calcula con la fórmula <strong>Vt = Vb · fd · fu · fs</strong>. Como un árbol patrimonial multiplica por 5 y uno en plaza o parque por 2, el monto puede ser muy superior a la multa. <br><span class="fuente">Nota: circula la cifra de "multas de hasta $20 millones"; no corresponde a la multa de la ordenanza, que es de 1 a 5 UTM. Los montos altos provienen de este cobro por daño.</span></p>
+    </div>
+
+    <div class="bloque" id="denunciar">
+      <h3>📣 Cómo denunciar</h3>
+      <p><strong>Qué se puede reportar:</strong> 🪓 tala · ✂️ poda severa o desmoche · 🩹 árbol dañado (heridas, clavos, pintura, fuego, químicos) · 🌳 propuesta de árbol patrimonial · 🚧 área verde eliminada por una obra · 📍 otra situación.</p>
+      <p><strong>Qué información aportar:</strong> la dirección o referencia (el formulario tiene buscador de direcciones y mapa para marcar el punto exacto), la fecha aunque sea aproximada, y una descripción de qué se cortó y cuánto. La especie es útil pero opcional: si no la conoces, no importa. Tu contacto también es opcional y <strong>nunca se publica</strong>.</p>
+      <p><strong>Qué fotografías sirven como respaldo:</strong></p>
+      <ul>
+        <li>Una <strong>foto general</strong> con el árbol completo y su entorno: permite ubicarlo y ver la magnitud.</li>
+        <li>Un <strong>primer plano del corte</strong>: ahí se ve si se respetó el cuello de la rama o si quedó al ras, y si hay corteza desgarrada.</li>
+        <li>El <strong>tronco con los muñones</strong>, si fue un desmoche.</li>
+        <li><strong>Antes y después</strong>, si alcanzaste a fotografiar el árbol antes.</li>
+        <li><strong>Maquinaria, camión o letrero</strong> de la empresa que está trabajando, si los hay.</li>
+      </ul>
+      <p class="fuente">Ayudan menos: fotos solo de las hojas en el suelo, o tomas tan lejanas que no permiten ubicar el árbol.</p>
+      <p><strong>Los pasos:</strong></p>
+      <ol class="pasos">
+        <li><strong>Registra el caso aquí.</strong> Queda georreferenciado y visible en el mapa público.</li>
+        <li><strong>Haz la denuncia formal.</strong> Ante la DMAO (<a href="mailto:aseo@temuco.cl">aseo@temuco.cl</a>), Carabineros o el Juzgado de Policía Local. La ordenanza lo establece como un <strong>deber</strong> de los habitantes (Art. 25°), y la denuncia debe ser fundada y con medios probatorios (Art. 31°).</li>
+        <li><strong>Guarda tus fotos originales.</strong> Conservan la fecha y a veces la ubicación, y eso las hace más sólidas como prueba.</li>
+      </ol>
+      <p class="ojo">Este registro ciudadano <strong>no reemplaza la denuncia formal</strong>: la complementa, dejando evidencia pública, georreferenciada y acumulable en el tiempo.</p>
+    </div>
+
+    <div class="bloque" id="normativa">
+      <h3>⚖️ Normativa aplicable</h3>
+      <p>Casi todo lo anterior está escrito en una sola norma local: la <strong>Ordenanza Municipal N°004/2021</strong> sobre árboles urbanos y áreas verdes en bien nacional de uso público, vigente desde el 16 de noviembre de 2021.</p>
+      <table class="tnorma">
+        <thead><tr><th>Disposición</th><th>Qué establece</th></tr></thead>
+        <tbody>
+          <tr><td>Art. 3° y 6°d</td><td>Intervenir un árbol del espacio público es atribución exclusiva municipal. Se prohíbe podar, extraer, talar o descepar a personas ajenas a la administración municipal.</td></tr>
+          <tr><td>Art. 6°a</td><td>Prohibido dañar el árbol: heridas, anillado, quemado, productos fitotóxicos, pintura.</td></tr>
+          <tr><td>Art. 9°</td><td>Registro de árboles patrimoniales. <strong>Un grupo de vecinos puede solicitar que se incorpore un árbol</strong>, con informe de caracterización, ubicación, criterio fundado y firmas.</td></tr>
+          <tr><td>Art. 11°</td><td>Las solicitudes de poda, trasplante o extracción deben estar técnicamente fundadas. Las obras que afecten áreas verdes deben reparar lo destruido a su costa.</td></tr>
+          <tr><td>Art. 15°</td><td>Los restos del manejo del arbolado <strong>en ningún caso pueden convertirse en leña</strong>.</td></tr>
+          <tr><td>Art. 19°</td><td>Es responsabilidad municipal monitorear periódicamente el estado del arbolado urbano.</td></tr>
+          <tr><td>Art. 25°</td><td><strong>Deber de denunciar</strong> cualquier destrozo ante la DMAO, Carabineros o el Juzgado de Policía Local.</td></tr>
+          <tr><td>Art. 28°</td><td>El municipio debe mantener un catastro forestal de <strong>acceso público</strong> y una <strong>plataforma accesible a los vecinos</strong> que reciba comentarios y recomendaciones.</td></tr>
+          <tr><td>Art. 29° y 30°</td><td>Empresas eléctricas: aviso 15 días antes, plan de poda por especie, informe técnico georreferenciado, señalética visible y retiro de restos el mismo día.</td></tr>
+          <tr><td>Art. 31°</td><td>Multa de <strong>1 a 5 UTM por evento</strong>; la denuncia debe ser fundada y con medios probatorios.</td></tr>
+          <tr><td>Art. 32°</td><td>Cobro de derechos por daño: <strong>Vt = Vb · fd · fu · fs</strong> (valor base por especie y edad, por sanidad, ubicación y singularidad).</td></tr>
+          <tr><td>Ley N°19.473, Art. 5°</td><td>Prohíbe <strong>en toda época</strong> levantar nidos, destruir madrigueras y recolectar huevos y crías.</td></tr>
+          <tr><td>Boletín 14.213-12</td><td>Proyecto de ley de Arbolado Urbano e Infraestructura Verde. <strong>Aún no es ley</strong>: hoy no obliga a nada.</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:14px"><a href="recursos/Ordenanza_004_2021_OCR_articulado.md">Leer la ordenanza completa, artículo por artículo →</a></p>
+    </div>
+
+    <div class="ctapie"><a href="denuncia.html">Registrar una tala o poda →</a></div>
+  </div>
+</section>
+
+<footer class="pie">
+  <div class="wrap">
+    <p>Una iniciativa de las <strong>organizaciones socioambientales de Temuco</strong>.</p>
+    <p>Los puntos se actualizan solos desde el registro ciudadano. <strong>Por privacidad, nunca se publican el nombre ni el contacto de quien denuncia.</strong></p>
+    <p>Este registro ciudadano no reemplaza la denuncia formal ante la DMAO, Carabineros o el Juzgado de Policía Local: la complementa, dejando evidencia pública y georreferenciada.</p>
+    <p>La información que se reúna en esta etapa quedará como base para el <strong>futuro observatorio del arbolado urbano de Temuco</strong>, hoy en preparación.</p>
+    <p>Base cartográfica &copy; OpenStreetMap · Imágenes &copy; Esri, Maxar, Earthstar Geographics.</p>
+  </div>
+</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -255,7 +448,7 @@ function capasBase(map, porDefecto){
       if (d.descripcion) h += '<br>' + esc(d.descripcion);
       if (d.foto && /^(https?:|data\/fotos\/)/.test(d.foto))
         h += '<br><a href="' + esc(d.foto) + '" target="_blank" rel="noopener"><img src="' + esc(d.foto) + '" alt="Foto: ' + esc(d.tipo || 'denuncia') + ' en ' + esc(d.direccion || 'Temuco') + '"></a>';
-      const estadoTxt = d.origen === 'equipo' ? 'Documentada por el equipo del Observatorio'
+      const estadoTxt = d.origen === 'equipo' ? 'Documentada por el equipo'
                       : (d.verificada ? 'Verificada' : 'Recién registrada');
       h += '<div class="dmeta">' + (d.fecha ? 'Ocurrió: ' + esc(d.fecha) + ' · ' : '')
          + (d.registrada && d.origen === 'equipo' ? 'Registrada el ' + esc(d.registrada) + ' · ' : '')
@@ -272,7 +465,9 @@ function capasBase(map, porDefecto){
     })).addTo(map);
     // solo reencuadra cuando cambia la cantidad de puntos, para no mover el mapa mientras lo miran
     if (vis.length && vis.length !== ultimoConteo){
-      try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){}
+      // maxZoom: con una sola denuncia el encuadre se iba a nivel de vereda y se perdia
+      // la referencia de la ciudad; 16 deja ver el barrio alrededor del punto.
+      try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25), { maxZoom:16 }); } catch(e){}
     }
     ultimoConteo = vis.length;
   }

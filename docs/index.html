@@ -2132,7 +2132,9 @@ const YV_YEARS = [2005,2006,2007,2008,2009,2010,2011,2014,2015,2016,2017,2018,20
     })).addTo(map);
     // solo reencuadra cuando cambia la cantidad de puntos, para no mover el mapa mientras lo miran
     if (vis.length && vis.length !== ultimoConteo){
-      try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25)); } catch(e){}
+      // maxZoom: con una sola denuncia el encuadre se iba a nivel de vereda y se perdia
+      // la referencia de la ciudad; 16 deja ver el barrio alrededor del punto.
+      try { map.fitBounds(L.featureGroup(capa.getLayers()).getBounds().pad(0.25), { maxZoom:16 }); } catch(e){}
     }
     ultimoConteo = vis.length;
   }

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Registra una tala, poda severa o árbol patrimonial en Temuco. Observatorio Ciudadano del Arbolado Urbano.">
-<meta property="og:title" content="Registrar una denuncia — Observatorio del Arbolado de Temuco">
+<meta name="description" content="Registra una tala, poda severa o árbol patrimonial en Temuco. Una iniciativa de las organizaciones socioambientales de Temuco.">
+<meta property="og:title" content="Registrar una tala o poda — Arbolado urbano de Temuco">
 <meta property="og:description" content="Tu registro, con foto y ubicación, se convierte en evidencia para proteger el arbolado de Temuco.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B3%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-<title>Registrar una denuncia — Observatorio del Arbolado de Temuco</title>
+<title>Registrar una tala o poda — Arbolado urbano de Temuco</title>
 <style>
   :root {
     --canopy:#12352a; --canopy-deep:#0c241d; --green:#6f9a4a; --green-soft:#8fb56a;
@@ -111,8 +111,8 @@
 
 <header class="top">
   <div class="wrap">
-    <a class="backlink" href="index.html">← Volver al Observatorio</a>
-    <span class="eyebrow" style="display:block; margin-top:18px">Observatorio del Arbolado · Temuco</span>
+    <a class="backlink" href="mapa.html">← Volver al mapa de denuncias</a>
+    <span class="eyebrow" style="display:block; margin-top:18px">Organizaciones socioambientales de Temuco</span>
     <h1>Registra una tala, poda severa o <em>árbol patrimonial</em>.</h1>
     <p>Tu registro, con foto y ubicación, se convierte en evidencia técnica y legal para proteger el arbolado de la comuna.</p>
   </div>
@@ -120,7 +120,7 @@
 
 <main class="wrap">
   <div class="modnote">
-    <strong>Cada denuncia se revisa antes de publicarse.</strong> Tu registro llega al equipo del Observatorio, que verifica la información. Solo cuando queda <strong>verificada</strong> aparece en el mapa público. <strong>Nunca publicamos tu nombre ni tu contacto.</strong>
+    <strong>Cada denuncia se revisa antes de publicarse.</strong> Tu registro llega al equipo que impulsa esta iniciativa, que verifica la información. Solo cuando queda <strong>verificada</strong> aparece en el mapa público. <strong>Nunca publicamos tu nombre ni tu contacto.</strong>
   </div>
 
   <details class="ley">
@@ -148,7 +148,7 @@
       <div class="art">
         <h4>Art. 28° — La plataforma pública que la Ordenanza ordena y que no existe</h4>
         <p>El municipio <strong>debe</strong> mantener un catastro forestal de acceso público y una <strong>plataforma accesible a todos los vecinos</strong> que identifique las especies y <strong>reciba comentarios y recomendaciones</strong> de la ciudadanía.</p>
-        <p class="cita">Esa plataforma no se ha implementado. Este Observatorio es un esfuerzo ciudadano por materializarla mientras tanto.</p>
+        <p class="cita">Esa plataforma no se ha implementado. Las organizaciones socioambientales de Temuco empezamos a construirla desde la ciudadanía.</p>
       </div>
       <p class="leynota">
         Resumen en lenguaje simple de la <strong>Ordenanza Municipal N°004/2021</strong> de Temuco, hecho a partir de una transcripción del texto oficial. Ante cualquier diferencia, <strong>manda lo que dice la Ordenanza</strong>, no este resumen:
@@ -161,13 +161,13 @@
   <div class="okbox" id="okBox">
     <h2>✓ ¡Gracias! Tu denuncia fue registrada.</h2>
     <p>Si dejaste tu <strong>correo electrónico</strong>, en unos minutos recibirás un mensaje con el <strong>número de folio</strong> de tu denuncia. Guárdalo: sirve para hacerle seguimiento y para consultarnos por ella.</p>
-    <p>El equipo del Observatorio recibe todas las denuncias y las revisa.</p>
+    <p>El equipo que impulsa esta iniciativa recibe todas las denuncias y las revisa.</p>
     <p class="okestado" id="okEstado"></p>
-    <a href="index.html#registro">Ver el mapa de denuncias →</a>
+    <a href="mapa.html">Ver el mapa de denuncias →</a>
   </div>
 
   <form class="pform" id="denunciaForm" action="https://formsubmit.co/daniaros18@gmail.com" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="_subject" value="Nueva denuncia — Observatorio del Arbolado de Temuco">
+    <input type="hidden" name="_subject" value="Nueva denuncia — Arbolado urbano de Temuco">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="https://daniaros18-glitch.github.io/arboles/denuncia.html?ok=1">
@@ -237,7 +237,7 @@
       </div>
 
       <div class="pfield full">
-        <label class="pconsent"><input type="checkbox" required> Autorizo que esta información se use para el Observatorio Ciudadano del Arbolado de Temuco. Entiendo que mi nombre y contacto no se publican.</label>
+        <label class="pconsent"><input type="checkbox" required> Autorizo que esta información se use para el registro ciudadano del arbolado urbano de Temuco y para el observatorio que se construya a partir de él. Entiendo que mi nombre y contacto no se publican.</label>
       </div>
       <div class="pfield full">
         <button type="submit" class="psubmit" id="btnEnviar">Enviar denuncia</button>
@@ -249,8 +249,8 @@
 
 <footer>
   <div class="wrap">
-    OBSERVATORIO SATELITAL Y CIUDADANO DEL ARBOLADO URBANO · TEMUCO ·
-    <a href="index.html">Volver al sitio</a>
+    ORGANIZACIONES SOCIOAMBIENTALES DE TEMUCO · REGISTRO CIUDADANO DEL ARBOLADO URBANO ·
+    <a href="mapa.html">Volver al mapa</a>
   </div>
 </footer>
 
@@ -552,7 +552,7 @@ function confirmarRegistro(coords){
       .then(txt => {
         if (txt.indexOf(coords) !== -1){
           aviso.className = 'okestado ok';
-          aviso.innerHTML = '✓ <strong>Confirmado:</strong> tu denuncia quedó guardada en el registro del Observatorio.';
+          aviso.innerHTML = '✓ <strong>Confirmado:</strong> tu denuncia quedó guardada en el registro ciudadano.';
           return;
         }
         if (Date.now() - inicio < HASTA) return setTimeout(revisar, CADA);
@@ -569,7 +569,7 @@ function sinConfirmar(aviso){
   aviso.innerHTML = '⚠️ <strong>No pudimos confirmar que se haya guardado.</strong> ' +
     'Puede ser solo demora del registro público, pero también un fallo. ' +
     'El equipo recibió una copia por correo de todas formas. ' +
-    'Si en un rato no la ves en <a href="index.html#registro">el mapa</a>, escríbenos a ' +
+    'Si en un rato no la ves en <a href="mapa.html">el mapa</a>, escríbenos a ' +
     '<a href="mailto:daniaros18@gmail.com">daniaros18@gmail.com</a> y la registramos a mano.';
 }
 
@@ -578,45 +578,6 @@ if (new URLSearchParams(location.search).get('ok') === '1'){
   form.style.display = 'none';
   document.getElementById('okBox').style.display = 'block';
 }
-</script>
-<script>
-/* Llegada desde mapa.html (?desde=mapa): el circuito se cierra en el mapa de
-   denuncias y no en el sitio del Observatorio, que puede compartirse aparte.
-   Se reescriben los enlaces en vez de duplicar el formulario en otra página. */
-(function(){
-  var desdeMapa = false;
-  try {
-    desdeMapa = new URLSearchParams(location.search).get('desde') === 'mapa' ||
-                /\/mapa\.html(\?|#|$)/.test(document.referrer || '');
-  } catch(e){ return; }
-  if (!desdeMapa) return;
-
-  var TEXTOS = {
-    '← Volver al Observatorio': '← Volver al mapa de denuncias',
-    'Volver al sitio': 'Volver al mapa'
-  };
-  function adaptar(raiz){
-    var as = (raiz.querySelectorAll ? raiz.querySelectorAll('a[href^="index.html"]') : []);
-    for (var i=0;i<as.length;i++){
-      var a = as[i];
-      a.setAttribute('href', a.getAttribute('href').replace(/^index\.html(#registro)?/, 'mapa.html'));
-      var t = (a.textContent || '').trim();
-      if (TEXTOS[t]) a.textContent = TEXTOS[t];
-    }
-  }
-  adaptar(document);
-  // El mensaje de confirmación se inserta después de enviar: hay que adaptarlo también.
-  if (window.MutationObserver){
-    new MutationObserver(function(muts){
-      for (var i=0;i<muts.length;i++) adaptar(muts[i].target);
-    }).observe(document.body, { childList:true, subtree:true });
-  }
-  // Mantiene el origen al volver atrás o recargar desde el propio formulario.
-  var ir = document.querySelector('form');
-  if (ir) ir.addEventListener('submit', function(){ try {
-    history.replaceState(null, '', 'denuncia.html?desde=mapa');
-  } catch(e){} });
-})();
 </script>
 </body>
 </html>
