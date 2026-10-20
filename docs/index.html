@@ -162,7 +162,7 @@
   <div class="wrap">
     <span class="eyebrow">Una iniciativa de las organizaciones socioambientales de Temuco</span>
     <h1>Tala y poda de árboles urbanos: regístralo en el mapa.</h1>
-    <p id="dLead">Cada punto es un registro enviado por vecinas y vecinos de Temuco. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
+    <p id="dLead">Cada punto es un registro enviado por vecinas y vecinos de Temuco y <strong>verificado por el equipo</strong> antes de publicarse. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
     <div class="ctas">
       <a class="cta" href="denuncia.html">🌳 Registrar una tala o poda</a>
       <a class="cta sec" href="#guia">¿Cómo sé si la poda estuvo mal hecha?</a>
@@ -551,8 +551,16 @@ function capasBase(map, porDefecto){
 
   fetch('data/config.json?t=' + Date.now()).then(r => r.json()).catch(() => ({})).then(cfg => {
     modo = (cfg && cfg.modo_denuncias) || 'manual';
+    // El aviso dice lo que de verdad esta pasando: en 'manual' hay revision previa,
+    // en 'auto' no la hay y seria falso dar a entender que si.
     const aviso = document.getElementById('dAviso');
-    if (aviso && modo === 'auto') aviso.style.display = 'block';
+    if (aviso){
+      aviso.style.display = 'block';
+      if (modo !== 'auto'){
+        aviso.innerHTML = '✓ <strong>Revisión previa activa:</strong> cada denuncia la verifica el equipo antes de publicarla, ' +
+          'así que puede pasar un tiempo entre que se envía y aparece en el mapa.';
+      }
+    }
     // En modo 'auto' no hay revisión previa: decir lo contrario sería falso.
     const lead = document.getElementById('dLead');
     if (lead && modo === 'auto'){

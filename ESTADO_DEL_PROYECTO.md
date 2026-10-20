@@ -44,15 +44,19 @@ Vecino → denuncia.html → Google Form → Planilla → (moderación) → Mapa
   ⚠️ **No borrar ni editar esa fórmula:** es lo que protege la privacidad de quien denuncia.
 - La **foto** llega por correo (no se sube sola al mapa): si se quiere mostrar, hay que pegar su enlace en la columna *Foto*.
 
-## 3. ⚠️ Modo de publicación: `auto` (sitio en construcción)
+## 3. ✅ Modo de publicación: `manual` (revisión previa activa desde el 20-10-2026)
 
-`docs/data/config.json` tiene `"modo_denuncias": "auto"`: las denuncias aparecen en el mapa
-**sin aprobación previa**, ~10 segundos después de enviarse. Es lo que corresponde mientras el
-sitio está en construcción y se necesita ver el circuito funcionando de punta a punta.
+`docs/data/config.json` tiene `"modo_denuncias": "manual"`: **ninguna denuncia se publica sola**.
 
-- Escribir **`RECHAZADA`** en la columna ESTADO oculta una denuncia en ~10 s. Es el único freno en este modo.
-- Al abrir el sitio al público de verdad: cambiar a `"manual"` → solo se publica lo marcado `VERIFICADA`.
-- El mapa muestra el aviso «🧪 Modo prueba» mientras esté en `auto`, para no engañar a nadie sobre qué está viendo.
+- Para publicar una denuncia: escribir **`VERIFICADA`** en la columna **ESTADO** de la planilla
+  (hoja *Form Responses 1*, columna K). Aparece en el mapa en ~10 s.
+  También valen `VERIFICADO`, `APROBADA`, `APROBADO`, `SI`, `PUBLICAR`.
+- Para descartarla: escribir **`RECHAZADA`**. Deja de contarse incluso como pendiente.
+- Mientras la casilla esté vacía, la denuncia **solo se cuenta** en el aviso «N denuncias en revisión»:
+  ni su ubicación ni su texto llegan al navegador de quien visita el sitio.
+- El mapa muestra el aviso «✓ Revisión previa activa».
+- Los casos documentados por el equipo (`docs/data/denuncias_equipo.geojson`) se publican siempre:
+  no pasan por la planilla.
 
 ⚠️ **En `auto` no hay filtro humano**: lo que alguien escriba en la descripción se publica tal cual
 (incluidos datos personales de terceros, si los escribe). El nombre y contacto de quien denuncia
@@ -134,7 +138,7 @@ corregido: el correo sale siempre, con o sin foto.
 
 ### Checklist para el paso a producción
 
-1. ⬜ Volver a `"modo_denuncias": "manual"`.
+1. ✅ `"modo_denuncias": "manual"` activado el 20-10-2026.
 2. ✅ Contador de pendientes en el mapa: muestra «N denuncias en revisión» (solo el número, ni ubicación ni detalle). Solo se ve en modo `manual`.
 3. ⬜ **Compromiso de plazo de moderación**: definir cada cuánto se revisa la planilla (p. ej. 48 h hábiles) y decirlo en `denuncia.html`. Sin plazo declarado, «en revisión» puede durar para siempre.
 
@@ -196,7 +200,7 @@ después la causa, y solo entonces qué hacer.
 
 ## 6. Pendientes
 
-1. **Borrar las filas de prueba de la planilla.** ⚠️ Corrección al 17-09-2026: el modo **sigue en `"auto"`**, no volvió a `"manual"`, y quedan 5 denuncias de prueba visibles.
+1. ~~Borrar las filas de prueba de la planilla.~~ ✅ 20-10-2026: las 5 filas de prueba quedaron marcadas `RECHAZADA` y el modo volvió a `"manual"`. En el mapa queda solo el roble de Hochstetter.
 2. Generar un **código QR** del formulario para difusión en terreno.
 3. ~~Agregar estimación de energía y CO₂ a la sección de transparencia.~~ Se decidió lo contrario el 26-08-2026: la sección declara solo la huella de agua.
 4. **Capa 2:** conteo manual de copas en un corredor piloto (guía en `docs/recursos/GUIA_CAPA2_CONTEO_MANUAL.md`). Da la cifra "había N árboles, quedan M".
