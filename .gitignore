@@ -20,3 +20,10 @@ docs/index.html.antes-limpieza
 # ─── Notas de trabajo interno ───────────────────────────────────────────
 # Conversaciones en curso con terceros. No se publican.
 notas_internas/
+
+# ─── Piezas de difusión en preparación ──────────────────────────────────
+# Invitaciones y flyers que se comparten por otros medios, no desde el
+# repositorio público. Se mantienen solo en el computador.
+invitacion_ekuwun/
+marcha_wallmapu/
+marcha_wallmapu$f.pdf
