@@ -6,7 +6,7 @@ Dos caminos de entrada, porque las fuentes son de naturaleza distinta:
   1) Formulario propio o escolar (planilla Google publicada como CSV):
        python scripts/sync_arboles.py --sheet "<url_csv>"
 
-  2) Importacion puntual de datos de terceros (SERVIU, catastro ciudadano):
+  2) Importacion puntual de datos de terceros (SERVIU, catastro ciudadano, academicos):
        python scripts/sync_arboles.py --csv serviu.csv --fuente serviu \
            --sector "Av. Caupolican" --fuente-detalle "SERVIU Araucania, ..."
 
@@ -26,7 +26,7 @@ from urllib.request import urlopen, Request
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SALIDA = os.path.join(RAIZ, "docs", "data", "arboles.geojson")
 
-FUENTES = ("serviu", "catastro_ciudadano", "ocau", "escuela")
+FUENTES = ("serviu", "catastro_ciudadano", "academico", "ocau", "escuela")
 PRIVADOS = ("nombre", "contacto", "correo", "email", "telefono", "rut", "cedula")
 
 ESTADO_3 = {"bueno": "bueno", "buena": "bueno", "regular": "regular",

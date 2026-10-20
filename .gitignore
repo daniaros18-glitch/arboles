@@ -16,3 +16,7 @@ postulaciones/entrega/
 # ─── Respaldos locales de trabajo ───────────────────────────────────────
 *.bak
 docs/index.html.antes-limpieza
+
+# ─── Notas de trabajo interno ───────────────────────────────────────────
+# Conversaciones en curso con terceros. No se publican.
+notas_internas/

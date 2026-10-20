@@ -34,6 +34,16 @@
   header.top h1 { font-family:var(--serif); font-weight:600; letter-spacing:-.015em;
     font-size:clamp(1.6rem, 4.2vw, 2.3rem); line-height:1.15; margin:0 0 .35em; }
   header.top p { margin:0; font-size:.98rem; color:#c9dcbb; max-width:62ch; }
+  header.top .cta { display:inline-block; margin-top:16px; background:var(--green); color:#0e2419;
+    font-weight:600; font-size:.95rem; text-decoration:none; padding:11px 20px; border-radius:9px;
+    border:1px solid #8fb56a; transition:background .15s ease; }
+  header.top .cta:hover { background:#8fb56a; }
+  header.top .cta:focus-visible { outline:3px solid #cfe3bc; outline-offset:2px; }
+
+  .ctapie { display:flex; justify-content:center; margin-top:18px; }
+  .ctapie a { display:inline-block; background:var(--accent); color:#fff; font-weight:600;
+    font-size:.95rem; text-decoration:none; padding:12px 22px; border-radius:9px; }
+  .ctapie a:hover { background:#2f5a31; }
 
   main { padding:26px 0 40px; }
   .statrow { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
@@ -91,6 +101,8 @@
     <span class="eyebrow">Observatorio del Arbolado · Temuco</span>
     <h1>Denuncias ciudadanas por tala y poda</h1>
     <p id="dLead">Cada punto es un registro enviado por vecinas y vecinos de Temuco. Filtra por tipo de situación y haz clic en un punto para ver el detalle.</p>
+    <!-- "desde=mapa" hace que el formulario devuelva a esta página y no al sitio principal. -->
+    <a class="cta" href="denuncia.html?desde=mapa">🌳 Registrar una tala o poda</a>
   </div>
 </header>
 
@@ -124,6 +136,8 @@
     <div class="dempty" id="dEmpty">
       <p id="dEmptyTxt"><strong>Todavía no hay denuncias publicadas.</strong> Cuando lleguen los primeros registros vecinales aparecerán aquí automáticamente.</p>
     </div>
+
+    <div class="ctapie"><a href="denuncia.html?desde=mapa">Registrar una tala o poda →</a></div>
 
     <footer class="pie">
       <p>Los puntos se actualizan solos desde el registro del Observatorio. <strong>Por privacidad, nunca se publican el nombre ni el contacto de quien denuncia.</strong></p>

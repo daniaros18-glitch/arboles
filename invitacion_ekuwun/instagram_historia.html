@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ekuwün Instagram historia</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=block" rel="stylesheet">
+<style>
+  :root{--verde-osc:#0d4f44;--verde:#17705f;--lima:#9ccc3c;--lima-claro:#e4f2c4;--crema:#fbf7ec;--arena:#f3dfae}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--crema)}
+  body{width:540px;height:960px;overflow:hidden;font-family:'Nunito',sans-serif;-webkit-font-smoothing:antialiased;position:relative}
+
+  /* Deja libres ~70px arriba y ~90px abajo para la interfaz de Instagram */
+  .cabecera{position:relative;background:var(--verde-osc);color:#fff;padding:70px 34px 90px;overflow:hidden}
+  .logo{display:inline-block;background:#fff;border-radius:14px;padding:9px 14px;box-shadow:0 3px 10px rgba(0,0,0,.18)}
+  .logo img{display:block;width:160px;height:auto}
+  h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:54px;line-height:.97;margin:20px 0 12px;letter-spacing:-.01em}
+  h1 span{color:var(--lima)}
+  .bajada{font-size:18px;font-weight:700;line-height:1.38;color:#e9f3ee}
+  .bajada b{color:var(--lima)}
+  .hoja{position:absolute;opacity:.13}
+  .hoja.h1{right:-40px;top:40px;width:190px;transform:rotate(25deg)}
+  .hoja.h2{right:30px;top:300px;width:60px;transform:rotate(-40deg);opacity:.1}
+
+  .fotos{position:relative;margin:-70px 24px 0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:184px 134px;gap:10px}
+  .foto{border-radius:14px;overflow:hidden;border:4px solid #fff;box-shadow:0 4px 12px rgba(13,79,68,.22);background:#ddd}
+  .foto img{display:block;width:100%;height:100%;object-fit:cover}
+  .foto.grande{grid-column:1 / 3}
+  .foto.grande img{object-position:50% 62%}
+  .foto.cartas img{object-position:60% 50%}
+  .foto.bici img{object-position:45% 42%}
+
+  .encuentro{margin:16px 24px 0;display:flex;border-radius:16px;overflow:hidden;background:var(--verde-osc);color:#fff}
+  .calendario{background:var(--lima);color:var(--verde-osc);width:122px;flex:none;text-align:center;padding:12px 4px;display:flex;flex-direction:column;justify-content:center}
+  .calendario .dia-sem{font-family:'Fredoka',sans-serif;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.08em}
+  .calendario .num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:54px;line-height:.95}
+  .calendario .mes{font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.06em}
+  .detalles{flex:1;padding:14px 18px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+  .dato{display:flex;align-items:center;gap:11px}
+  .dato svg{flex:none;width:25px;height:25px}
+  .dato .grande{font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;line-height:1.1}
+  .dato .peq{font-size:13.5px;color:#cfe5dc;font-weight:600}
+
+  .fila{display:flex;align-items:center;justify-content:space-between;position:relative}
+  .socio{font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;line-height:1.2;letter-spacing:.05em;text-transform:uppercase;text-align:center;color:var(--verde-osc);background:var(--lima);padding:8px 14px;border-radius:14px}
+  .lema{text-align:center;margin-top:16px;font-family:'Fredoka',sans-serif;font-weight:700;font-size:21px;line-height:1.2;color:var(--verde-osc)}
+  .lema span{color:var(--verde);background:linear-gradient(transparent 62%,var(--arena) 62%)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="hoja" viewBox="0 0 100 100">
+    <path d="M50 4C20 22 10 52 22 80c6 13 18 17 28 16 10 1 22-3 28-16C90 52 80 22 50 4Z" fill="#9ccc3c"/>
+    <path d="M50 14v82M50 40l-14-10M50 56l-18-12M50 72l-16-10M50 40l14-10M50 56l18-12M50 72l16-10" stroke="#0d4f44" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </symbol></defs></svg>
+
+<header class="cabecera">
+  <svg class="hoja h1"><use href="#hoja"/></svg>
+  <svg class="hoja h2"><use href="#hoja"/></svg>
+  <div class="fila">
+    <div class="logo"><img src="fotos/logo_ekuwun_rec.png" alt=""></div>
+    <div class="socio">¿Quieres ser socia<br>o socio?</div>
+  </div>
+  <h1>¡Volvamos a<br><span>encontrarnos!</span></h1>
+  <p class="bajada">Abrimos nuestras puertas a nuevas personas. <br>Te invitamos a una <b>primera reunión</b>.</p>
+</header>
+
+<section class="fotos">
+  <div class="foto grande"><img src="fotos/grupo.jpg" alt=""></div>
+  <div class="foto cartas"><img src="fotos/cartas.jpg" alt=""></div>
+  <div class="foto bici"><img src="fotos/bicicleta.jpg" alt=""></div>
+</section>
+
+<section class="encuentro">
+  <div class="calendario">
+    <div class="dia-sem">Jueves</div><div class="num">22</div><div class="mes">Octubre</div>
+  </div>
+  <div class="detalles">
+    <div class="dato">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9ccc3c" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l3.5 2.2"/></svg>
+      <div class="grande">18:00 horas</div>
+    </div>
+    <div class="dato">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#9ccc3c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9.5" r="2.6"/></svg>
+      <div><div class="grande">León Gallo 98</div><div class="peq">Temuco</div></div>
+    </div>
+  </div>
+</section>
+
+<p class="lema"><span>¡Sumemos manos, ideas y voluntades!</span></p>
+</body>
+</html>

@@ -20,11 +20,13 @@ de no cometer en los textos.**
 |---|---|---|---|
 | `serviu` | SERVIU Araucanía, catastro oficial del proyecto Av. Caupolicán | Especie, estado, recomendación de extracción | ✅ Documento público, vía Ley 20.285 |
 | `catastro_ciudadano` | Red de organizaciones socioambientales, febrero 2026 | Especie, ubicación, perímetro, altura | 🔴 **Requiere acuerdo con la red. No es de Ekuwün** |
+| `academico` | Investigación universitaria, cedida por quien la levantó | Lo que declare el estudio de origen | 🔴 **Requiere autorización escrita del autor** |
 | `ocau` | Observatorio, terreno propio | Ficha F1 completa | ✅ Propio |
 | `escuela` | Comunidades escolares, proyecto FMA | Ficha F1 completa, con control de calidad | ✅ Si se adjudica, con autorizaciones |
 
-⚠️ **`catastro_ciudadano` no se publica hasta que la red lo autorice.** El campo existe para que el
-dato pueda cargarse y trabajarse internamente, pero la capa pública filtra por `publicable`.
+⚠️ **`catastro_ciudadano` y `academico` no se publican hasta que su autor lo autorice por escrito.**
+El campo existe para que el dato pueda cargarse y trabajarse internamente, pero la capa pública
+filtra por `publicable`. Se importan con `--no-publicable` mientras no llegue esa autorización.
 
 ---
 
@@ -35,7 +37,7 @@ dato pueda cargarse y trabajarse internamente, pero la capa pública filtra por 
 | Campo | Tipo | Obligatorio | Notas |
 |---|---|---|---|
 | `codigo` | texto | ✅ | `PREFIJO-NNN`, p. ej. `CAU-014`. Prefijo de 3 letras por sector. **Clave primaria** |
-| `fuente` | enum | ✅ | `serviu` · `catastro_ciudadano` · `ocau` · `escuela` |
+| `fuente` | enum | ✅ | `serviu` · `catastro_ciudadano` · `academico` · `ocau` · `escuela` |
 | `fuente_detalle` | texto | ✅ | Cita completa del origen, para que sea rastreable |
 | `publicable` | booleano | ✅ | Si es `false`, no entra al mapa público |
 | `fecha` | fecha | ✅ | `YYYY-MM-DD` del levantamiento |
@@ -179,6 +181,15 @@ convierten a CSV y se importan declarando su origen:
 ```bash
 python scripts/sync_arboles.py --csv serviu_caupolican.csv --fuente serviu --sector "Av. Caupolicán" --fuente-detalle "SERVIU Araucanía, catastro del proyecto Mejoramiento Av. Caupolicán, obtenido por Ley 20.285 el [fecha]"
 ```
+
+Un estudio académico cedido por su autor entra igual, pero **sin publicarse** mientras no haya
+autorización escrita:
+
+```bash
+python scripts/sync_arboles.py --csv patrimoniales.csv --fuente academico --prefijo PAT --fuente-detalle "Apellido, N. (Universidad), título del estudio, año. Cedido el [fecha]" --no-publicable
+```
+
+Cuando llegue la autorización, se vuelve a importar el mismo archivo sin `--no-publicable`.
 
 Las importaciones se **acumulan**: cada fuente conserva sus árboles y el script fusiona por `codigo`.
 

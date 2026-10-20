@@ -579,5 +579,44 @@ if (new URLSearchParams(location.search).get('ok') === '1'){
   document.getElementById('okBox').style.display = 'block';
 }
 </script>
+<script>
+/* Llegada desde mapa.html (?desde=mapa): el circuito se cierra en el mapa de
+   denuncias y no en el sitio del Observatorio, que puede compartirse aparte.
+   Se reescriben los enlaces en vez de duplicar el formulario en otra página. */
+(function(){
+  var desdeMapa = false;
+  try {
+    desdeMapa = new URLSearchParams(location.search).get('desde') === 'mapa' ||
+                /\/mapa\.html(\?|#|$)/.test(document.referrer || '');
+  } catch(e){ return; }
+  if (!desdeMapa) return;
+
+  var TEXTOS = {
+    '← Volver al Observatorio': '← Volver al mapa de denuncias',
+    'Volver al sitio': 'Volver al mapa'
+  };
+  function adaptar(raiz){
+    var as = (raiz.querySelectorAll ? raiz.querySelectorAll('a[href^="index.html"]') : []);
+    for (var i=0;i<as.length;i++){
+      var a = as[i];
+      a.setAttribute('href', a.getAttribute('href').replace(/^index\.html(#registro)?/, 'mapa.html'));
+      var t = (a.textContent || '').trim();
+      if (TEXTOS[t]) a.textContent = TEXTOS[t];
+    }
+  }
+  adaptar(document);
+  // El mensaje de confirmación se inserta después de enviar: hay que adaptarlo también.
+  if (window.MutationObserver){
+    new MutationObserver(function(muts){
+      for (var i=0;i<muts.length;i++) adaptar(muts[i].target);
+    }).observe(document.body, { childList:true, subtree:true });
+  }
+  // Mantiene el origen al volver atrás o recargar desde el propio formulario.
+  var ir = document.querySelector('form');
+  if (ir) ir.addEventListener('submit', function(){ try {
+    history.replaceState(null, '', 'denuncia.html?desde=mapa');
+  } catch(e){} });
+})();
+</script>
 </body>
 </html>

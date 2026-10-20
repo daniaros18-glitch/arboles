@@ -61,7 +61,7 @@ def es_separador(linea):
 
 
 def convertir(ruta_md, ruta_docx):
-    with open(ruta_md, encoding='utf-8') as f:
+    with open(ruta_md, encoding='utf-8-sig') as f:
         lineas = f.read().split('\n')
 
     doc = Document()
