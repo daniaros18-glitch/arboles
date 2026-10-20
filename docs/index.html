@@ -192,7 +192,7 @@
       <span class="ctahint" id="dActualizado"></span>
     </div>
 
-    <p class="avisoprueba" id="dAviso" style="display:none">🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, sin revisión previa. El mapa se actualiza solo cada 10 segundos.</p>
+    <p class="avisoprueba" id="dAviso" style="display:none">✓ <strong>Revisión previa activa:</strong> cada denuncia la verifica el equipo antes de publicarla, así que puede pasar un tiempo entre que se envía y aparece en el mapa.</p>
     <p class="avisoprueba" id="dPend" style="display:none"></p>
 
     <div id="dmap"></div>
@@ -556,9 +556,9 @@ function capasBase(map, porDefecto){
     const aviso = document.getElementById('dAviso');
     if (aviso){
       aviso.style.display = 'block';
-      if (modo !== 'auto'){
-        aviso.innerHTML = '✓ <strong>Revisión previa activa:</strong> cada denuncia la verifica el equipo antes de publicarla, ' +
-          'así que puede pasar un tiempo entre que se envía y aparece en el mapa.';
+      if (modo === 'auto'){
+        aviso.innerHTML = '🧪 <strong>Modo prueba:</strong> las denuncias aparecen en el mapa apenas se envían, ' +
+          'sin revisión previa. El mapa se actualiza solo cada 10 segundos.';
       }
     }
     // En modo 'auto' no hay revisión previa: decir lo contrario sería falso.
